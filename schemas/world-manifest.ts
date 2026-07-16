@@ -1,0 +1,248 @@
+import { z } from "zod";
+
+export const SCENE_MANIFEST_VERSION = "1.0.0" as const;
+export const AMBIENT_LINES_VERSION = "1.0.0" as const;
+export const SCHEMATIC_PLACEMENT_LABEL =
+  "SCHEMATIC RECONSTRUCTION - NOT TO SCALE" as const;
+
+export const worldZoneIdSchema = z.enum([
+  "archive-antechamber",
+  "post-road-square",
+  "royal-lodging-civic-area",
+  "bridge-approach",
+]);
+
+export const worldInteractionTypeSchema = z.enum([
+  "inspect_evidence",
+  "open_station",
+  "open_context",
+  "open_journal",
+  "open_caseboard",
+  "open_debrief",
+  "enter_repair_checkpoint",
+]);
+
+export const placementStatusSchema = z.enum([
+  "documented",
+  "approximate_reconstruction",
+  "schematic_temporal_reconstruction",
+  "fictional_fracture",
+]);
+
+export const reconstructionConfidenceSchema = z.enum([
+  "high",
+  "moderate",
+  "low",
+  "fictional",
+]);
+
+export const canonicalCaseSurfaceSchema = z.enum([
+  "context",
+  "journal",
+  "caseboard",
+  "debrief",
+]);
+
+export const canonicalTargetTypeSchema = z.enum([
+  "evidence",
+  "station",
+  "case_surface",
+  "repair_checkpoint",
+]);
+
+const canonicalIdSchema = z.string().min(1).max(100);
+const semverSchema = z.string().regex(/^\d+\.\d+\.\d+$/);
+const placementLimitationsSchema = z
+  .object({
+    location: z.string().min(1),
+    ownership: z.string().min(1),
+    scale: z.string().min(1),
+    appearance: z.string().min(1),
+  })
+  .strict();
+
+const schematicPlacementFields = {
+  placementLabel: z.literal(SCHEMATIC_PLACEMENT_LABEL),
+  placementStatus: placementStatusSchema,
+  reconstructionConfidence: reconstructionConfidenceSchema,
+  limitations: placementLimitationsSchema,
+};
+
+const safeSpawnSchema = z
+  .object({
+    spawnId: canonicalIdSchema,
+    label: z.string().min(1),
+    position: z.tuple([z.number().finite(), z.number().finite(), z.number().finite()]),
+    yaw: z.number().finite(),
+  })
+  .strict();
+
+const zoneSchema = z
+  .object({
+    zoneId: worldZoneIdSchema,
+    label: z.string().min(1),
+    ...schematicPlacementFields,
+    safeSpawns: z.array(safeSpawnSchema).min(1),
+    ambientLineIds: z.array(canonicalIdSchema),
+    fastTravelUnlock: z.enum(["first_valid_visit", "never"]),
+  })
+  .strict();
+
+export const canonicalTargetSchema = z.discriminatedUnion("targetType", [
+  z.object({ targetType: z.literal("evidence"), evidenceId: canonicalIdSchema }).strict(),
+  z.object({ targetType: z.literal("station"), stationId: canonicalIdSchema }).strict(),
+  z
+    .object({
+      targetType: z.literal("case_surface"),
+      surfaceId: canonicalCaseSurfaceSchema,
+    })
+    .strict(),
+  z
+    .object({
+      targetType: z.literal("repair_checkpoint"),
+      repairCheckpointId: canonicalIdSchema,
+    })
+    .strict(),
+]);
+
+const focusOverlaySchema = z.enum([
+  "context",
+  "journal",
+  "evidence_inspector",
+  "station",
+  "caseboard",
+  "repair_checkpoint",
+  "debrief",
+]);
+
+const interactableSchema = z
+  .object({
+    interactableId: canonicalIdSchema,
+    zoneId: worldZoneIdSchema,
+    label: z.string().min(1),
+    presentation: z.literal("graybox"),
+    interactionType: worldInteractionTypeSchema,
+    canonicalTarget: canonicalTargetSchema,
+    focusOverlay: focusOverlaySchema,
+    prerequisites: z
+      .object({
+        evidenceIds: z.array(canonicalIdSchema),
+        discoveredZoneIds: z.array(worldZoneIdSchema),
+      })
+      .strict(),
+    evidenceIds: z.array(canonicalIdSchema),
+    factIds: z.array(canonicalIdSchema),
+    sourceIds: z.array(canonicalIdSchema),
+    provenance: z.enum([
+      "verified_record",
+      "reconstruction",
+      "dramatization",
+      "fictional_counterfactual",
+    ]),
+    countsAsHistoricalEvidence: z.literal(false),
+    ...schematicPlacementFields,
+  })
+  .strict();
+
+export const sceneManifestSchema = z
+  .object({
+    sceneManifestVersion: z.literal(SCENE_MANIFEST_VERSION),
+    caseId: canonicalIdSchema,
+    caseVersion: semverSchema,
+    modelPolicyVersion: semverSchema,
+    initialSpawn: z
+      .object({
+        zoneId: worldZoneIdSchema,
+        spawnId: canonicalIdSchema,
+      })
+      .strict(),
+    zones: z.array(zoneSchema).length(worldZoneIdSchema.options.length),
+    interactables: z.array(interactableSchema).min(1),
+  })
+  .strict()
+  .superRefine((manifest, context) => {
+    const expectedZoneIds = new Set(worldZoneIdSchema.options);
+    const zoneIds = manifest.zones.map((zone) => zone.zoneId);
+    if (
+      new Set(zoneIds).size !== expectedZoneIds.size ||
+      zoneIds.some((zoneId) => !expectedZoneIds.has(zoneId))
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["zones"],
+        message: "The scene manifest must contain each approved zone exactly once.",
+      });
+    }
+
+    const spawnIds = manifest.zones.flatMap((zone) =>
+      zone.safeSpawns.map((spawn) => spawn.spawnId),
+    );
+    if (new Set(spawnIds).size !== spawnIds.length) {
+      context.addIssue({
+        code: "custom",
+        path: ["zones"],
+        message: "Safe spawn IDs must be globally unique.",
+      });
+    }
+
+    const interactableIds = manifest.interactables.map(
+      (interactable) => interactable.interactableId,
+    );
+    if (new Set(interactableIds).size !== interactableIds.length) {
+      context.addIssue({
+        code: "custom",
+        path: ["interactables"],
+        message: "Interactable IDs must be unique.",
+      });
+    }
+  });
+
+const ambientLineSchema = z
+  .object({
+    ambientLineId: canonicalIdSchema,
+    zoneId: worldZoneIdSchema,
+    text: z.string().min(1),
+    epistemicClassification: z.literal("dramatization"),
+    limitations: z.string().min(1),
+    countsAsHistoricalEvidence: z.literal(false),
+    affectsProgression: z.literal(false),
+    evidenceIds: z.tuple([]),
+    factIds: z.tuple([]),
+    sourceIds: z.tuple([]),
+  })
+  .strict();
+
+export const ambientLinesSchema = z
+  .object({
+    ambientLinesVersion: z.literal(AMBIENT_LINES_VERSION),
+    sceneManifestVersion: z.literal(SCENE_MANIFEST_VERSION),
+    caseId: canonicalIdSchema,
+    caseVersion: semverSchema,
+    lines: z.array(ambientLineSchema),
+  })
+  .strict()
+  .superRefine((ambientLines, context) => {
+    const ids = ambientLines.lines.map((line) => line.ambientLineId);
+    if (new Set(ids).size !== ids.length) {
+      context.addIssue({
+        code: "custom",
+        path: ["lines"],
+        message: "Ambient line IDs must be unique.",
+      });
+    }
+  });
+
+export const worldInteractionRequestSchema = z
+  .object({
+    interactableId: canonicalIdSchema,
+    zoneId: worldZoneIdSchema,
+    interactionType: worldInteractionTypeSchema,
+    canonicalTarget: canonicalTargetSchema,
+  })
+  .strict();
+
+export type WorldZoneId = z.infer<typeof worldZoneIdSchema>;
+export type CanonicalTarget = z.infer<typeof canonicalTargetSchema>;
+export type SceneManifest = z.infer<typeof sceneManifestSchema>;
+export type AmbientLines = z.infer<typeof ambientLinesSchema>;
+export type WorldInteractionRequest = z.infer<typeof worldInteractionRequestSchema>;

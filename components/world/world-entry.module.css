@@ -1,0 +1,159 @@
+.world {
+  min-height: 100svh;
+  color: #f7f3e8;
+  background: #252b29;
+  border-top: 4px solid #171a1f;
+}
+
+.masthead {
+  min-height: 58px;
+  padding: 0 clamp(18px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #616861;
+  background: #1b201f;
+}
+
+.masthead a {
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.masthead span,
+.loadingCopy p,
+.nonSpatialLink {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.masthead span {
+  color: #bac1bc;
+}
+
+.loadingStage {
+  position: relative;
+  min-height: calc(100svh - 62px);
+  padding: clamp(32px, 8vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 780px) auto;
+  grid-template-rows: 1fr auto;
+  align-items: end;
+  gap: 44px;
+  overflow: hidden;
+}
+
+.routeMark {
+  position: absolute;
+  inset: clamp(30px, 8vw, 90px) clamp(28px, 7vw, 82px) auto auto;
+  width: min(38vw, 460px);
+  height: min(38vw, 460px);
+  border: 1px solid #59635d;
+  transform: rotate(-8deg);
+}
+
+.routeMark span,
+.routeMark i,
+.routeMark b {
+  position: absolute;
+  display: block;
+  background: #a7b1aa;
+}
+
+.routeMark span {
+  top: 22%;
+  left: 10%;
+  width: 82%;
+  height: 1px;
+  transform: rotate(31deg);
+}
+
+.routeMark i {
+  right: 14%;
+  bottom: 18%;
+  width: 42%;
+  height: 1px;
+  transform: rotate(-46deg);
+}
+
+.routeMark b {
+  right: 10%;
+  bottom: 10%;
+  width: 18px;
+  height: 18px;
+  border: 4px solid #c95545;
+  background: transparent;
+  transform: rotate(45deg);
+}
+
+.loadingCopy {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+}
+
+.loadingCopy p {
+  margin: 0;
+  color: #a9c0ad;
+}
+
+.loadingCopy h1 {
+  margin: 14px 0 20px;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(3rem, 7vw, 6.8rem);
+  font-weight: 500;
+  line-height: 0.94;
+}
+
+.loadingCopy > span {
+  display: block;
+  max-width: 590px;
+  color: #cbd0cc;
+  line-height: 1.6;
+}
+
+.nonSpatialLink {
+  position: relative;
+  z-index: 1;
+  padding: 10px 0;
+  align-self: end;
+  border-bottom: 1px solid currentColor;
+  color: #f7f3e8;
+  text-underline-offset: 4px;
+}
+
+.masthead a:focus-visible,
+.nonSpatialLink:focus-visible {
+  outline: 2px solid #d7ac56;
+  outline-offset: 4px;
+}
+
+@media (max-width: 720px) {
+  .masthead span {
+    display: none;
+  }
+
+  .loadingStage {
+    grid-template-columns: 1fr;
+    padding: 32px 20px;
+  }
+
+  .loadingCopy h1 {
+    font-size: 3.3rem;
+  }
+
+  .routeMark {
+    top: 40px;
+    right: -30px;
+    width: 260px;
+    height: 260px;
+  }
+
+  .nonSpatialLink {
+    width: fit-content;
+  }
+}

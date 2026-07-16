@@ -1,0 +1,266 @@
+.primer {
+  min-height: 100svh;
+  border-top: 4px solid var(--ink);
+  background: var(--paper);
+}
+
+.masthead {
+  min-height: 58px;
+  padding: 0 clamp(18px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ink);
+  background: var(--white);
+}
+
+.wordmark {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.caseCode,
+.eyebrow,
+.progressRail,
+.visual span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.caseCode {
+  color: var(--graphite);
+}
+
+.frame {
+  width: min(1180px, calc(100% - 48px));
+  min-height: calc(100svh - 62px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.8fr) minmax(420px, 1.2fr);
+  grid-template-rows: 88px 1fr;
+  column-gap: clamp(48px, 9vw, 128px);
+  align-items: center;
+}
+
+.progressRail {
+  grid-column: 1 / -1;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--graphite);
+  border-bottom: 1px solid var(--line);
+}
+
+.progressRail > div {
+  width: min(480px, 55%);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 7px;
+}
+
+.progressRail i {
+  height: 3px;
+  background: var(--line);
+}
+
+.progressRail .progressDone {
+  background: var(--archive-blue);
+}
+
+.visual {
+  width: min(100%, 440px);
+  aspect-ratio: 4 / 5;
+  padding: clamp(24px, 4vw, 48px);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  border: 1px solid var(--ink);
+  background: var(--white);
+  box-shadow: 16px 16px 0 #d8dbd8;
+}
+
+.visualIndex {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink);
+  font-family: var(--font-mono), monospace;
+}
+
+.visual > svg {
+  width: clamp(96px, 15vw, 180px);
+  height: clamp(96px, 15vw, 180px);
+  align-self: center;
+  justify-self: center;
+  stroke-width: 1.15;
+  color: var(--archive-blue);
+}
+
+.visual[data-visual="contested"] > svg {
+  color: var(--ochre);
+}
+
+.visual[data-visual="departure"] > svg {
+  color: var(--correction-red);
+}
+
+.visualRule {
+  height: 1px;
+  background: var(--ink);
+}
+
+.visual span {
+  margin-top: 12px;
+  color: var(--graphite);
+}
+
+.copy {
+  max-width: 650px;
+  padding: 54px 0;
+}
+
+.eyebrow {
+  margin: 18px 0 8px;
+  color: var(--archive-blue);
+}
+
+.copy h1 {
+  margin: 0;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.explanation {
+  max-width: 580px;
+  min-height: 96px;
+  margin: 24px 0;
+  color: #343a40;
+  font-size: 1.05rem;
+  line-height: 1.68;
+}
+
+.glossary {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.glossary svg {
+  width: 18px;
+  height: 18px;
+}
+
+.glossary strong {
+  font-size: 0.82rem;
+}
+
+.glossary p {
+  margin: 5px 0 0;
+  color: var(--graphite);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.closing {
+  padding: 13px 15px;
+  border-left: 3px solid var(--archive-blue);
+  background: #eaf0f3;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.controls {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--graphite);
+  font-size: 0.8rem;
+}
+
+.controls input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--archive-blue);
+}
+
+.controls button {
+  min-height: 46px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  color: var(--white);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  cursor: pointer;
+}
+
+.controls button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.controls button:hover,
+.controls button:focus-visible {
+  color: var(--ink);
+  background: var(--white);
+  outline: 2px solid var(--archive-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .frame {
+    width: min(100% - 36px, 620px);
+    display: block;
+  }
+
+  .progressRail {
+    min-height: 74px;
+  }
+
+  .visual {
+    width: 100%;
+    max-height: 340px;
+    margin-top: 28px;
+    aspect-ratio: 5 / 3;
+    box-shadow: 9px 9px 0 #d8dbd8;
+  }
+
+  .copy {
+    padding: 44px 0;
+  }
+
+  .copy h1 {
+    font-size: 3.25rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .caseCode {
+    display: none;
+  }
+
+  .controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .controls button {
+    justify-content: space-between;
+  }
+}

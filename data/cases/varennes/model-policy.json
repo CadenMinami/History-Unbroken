@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "1.0.0",
+  "policyVersion": "1.0.1",
+  "caseId": "varennes",
+  "caseVersion": "1.0.3",
+  "stationPolicies": [
+    {
+      "stationId": "CHAR-DROUET",
+      "mode": "generated_dialogue",
+      "name": "Jean-Baptiste Drouet",
+      "roleLabel": "Altered-state witness",
+      "disclosure": "AI-directed dramatized dialogue. This station describes the fictional branch and does not count as historical evidence.",
+      "allowedFactIds": ["F-S2-001", "F-S2-002", "F-S2-003", "F-S2-004", "F-S2-005", "F-S2-006", "F-S3-003", "F-S4-004"],
+      "allowedSourceIds": ["S2", "S3", "S4"],
+      "allowedEvidenceIds": ["E3", "E4", "E5"],
+      "allowedClaimIds": ["CLAIM-DROUET-BRANCH-SUSPICION", "CLAIM-DROUET-BRANCH-VERDUN"],
+      "recordableClaimIds": [],
+      "explicitUnknowns": [
+        { "unknownId": "UNKNOWN-DROUET-CLERMONT-INFORMANT", "description": "The reviewed report does not identify who supplied the route information near Clermont." },
+        { "unknownId": "UNKNOWN-DROUET-LOUIS-MOTIVE", "description": "Drouet cannot know Louis's complete private intentions." },
+        { "unknownId": "UNKNOWN-DROUET-ALTERNATE-FUTURE", "description": "The station cannot know what France would become after the fictional divergence." }
+      ],
+      "responseBoundaries": [
+        "Speak only from FO1 branch observations or explicitly attributed reviewed records the player presents.",
+        "Never identify the source of the Clermont route information.",
+        "Never claim Drouet alone stopped or detained the travelers.",
+        "Never present the fictional branch as verified history or reveal the complete solution."
+      ],
+      "claimUnits": [
+        {
+          "claimId": "CLAIM-DROUET-BRANCH-SUSPICION",
+          "text": { "standard": "I suspected the travelers at Sainte-Menehould and set out after them.", "reduced": "I suspected the travelers and followed them." },
+          "epistemicClassification": "fictional_counterfactual",
+          "provenance": "fictional_branch_observation",
+          "countsAsHistoricalEvidence": false,
+          "factIds": [],
+          "sourceIds": [],
+          "branchObservationIds": ["FO1"],
+          "requiresPresentedEvidenceIds": []
+        },
+        {
+          "claimId": "CLAIM-DROUET-BRANCH-VERDUN",
+          "text": { "standard": "In this branch, I continued along the announced Verdun road and never redirected toward Varennes.", "reduced": "In this branch, I stayed on the Verdun road." },
+          "epistemicClassification": "fictional_counterfactual",
+          "provenance": "fictional_branch_observation",
+          "countsAsHistoricalEvidence": false,
+          "factIds": [],
+          "sourceIds": [],
+          "branchObservationIds": ["FO1"],
+          "requiresPresentedEvidenceIds": []
+        }
+      ],
+      "evidenceReactionUnits": [
+        {
+          "evidenceReactionUnitId": "REACTION-DROUET-E3-QUALIFY",
+          "reaction": "qualified",
+          "text": { "standard": "In the reviewed report, Drouet said he learned near Clermont that the carriage had turned toward Varennes. That attributed account conflicts with my experience in this fictional branch, where no correction reached me.", "reduced": "In the reviewed report, Drouet said the carriage turned toward Varennes. In this fictional branch, I never received that correction." },
+          "epistemicClassification": "dramatization",
+          "provenance": "dramatized_dialogue",
+          "countsAsHistoricalEvidence": false,
+          "factIds": ["F-S2-002"],
+          "sourceIds": ["S2"],
+          "branchObservationIds": ["FO1"],
+          "requiresPresentedEvidenceIds": ["E3"]
+        },
+        {
+          "evidenceReactionUnitId": "REACTION-DROUET-E4-QUALIFY",
+          "reaction": "qualified",
+          "text": { "standard": "The reviewed report says Drouet turned toward Varennes, and the E4 reconstruction plots that reported route. In this fictional branch, my route does not match that reconstruction.", "reduced": "The reviewed report says Drouet turned toward Varennes. My fictional branch route does not." },
+          "epistemicClassification": "dramatization",
+          "provenance": "dramatized_dialogue",
+          "countsAsHistoricalEvidence": false,
+          "factIds": ["F-S4-004"],
+          "sourceIds": ["S2", "S4"],
+          "branchObservationIds": ["FO1"],
+          "requiresPresentedEvidenceIds": ["E4"]
+        },
+        {
+          "evidenceReactionUnitId": "REACTION-DROUET-E5-QUALIFY",
+          "reaction": "qualified",
+          "text": { "standard": "The presented E5 reconstruction draws on overlapping reports. It describes officials, residents, National Guard involvement, passport inspection, and disputed bridge obstruction. In this fictional branch, no route correction brought me to Varennes. The reports do not show that any one actor or action was sufficient.", "reduced": "The E5 reconstruction draws on overlapping reports about local action. In this fictional branch, no route correction brought me to Varennes." },
+          "epistemicClassification": "dramatization",
+          "provenance": "dramatized_dialogue",
+          "countsAsHistoricalEvidence": false,
+          "factIds": ["F-S2-006", "F-S3-003"],
+          "sourceIds": ["S2", "S3"],
+          "branchObservationIds": ["FO1"],
+          "requiresPresentedEvidenceIds": ["E5"]
+        }
+      ],
+      "followUpQuestionUnits": [
+        { "followUpQuestionUnitId": "FOLLOWUP-DROUET-CORROBORATE", "text": { "standard": "Which other record can test whether that route report fits the timing?", "reduced": "What other record checks the route timing?" } },
+        { "followUpQuestionUnitId": "FOLLOWUP-DROUET-LOCAL-ACTION", "text": { "standard": "If a warning reached Varennes, what still had to happen before the travelers could be detained?", "reduced": "After a warning, what did local people still need to do?" } }
+      ],
+      "refusalUnknownUnits": [
+        { "refusalUnitId": "REFUSAL-DROUET-UNKNOWN-INFORMANT", "unknownId": "UNKNOWN-DROUET-CLERMONT-INFORMANT", "text": { "standard": "The surviving report does not name the person who supplied that route information, so I cannot identify them.", "reduced": "The report does not name that person." } },
+        { "refusalUnitId": "REFUSAL-DROUET-UNKNOWN-MOTIVE", "unknownId": "UNKNOWN-DROUET-LOUIS-MOTIVE", "text": { "standard": "I could observe the travelers and their route; I could not know the king's complete private motives.", "reduced": "I could not know the king's private motives." } }
+      ],
+      "safetyRefusalUnit": {
+        "safetyRefusalUnitId": "SAFETY-REFUSAL-DROUET",
+        "text": { "standard": "I cannot respond to that message. Rephrase your historical question without unsafe content.", "reduced": "I cannot respond to that. Please ask a safer historical question." }
+      },
+      "fallbackTurns": [
+        { "fallbackTurnId": "FALLBACK-DROUET-BASELINE", "claimUnitIds": ["CLAIM-DROUET-BRANCH-SUSPICION", "CLAIM-DROUET-BRANCH-VERDUN"], "evidenceReactionUnitId": null, "followUpQuestionUnitId": "FOLLOWUP-DROUET-CORROBORATE", "refusalUnitId": null },
+        { "fallbackTurnId": "FALLBACK-DROUET-E3", "claimUnitIds": [], "evidenceReactionUnitId": "REACTION-DROUET-E3-QUALIFY", "followUpQuestionUnitId": "FOLLOWUP-DROUET-LOCAL-ACTION", "refusalUnitId": null }
+      ]
+    },
+    {
+      "stationId": "CHAR-LOUIS",
+      "mode": "generated_dialogue",
+      "name": "Louis XVI",
+      "roleLabel": "Louis's declared position",
+      "disclosure": "AI-directed dramatized dialogue rendered from reviewed source claims. It is not a historical transcript or countable evidence.",
+      "allowedFactIds": ["F-S1-002", "F-S1-004"],
+      "allowedSourceIds": ["S1"],
+      "allowedEvidenceIds": ["E1"],
+      "allowedClaimIds": ["CLAIM-LOUIS-LIBERTY-SAFETY", "CLAIM-LOUIS-AUTHORITY"],
+      "recordableClaimIds": [],
+      "explicitUnknowns": [
+        { "unknownId": "UNKNOWN-LOUIS-COMPLETE-PRIVATE-MOTIVE", "description": "The evidence does not establish Louis's complete private motive." },
+        { "unknownId": "UNKNOWN-LOUIS-ALTERNATE-FUTURE", "description": "No source can establish a definitive alternate future after Varennes." }
+      ],
+      "responseBoundaries": [
+        "Attribute political rationale to Louis's declaration.",
+        "Discuss only the public position recorded in Louis's declaration; the travel dossier remains a deterministic archive record and cannot establish a complete private motive.",
+        "Do not discuss Drouet's route as personal knowledge.",
+        "Do not claim inevitable downstream consequences."
+      ],
+      "claimUnits": [
+        {
+          "claimId": "CLAIM-LOUIS-LIBERTY-SAFETY",
+          "text": { "standard": "In my declaration, I presented the departure as an attempt to recover liberty and secure my family.", "reduced": "My declaration said I left for liberty and my family's safety." },
+          "epistemicClassification": "dramatization",
+          "provenance": "dramatized_dialogue",
+          "countsAsHistoricalEvidence": false,
+          "factIds": ["F-S1-002"],
+          "sourceIds": ["S1"],
+          "branchObservationIds": [],
+          "requiresPresentedEvidenceIds": ["E1"]
+        },
+        {
+          "claimId": "CLAIM-LOUIS-AUTHORITY",
+          "text": { "standard": "My declaration argued that the emerging settlement left me without enough freedom or effective authority.", "reduced": "My declaration said the new settlement left me too little freedom and power." },
+          "epistemicClassification": "dramatization",
+          "provenance": "dramatized_dialogue",
+          "countsAsHistoricalEvidence": false,
+          "factIds": ["F-S1-004"],
+          "sourceIds": ["S1"],
+          "branchObservationIds": [],
+          "requiresPresentedEvidenceIds": ["E1"]
+        }
+      ],
+      "evidenceReactionUnits": [
+        {
+          "evidenceReactionUnitId": "REACTION-LOUIS-E1-QUALIFY",
+          "reaction": "qualified",
+          "text": { "standard": "That declaration records my public description of the departure as purposeful. It cannot independently establish every private motive I held.", "reduced": "The declaration describes my public position, not every private motive." },
+          "epistemicClassification": "dramatization",
+          "provenance": "dramatized_dialogue",
+          "countsAsHistoricalEvidence": false,
+          "factIds": ["F-S1-002", "F-S1-004"],
+          "sourceIds": ["S1"],
+          "branchObservationIds": [],
+          "requiresPresentedEvidenceIds": ["E1"]
+        }
+      ],
+      "followUpQuestionUnits": [
+        { "followUpQuestionUnitId": "FOLLOWUP-LOUIS-CLAIM-VS-PROOF", "text": { "standard": "Which part of that source is my stated explanation, and which part is your inference?", "reduced": "What did I state, and what are you inferring?" } },
+        { "followUpQuestionUnitId": "FOLLOWUP-LOUIS-CONSEQUENCE", "text": { "standard": "What political effect can you support without claiming that the flight made later events inevitable?", "reduced": "What effect can you support without saying later events were certain?" } }
+      ],
+      "refusalUnknownUnits": [
+        { "refusalUnitId": "REFUSAL-LOUIS-PRIVATE-MOTIVE", "unknownId": "UNKNOWN-LOUIS-COMPLETE-PRIVATE-MOTIVE", "text": { "standard": "The reviewed record cannot establish one complete private motive, so this station will not invent one.", "reduced": "The record cannot prove every private motive." } },
+        { "refusalUnitId": "REFUSAL-LOUIS-ALTERNATE-FUTURE", "unknownId": "UNKNOWN-LOUIS-ALTERNATE-FUTURE", "text": { "standard": "No reviewed source can tell us exactly what France would have become after an alternate escape.", "reduced": "We cannot know the exact alternate future." } }
+      ],
+      "safetyRefusalUnit": {
+        "safetyRefusalUnitId": "SAFETY-REFUSAL-LOUIS",
+        "text": { "standard": "I cannot respond to that message. Rephrase your historical question without unsafe content.", "reduced": "I cannot respond to that. Please ask a safer historical question." }
+      },
+      "fallbackTurns": [
+        { "fallbackTurnId": "FALLBACK-LOUIS-E1", "claimUnitIds": ["CLAIM-LOUIS-LIBERTY-SAFETY"], "evidenceReactionUnitId": "REACTION-LOUIS-E1-QUALIFY", "followUpQuestionUnitId": "FOLLOWUP-LOUIS-CLAIM-VS-PROOF", "refusalUnitId": null },
+        { "fallbackTurnId": "FALLBACK-LOUIS-UNKNOWN", "claimUnitIds": [], "evidenceReactionUnitId": null, "followUpQuestionUnitId": "FOLLOWUP-LOUIS-CONSEQUENCE", "refusalUnitId": "REFUSAL-LOUIS-PRIVATE-MOTIVE" }
+      ]
+    },
+    {
+      "stationId": "STATION-VARENNES-CIVIC",
+      "mode": "static_dossier",
+      "name": "Varennes civic record",
+      "roleLabel": "Historical reconstruction station",
+      "disclosure": "A fixed reconstruction of collective civic action, not an AI character or verbatim testimony.",
+      "allowedFactIds": ["F-S3-002", "F-S3-003", "F-S3-005"],
+      "allowedSourceIds": ["S2", "S3"],
+      "allowedEvidenceIds": ["E5"],
+      "allowedClaimIds": [],
+      "recordableClaimIds": [],
+      "explicitUnknowns": [],
+      "responseBoundaries": ["Do not invent Sauce's interior reasoning or make him the sole arresting authority."]
+    },
+    {
+      "stationId": "STATION-ASSEMBLY",
+      "mode": "static_dossier",
+      "name": "Assembly reaction dossier",
+      "roleLabel": "Political framing record",
+      "disclosure": "A fixed packet of political reactions. Barnave dialogue remains deferred.",
+      "allowedFactIds": ["F-S5-001", "F-S5-003", "F-S5-004A", "F-S5-005"],
+      "allowedSourceIds": ["S5-PROCLAMATION", "S5-SHORT", "S5-CORDELIERS", "S5-CONSTITUTION"],
+      "allowedEvidenceIds": ["E7"],
+      "allowedClaimIds": [],
+      "recordableClaimIds": [],
+      "explicitUnknowns": [],
+      "responseBoundaries": ["Treat each political statement as a situated position, not national consensus."]
+    }
+  ],
+  "feedbackUnits": {
+    "summaryTemplates": [
+      { "summaryTemplateId": "SUMMARY-CONTRADICTED", "formativeStatus": "contradicted_by_record", "text": { "standard": "The current explanation conflicts with reviewed case evidence and needs a different evidentiary basis.", "reduced": "The current explanation conflicts with the evidence." } },
+      { "summaryTemplateId": "SUMMARY-UNDER-EVIDENCED", "formativeStatus": "plausible_under_evidenced", "text": { "standard": "The explanation is plausible, but its central claim is not yet tied to enough reviewed evidence.", "reduced": "The idea is plausible but needs more evidence." } },
+      { "summaryTemplateId": "SUMMARY-SUPPORTED-INCOMPLETE", "formativeStatus": "supported_incomplete", "text": { "standard": "The explanation uses relevant evidence, but one part of the causal reasoning or claim limit remains incomplete.", "reduced": "The evidence fits, but part of the explanation is incomplete." } },
+      { "summaryTemplateId": "SUMMARY-WELL-SUPPORTED", "formativeStatus": "well_supported", "text": { "standard": "The explanation connects reviewed evidence to a limited, multicausal historical argument.", "reduced": "The explanation is supported and avoids a single-cause claim." } }
+    ],
+    "rubricReasonTemplates": [
+      { "rubricReasonId": "RUBRIC-SOURCING-MISSING", "criterion": "sourcing", "scoreBand": "missing", "text": { "standard": "The brief treats source claims as neutral facts without identifying their perspective or limits.", "reduced": "The brief does not explain who made the source claim or its limits." } },
+      { "rubricReasonId": "RUBRIC-SOURCING-DEVELOPING", "criterion": "sourcing", "scoreBand": "developing", "text": { "standard": "The brief notices source perspective but applies that analysis unevenly.", "reduced": "The brief notices perspective in some places." } },
+      { "rubricReasonId": "RUBRIC-SOURCING-STRONG", "criterion": "sourcing", "scoreBand": "strong", "text": { "standard": "The brief distinguishes attributed source claims from what the evidence independently establishes.", "reduced": "The brief separates source claims from established facts." } },
+      { "rubricReasonId": "RUBRIC-CORROBORATION-MISSING", "criterion": "corroboration", "scoreBand": "missing", "text": { "standard": "The brief relies on one record without testing it against another source or reconstruction.", "reduced": "The brief uses one record without checking it." } },
+      { "rubricReasonId": "RUBRIC-CORROBORATION-DEVELOPING", "criterion": "corroboration", "scoreBand": "developing", "text": { "standard": "The brief uses multiple records but does not fully explain how they agree, differ, or depend on one another.", "reduced": "The brief uses several records but does not fully compare them." } },
+      { "rubricReasonId": "RUBRIC-CORROBORATION-STRONG", "criterion": "corroboration", "scoreBand": "strong", "text": { "standard": "The brief explains how independent and dependent records support, qualify, or conflict with one another.", "reduced": "The brief clearly compares the records." } },
+      { "rubricReasonId": "RUBRIC-CAUSAL-MISSING", "criterion": "causalReasoning", "scoreBand": "missing", "text": { "standard": "The brief lists events without explaining the mechanism connecting them.", "reduced": "The brief lists events but does not connect them." } },
+      { "rubricReasonId": "RUBRIC-CAUSAL-DEVELOPING", "criterion": "causalReasoning", "scoreBand": "developing", "text": { "standard": "The brief identifies the altered link but leaves part of the pursuit, local response, or consequence mechanism implicit.", "reduced": "The brief finds the altered link but misses part of how it worked." } },
+      { "rubricReasonId": "RUBRIC-CAUSAL-STRONG", "criterion": "causalReasoning", "scoreBand": "strong", "text": { "standard": "The brief connects the altered information handoff to pursuit, local action, and a limited political consequence.", "reduced": "The brief connects the route change, local action, and political effect." } },
+      { "rubricReasonId": "RUBRIC-FIT-MISSING", "criterion": "claimEvidenceFit", "scoreBand": "missing", "text": { "standard": "The cited evidence does not support the claim attached to it.", "reduced": "The evidence does not fit the claim." } },
+      { "rubricReasonId": "RUBRIC-FIT-DEVELOPING", "criterion": "claimEvidenceFit", "scoreBand": "developing", "text": { "standard": "Most evidence fits, but one central claim needs a more direct supporting record.", "reduced": "Most evidence fits, but one claim needs better support." } },
+      { "rubricReasonId": "RUBRIC-FIT-STRONG", "criterion": "claimEvidenceFit", "scoreBand": "strong", "text": { "standard": "The brief connects each central claim to evidence that directly supports or appropriately qualifies it.", "reduced": "The main claims match the evidence." } },
+      { "rubricReasonId": "RUBRIC-UNCERTAINTY-MISSING", "criterion": "uncertainty", "scoreBand": "missing", "text": { "standard": "The brief claims certainty, inevitability, or a single cause beyond what the evidence supports.", "reduced": "The brief is more certain than the evidence allows." } },
+      { "rubricReasonId": "RUBRIC-UNCERTAINTY-DEVELOPING", "criterion": "uncertainty", "scoreBand": "developing", "text": { "standard": "The brief includes a limit, but the consequence or motive claim still needs more careful wording.", "reduced": "The brief includes a limit but still sounds too certain in one place." } },
+      { "rubricReasonId": "RUBRIC-UNCERTAINTY-STRONG", "criterion": "uncertainty", "scoreBand": "strong", "text": { "standard": "The brief clearly states what the evidence cannot prove and avoids making later outcomes inevitable.", "reduced": "The brief clearly states what the evidence cannot prove." } }
+    ],
+    "revisionPromptTemplates": [
+      { "revisionPromptId": "REVISION-UNCERTAINTY", "text": { "standard": "Revise one sentence to state what the evidence does not prove or make inevitable.", "reduced": "Add what the evidence cannot prove." } },
+      { "revisionPromptId": "REVISION-LOCAL-ACTION", "text": { "standard": "Explain why route information and pursuit were insufficient without collective action at Varennes.", "reduced": "Explain why local people still had to act." } },
+      { "revisionPromptId": "REVISION-SOURCE-FIT", "text": { "standard": "Connect one pinned record to the exact claim it supports, then state one limitation of that source.", "reduced": "Match one record to one claim and name its limit." } },
+      { "revisionPromptId": "REVISION-CORROBORATE", "text": { "standard": "Compare two records and explain whether they corroborate, qualify, or conflict with each other.", "reduced": "Explain how two records agree or differ." } }
+    ],
+    "issueExplanationTemplates": [
+      { "issueTemplateId": "ISSUE-UNSUPPORTED", "issueType": "unsupported", "text": { "standard": "This statement is not supported by the pinned records in the current brief.", "reduced": "The pinned records do not support this statement." } },
+      { "issueTemplateId": "ISSUE-OVERCONFIDENT", "issueType": "overconfident", "text": { "standard": "This wording claims more certainty than the reviewed evidence permits.", "reduced": "This wording is too certain." } },
+      { "issueTemplateId": "ISSUE-SINGLE-CAUSE", "issueType": "single_cause", "text": { "standard": "This wording turns one actor or event into a sole cause and omits necessary conditions.", "reduced": "This makes one event the only cause." } },
+      { "issueTemplateId": "ISSUE-INEVITABILITY", "issueType": "inevitability", "text": { "standard": "This wording treats a later outcome as inevitable even though subsequent conditions and decisions also mattered.", "reduced": "This makes a later outcome sound inevitable." } },
+      { "issueTemplateId": "ISSUE-SOURCE-FIT", "issueType": "source_fit", "text": { "standard": "The cited record addresses a different part of the argument and needs a tighter claim-to-evidence link.", "reduced": "This record does not directly support that claim." } }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "ambientLinesVersion": "1.0.0",
+  "sceneManifestVersion": "1.0.0",
+  "caseId": "varennes",
+  "caseVersion": "1.0.3",
+  "lines": [
+    {
+      "ambientLineId": "AMBIENT-ARCHIVE-01",
+      "zoneId": "archive-antechamber",
+      "text": "The archive remains still around the open case materials.",
+      "epistemicClassification": "dramatization",
+      "limitations": "Authored atmosphere only; this line is not a historical statement or source.",
+      "countsAsHistoricalEvidence": false,
+      "affectsProgression": false,
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": []
+    },
+    {
+      "ambientLineId": "AMBIENT-POST-ROAD-01",
+      "zoneId": "post-road-square",
+      "text": "A reconstructed road marker stands at the edge of the square.",
+      "epistemicClassification": "dramatization",
+      "limitations": "Authored atmosphere only; the marker and its placement do not establish a historical fact.",
+      "countsAsHistoricalEvidence": false,
+      "affectsProgression": false,
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": []
+    },
+    {
+      "ambientLineId": "AMBIENT-CIVIC-01",
+      "zoneId": "royal-lodging-civic-area",
+      "text": "Muted voices carry across the schematic civic area.",
+      "epistemicClassification": "dramatization",
+      "limitations": "Authored atmosphere only; the voices do not represent recorded testimony.",
+      "countsAsHistoricalEvidence": false,
+      "affectsProgression": false,
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": []
+    },
+    {
+      "ambientLineId": "AMBIENT-BRIDGE-01",
+      "zoneId": "bridge-approach",
+      "text": "The reconstructed approach narrows toward the final zone.",
+      "epistemicClassification": "dramatization",
+      "limitations": "Authored atmosphere only; the line does not establish exact geography, timing, or obstruction.",
+      "countsAsHistoricalEvidence": false,
+      "affectsProgression": false,
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": []
+    }
+  ]
+}

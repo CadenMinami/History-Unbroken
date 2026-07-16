@@ -1,0 +1,296 @@
+.fracture {
+  min-height: 100svh;
+  border-top: 4px solid var(--ink);
+  background: var(--paper);
+}
+
+.masthead {
+  min-height: 58px;
+  padding: 0 clamp(18px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ink);
+  background: var(--white);
+}
+
+.wordmark {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.caseCode,
+.eyebrow,
+.route,
+.recordCode,
+.candidateTopline > span,
+.unresolved,
+.mission span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.caseCode {
+  color: var(--correction-red);
+}
+
+.trace {
+  padding: 42px clamp(18px, 5vw, 72px) 36px;
+  color: var(--white);
+  background: #1b1e22;
+  border-bottom: 1px solid var(--ink);
+}
+
+.traceHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.traceHeading > svg {
+  width: 56px;
+  height: 56px;
+  color: var(--correction-red);
+  stroke-width: 1.2;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #9db7c7;
+}
+
+.trace h1 {
+  margin: 0;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(2.5rem, 6vw, 5.6rem);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.route {
+  margin: 50px 0 34px;
+  display: grid;
+  grid-template-columns: auto minmax(44px, 1fr) auto minmax(44px, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.route i {
+  height: 2px;
+  background: #92aebb;
+}
+
+.route .fracturedLine {
+  height: 13px;
+  border-top: 2px solid var(--correction-red);
+  border-bottom: 2px solid var(--correction-red);
+  background: transparent;
+  transform: skewX(-26deg);
+}
+
+.route b {
+  color: #ef7565;
+  font-weight: 500;
+}
+
+.contradiction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid #697077;
+}
+
+.contradiction article {
+  min-height: 96px;
+  padding: 18px;
+}
+
+.contradiction article + article {
+  border-left: 1px solid #697077;
+}
+
+.recordCode {
+  display: block;
+  margin: 7px 0 9px;
+  color: #9db7c7;
+}
+
+.contradiction strong {
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.candidates {
+  padding: 40px clamp(18px, 5vw, 72px) 64px;
+}
+
+.candidateHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.candidateHeading .eyebrow {
+  color: var(--archive-blue);
+}
+
+.candidateHeading h2 {
+  margin: 0;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 500;
+}
+
+.candidateHeading > p {
+  max-width: 400px;
+  margin: 0;
+  color: var(--graphite);
+  line-height: 1.5;
+}
+
+.candidateGrid {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.candidate {
+  min-height: 310px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--correction-red);
+  background: var(--white);
+}
+
+.candidateTopline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.candidateTopline > span {
+  color: var(--graphite);
+}
+
+.candidate > svg {
+  width: 42px;
+  height: 42px;
+  margin: 32px 0 22px;
+  color: var(--correction-red);
+  stroke-width: 1.2;
+}
+
+.candidate h3 {
+  margin: 0;
+  font-family: var(--font-serif), serif;
+  font-size: 1.65rem;
+  font-weight: 500;
+}
+
+.candidate p {
+  flex: 1;
+  color: var(--graphite);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.unresolved {
+  color: var(--graphite);
+}
+
+.mission {
+  margin-top: 28px;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  border-top: 3px double var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.mission p {
+  max-width: 750px;
+  margin: 8px 0 0;
+  line-height: 1.55;
+}
+
+.mission button {
+  min-height: 46px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  flex: 0 0 auto;
+  color: var(--white);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  cursor: pointer;
+}
+
+.mission button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.mission button:hover,
+.mission button:focus-visible {
+  color: var(--ink);
+  background: var(--white);
+  outline: 2px solid var(--archive-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .route {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .route i {
+    width: 2px;
+    height: 20px;
+    margin-left: 18px;
+  }
+
+  .route .fracturedLine {
+    width: 10px;
+    height: 20px;
+    margin-left: 14px;
+    border: 0;
+    border-left: 2px solid var(--correction-red);
+    border-right: 2px solid var(--correction-red);
+    transform: skewY(-26deg);
+  }
+
+  .route b {
+    margin-top: 3px;
+  }
+
+  .contradiction,
+  .candidateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contradiction article + article {
+    border-top: 1px solid #697077;
+    border-left: 0;
+  }
+
+  .candidateHeading,
+  .mission {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .mission button {
+    justify-content: space-between;
+  }
+}

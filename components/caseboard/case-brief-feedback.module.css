@@ -1,0 +1,282 @@
+.feedbackBand {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.heading,
+.pending,
+.fallback,
+.summary,
+.evidenceLinks li,
+.rubric li > div {
+  display: flex;
+  align-items: flex-start;
+}
+
+.heading {
+  gap: 16px;
+}
+
+.headingIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--white);
+  background: var(--archive-blue);
+}
+
+.headingIcon svg {
+  width: 20px;
+}
+
+.heading p,
+.summary span,
+.fallback strong,
+.evidenceLinks h3,
+.concerns h3,
+.rubric h3,
+.evidenceLinks li > span,
+.evidenceLinks li > b,
+.rubric li span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.heading p {
+  margin: 0 0 4px;
+  color: var(--archive-blue);
+}
+
+.heading h2 {
+  margin: 0;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 500;
+}
+
+.heading span {
+  display: block;
+  margin-top: 6px;
+  color: var(--graphite);
+  font-size: 0.78rem;
+}
+
+.pending,
+.fallback {
+  max-width: 920px;
+  margin: 28px 0 0 auto;
+  gap: 12px;
+  padding: 16px;
+  border-left: 3px solid var(--archive-blue);
+  background: #eaf0f3;
+  color: var(--archive-blue);
+}
+
+.pending svg,
+.fallback svg,
+.summary svg,
+.evidenceLinks li svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.pending svg {
+  animation: spin 0.8s linear infinite;
+}
+
+.fallback {
+  border-color: var(--ochre);
+  color: #604b2c;
+  background: #fbf5e9;
+}
+
+.fallback strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.fallback p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.feedbackBody {
+  max-width: 920px;
+  margin: 28px 0 0 auto;
+}
+
+.summary {
+  gap: 14px;
+  padding: 20px;
+  color: var(--white);
+  background: var(--ink);
+}
+
+.summary svg {
+  color: #9ebfd0;
+}
+
+.summary span {
+  color: #9ebfd0;
+}
+
+.summary p {
+  margin: 8px 0;
+  font-family: var(--font-serif), serif;
+  font-size: 1.25rem;
+  line-height: 1.45;
+}
+
+.summary strong {
+  display: block;
+  color: #d8dcde;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.evidenceLinks,
+.concerns,
+.rubric {
+  margin-top: 28px;
+}
+
+.evidenceLinks h3,
+.concerns h3,
+.rubric h3 {
+  margin: 0 0 10px;
+}
+
+.evidenceLinks ul,
+.rubric ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidenceLinks li {
+  min-height: 54px;
+  padding: 12px 0;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) 44px 80px;
+  align-items: start;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.evidenceLinks li q {
+  font-family: var(--font-serif), serif;
+  line-height: 1.45;
+}
+
+.evidenceLinks li > span {
+  color: var(--archive-blue);
+}
+
+.evidenceLinks li > b {
+  color: var(--evidence-green);
+  text-align: right;
+}
+
+.concerns > div {
+  padding: 14px;
+  border-left: 3px solid var(--correction-red);
+  background: #f8eded;
+}
+
+.concerns > div + div {
+  margin-top: 8px;
+}
+
+.concerns q {
+  font-family: var(--font-serif), serif;
+}
+
+.concerns p {
+  margin: 7px 0 0;
+  color: var(--graphite);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.rubric ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--ink);
+}
+
+.rubric li {
+  min-width: 0;
+  padding: 14px;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: var(--white);
+}
+
+.rubric li > div {
+  min-height: 44px;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rubric li span {
+  color: var(--graphite);
+}
+
+.rubric li b {
+  white-space: nowrap;
+  color: var(--archive-blue);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+}
+
+.rubric li p {
+  margin: 10px 0 0;
+  color: var(--graphite);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .rubric ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .feedbackBand {
+    width: min(100% - 32px, 560px);
+  }
+
+  .evidenceLinks li {
+    grid-template-columns: 20px minmax(0, 1fr) 56px;
+  }
+
+  .evidenceLinks li > b {
+    grid-column: 2 / -1;
+    text-align: left;
+  }
+
+  .rubric ol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pending svg {
+    animation: none;
+  }
+}

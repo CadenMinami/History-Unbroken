@@ -1,0 +1,35 @@
+.scrim { position: fixed; z-index: 12; inset: 0; padding: 72px clamp(16px, 4vw, 52px) 24px; display: grid; place-items: center; background: rgb(10 13 12 / 76%); backdrop-filter: blur(7px); }
+.dialog { width: min(1180px, 100%); max-height: calc(100svh - 96px); overflow: auto; color: #f5f1e8; border: 1px solid rgb(255 255 255 / 32%); border-top: 4px solid #d5ad58; border-radius: 2px; background: #1d2421; box-shadow: 0 22px 70px rgb(0 0 0 / 44%); }
+.header { min-height: 72px; padding: 14px 18px 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid rgb(255 255 255 / 18%); }
+.header p, .sectionHeading p { margin: 0; color: #b9cbbd; font-family: var(--font-mono), monospace; font-size: .62rem; text-transform: uppercase; }
+.header h2 { margin: 4px 0 0; font-family: var(--font-serif), serif; font-size: 1.85rem; font-weight: 500; }
+.header button { width: 38px; height: 38px; display: grid; place-items: center; color: inherit; border: 1px solid rgb(255 255 255 / 30%); border-radius: 2px; background: transparent; cursor: pointer; }
+.header button svg { width: 17px; }
+.boundary { padding: 15px 24px; display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; color: #efe2bb; border-bottom: 1px solid rgb(255 255 255 / 15%); background: #303a34; }
+.boundary svg { width: 20px; }
+.boundary strong { font-family: var(--font-mono), monospace; font-size: .7rem; }
+.boundary p { margin: 5px 0 0; color: #d7ddd8; font-size: .8rem; line-height: 1.45; }
+.route, .fracture { padding: 24px; }
+.route { border-bottom: 1px solid rgb(255 255 255 / 15%); }
+.sectionHeading h2 { margin: 5px 0 0; font-family: var(--font-serif), serif; font-size: 1.35rem; font-weight: 500; }
+.zoneGrid { margin-top: 17px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid rgb(255 255 255 / 18%); }
+.zone { min-height: 148px; padding: 15px; position: relative; border-right: 1px solid rgb(255 255 255 / 18%); }
+.zone:last-child { border-right: 0; }
+.sequence { color: #d5ad58; font-family: var(--font-mono), monospace; font-size: .66rem; }
+.zone h3 { margin: 21px 0 6px; font-family: var(--font-serif), serif; font-size: 1rem; font-weight: 500; }
+.zone p { margin: 0; color: #b9cbbd; font-size: .72rem; text-transform: uppercase; }
+.zone button, .record button { min-height: 34px; margin-top: 14px; padding: 0 10px; color: #1c211f; font-family: var(--font-mono), monospace; font-size: .62rem; font-weight: 700; border: 1px solid #e4c77f; border-radius: 2px; background: #e4c77f; cursor: pointer; }
+.fractureBoundary { max-width: 760px; margin: 12px 0 0; color: #cbd3ce; font-size: .82rem; line-height: 1.5; }
+.recordGrid { margin-top: 18px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.record { min-height: 236px; padding: 15px; display: flex; flex-direction: column; align-items: flex-start; border: 1px solid rgb(255 255 255 / 19%); border-radius: 2px; background: #252d29; }
+.record > span { color: #d5ad58; font-family: var(--font-mono), monospace; font-size: .6rem; text-transform: uppercase; }
+.record h4 { margin: 18px 0 8px; font-family: var(--font-serif), serif; font-size: 1rem; font-weight: 500; }
+.record p { margin: 0; color: #d5dbd7; font-size: .8rem; line-height: 1.5; }
+.record small { margin-top: auto; padding-top: 18px; color: #aebeb3; font-family: var(--font-mono), monospace; font-size: .62rem; text-transform: uppercase; }
+.record button { display: inline-flex; align-items: center; gap: 7px; }
+.record button svg { width: 14px; }
+.footer { padding: 16px 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid rgb(255 255 255 / 15%); }
+.footer p { margin: 0; color: #b9cbbd; font-size: .75rem; }
+.footer a { color: #f1d792; font-size: .78rem; font-weight: 700; text-underline-offset: 4px; }
+.dialog button:focus-visible, .dialog a:focus-visible { outline: 3px solid #f1d792; outline-offset: 3px; }
+@media (max-width: 820px) { .scrim { padding: 62px 10px 10px; } .dialog { max-height: calc(100svh - 72px); } .zoneGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .zone:nth-child(2) { border-right: 0; } .zone:nth-child(-n+2) { border-bottom: 1px solid rgb(255 255 255 / 18%); } .recordGrid { grid-template-columns: 1fr; } .footer { align-items: flex-start; flex-direction: column; } }

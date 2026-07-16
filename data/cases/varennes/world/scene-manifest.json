@@ -1,0 +1,442 @@
+{
+  "sceneManifestVersion": "1.0.0",
+  "caseId": "varennes",
+  "caseVersion": "1.0.3",
+  "modelPolicyVersion": "1.0.1",
+  "initialSpawn": {
+    "zoneId": "archive-antechamber",
+    "spawnId": "SPAWN-ARCHIVE-ENTRY"
+  },
+  "zones": [
+    {
+      "zoneId": "archive-antechamber",
+      "label": "Archive antechamber",
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The archive is an out-of-time interface, not a documented room in Varennes.",
+        "ownership": "Objects in this zone do not claim historical ownership.",
+        "scale": "The zone is compressed for classroom traversal and is not to scale.",
+        "appearance": "Graybox forms do not claim documented period appearance."
+      },
+      "safeSpawns": [
+        {
+          "spawnId": "SPAWN-ARCHIVE-ENTRY",
+          "label": "Archive entry",
+          "position": [0, 0, 0],
+          "yaw": 0
+        }
+      ],
+      "ambientLineIds": ["AMBIENT-ARCHIVE-01"],
+      "fastTravelUnlock": "never"
+    },
+    {
+      "zoneId": "post-road-square",
+      "label": "Post-road square",
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The road and square are combined into a teaching space rather than an exact site plan.",
+        "ownership": "Props do not establish ownership by Drouet or another historical person.",
+        "scale": "Distances and routes are compressed and not to scale.",
+        "appearance": "Graybox buildings and props do not claim exact 1791 appearance."
+      },
+      "safeSpawns": [
+        {
+          "spawnId": "SPAWN-POST-ROAD-ENTRY",
+          "label": "Post-road entry",
+          "position": [24, 0, 0],
+          "yaw": 0
+        }
+      ],
+      "ambientLineIds": ["AMBIENT-POST-ROAD-01"],
+      "fastTravelUnlock": "first_valid_visit"
+    },
+    {
+      "zoneId": "royal-lodging-civic-area",
+      "label": "Royal lodging and civic area",
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "Lodging and civic functions are combined and do not claim exact coexistence or positions.",
+        "ownership": "Document stands and stations do not establish historical object ownership.",
+        "scale": "The area is compressed for traversal and is not to scale.",
+        "appearance": "Graybox architecture and clothing markers do not claim exact appearance."
+      },
+      "safeSpawns": [
+        {
+          "spawnId": "SPAWN-CIVIC-ENTRY",
+          "label": "Civic-area entry",
+          "position": [48, 0, 0],
+          "yaw": 0
+        }
+      ],
+      "ambientLineIds": ["AMBIENT-CIVIC-01"],
+      "fastTravelUnlock": "first_valid_visit"
+    },
+    {
+      "zoneId": "bridge-approach",
+      "label": "Bridge approach",
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The approach is a not to scale teaching diagram, not an exact street or bridge survey.",
+        "ownership": "The reconstruction leaves the exact actor who moved each obstruction contested.",
+        "scale": "Distances, widths, and vehicle positions are schematic and not to scale.",
+        "appearance": "The zone does not depict the bridge as physically arresting the carriage or claim exact barrier appearance."
+      },
+      "safeSpawns": [
+        {
+          "spawnId": "SPAWN-BRIDGE-ENTRY",
+          "label": "Bridge-approach entry",
+          "position": [72, 0, 0],
+          "yaw": 0
+        }
+      ],
+      "ambientLineIds": ["AMBIENT-BRIDGE-01"],
+      "fastTravelUnlock": "first_valid_visit"
+    }
+  ],
+  "interactables": [
+    {
+      "interactableId": "INTERACTABLE-E3-ARCHIVE-TABLE",
+      "zoneId": "archive-antechamber",
+      "label": "Drouet account table",
+      "presentation": "graybox",
+      "interactionType": "inspect_evidence",
+      "canonicalTarget": { "targetType": "evidence", "evidenceId": "E3" },
+      "focusOverlay": "evidence_inspector",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": ["E3"],
+      "factIds": ["F-S2-001", "F-S2-002", "F-S2-003", "F-S2-004", "F-S2-005", "F-S2-006"],
+      "sourceIds": ["S2"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The table location is invented for navigation.",
+        "ownership": "The table is not presented as Drouet's historical property.",
+        "scale": "The prop and spacing are not to scale.",
+        "appearance": "The graybox table does not claim artifact authenticity."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-E2-TRAVEL-DOSSIER",
+      "zoneId": "archive-antechamber",
+      "label": "Travel preparation dossier",
+      "presentation": "graybox",
+      "interactionType": "inspect_evidence",
+      "canonicalTarget": { "targetType": "evidence", "evidenceId": "E2" },
+      "focusOverlay": "evidence_inspector",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": ["E2"],
+      "factIds": ["F-S8-001", "F-S8-002", "F-S9-001"],
+      "sourceIds": ["S8", "S9"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The dossier station is an archive interface, not a historical placement.",
+        "ownership": "The stand does not imply ownership of the underlying records.",
+        "scale": "The station is not to scale.",
+        "appearance": "The graybox stand is not an authentic artifact."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-ASSEMBLY-STATION",
+      "zoneId": "archive-antechamber",
+      "label": "Assembly reaction station",
+      "presentation": "graybox",
+      "interactionType": "open_station",
+      "canonicalTarget": { "targetType": "station", "stationId": "STATION-ASSEMBLY" },
+      "focusOverlay": "station",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": ["E7"],
+      "factIds": ["F-S5-001", "F-S5-003", "F-S5-004A", "F-S5-005"],
+      "sourceIds": ["S5-PROCLAMATION", "S5-SHORT", "S5-CORDELIERS", "S5-CONSTITUTION"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The Assembly station is an out-of-time archive installation.",
+        "ownership": "It does not claim a historical owner's display.",
+        "scale": "The installation is not to scale.",
+        "appearance": "The graybox station does not reconstruct an Assembly chamber."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-CONTEXT-TABLE",
+      "zoneId": "archive-antechamber",
+      "label": "Context table",
+      "presentation": "graybox",
+      "interactionType": "open_context",
+      "canonicalTarget": { "targetType": "case_surface", "surfaceId": "context" },
+      "focusOverlay": "context",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": [],
+      "provenance": "dramatization",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The table is an authored interface.",
+        "ownership": "No historical ownership is claimed.",
+        "scale": "The table placement is not to scale.",
+        "appearance": "The graybox surface is not a historical artifact."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-JOURNAL",
+      "zoneId": "archive-antechamber",
+      "label": "Case journal",
+      "presentation": "graybox",
+      "interactionType": "open_journal",
+      "canonicalTarget": { "targetType": "case_surface", "surfaceId": "journal" },
+      "focusOverlay": "journal",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": [],
+      "provenance": "dramatization",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The journal location is an authored navigation aid.",
+        "ownership": "It belongs to the unnamed investigator interface, not a historical person.",
+        "scale": "The prop and placement are not to scale.",
+        "appearance": "The graybox journal is not an authentic period object."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-CASEBOARD",
+      "zoneId": "archive-antechamber",
+      "label": "Causal evidence board",
+      "presentation": "graybox",
+      "interactionType": "open_caseboard",
+      "canonicalTarget": { "targetType": "case_surface", "surfaceId": "caseboard" },
+      "focusOverlay": "caseboard",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": [],
+      "provenance": "dramatization",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The board is an out-of-time reasoning interface.",
+        "ownership": "No historical ownership is claimed.",
+        "scale": "The board placement is not to scale.",
+        "appearance": "The graybox board is not a historical artifact."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-DEBRIEF",
+      "zoneId": "archive-antechamber",
+      "label": "Final report",
+      "presentation": "graybox",
+      "interactionType": "open_debrief",
+      "canonicalTarget": { "targetType": "case_surface", "surfaceId": "debrief" },
+      "focusOverlay": "debrief",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": [] },
+      "evidenceIds": [],
+      "factIds": [],
+      "sourceIds": [],
+      "provenance": "dramatization",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The report is an authored debrief interface.",
+        "ownership": "No historical ownership is claimed.",
+        "scale": "The report station is not to scale.",
+        "appearance": "The graybox report is not an authentic document."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-DROUET",
+      "zoneId": "post-road-square",
+      "label": "Drouet station",
+      "presentation": "graybox",
+      "interactionType": "open_station",
+      "canonicalTarget": { "targetType": "station", "stationId": "CHAR-DROUET" },
+      "focusOverlay": "station",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": ["post-road-square"] },
+      "evidenceIds": ["E3", "E4", "E5"],
+      "factIds": ["F-S2-001", "F-S2-002", "F-S2-003", "F-S2-004", "F-S2-005", "F-S2-006", "F-S3-003", "F-S4-004"],
+      "sourceIds": ["S2", "S3", "S4"],
+      "provenance": "dramatization",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The station does not claim Drouet stood at this exact point.",
+        "ownership": "Nearby props do not imply Drouet's ownership.",
+        "scale": "The encounter spacing is not to scale.",
+        "appearance": "The graybox figure is a dramatized interaction marker."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-E4-ROUTE-BOARD",
+      "zoneId": "post-road-square",
+      "label": "Route reconstruction board",
+      "presentation": "graybox",
+      "interactionType": "inspect_evidence",
+      "canonicalTarget": { "targetType": "evidence", "evidenceId": "E4" },
+      "focusOverlay": "evidence_inspector",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": ["post-road-square"] },
+      "evidenceIds": ["E4"],
+      "factIds": ["F-S2-002", "F-S2-003", "F-S4-003", "F-S4-004", "F-S4-005"],
+      "sourceIds": ["S2", "S4"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The route board is placed for learning, not at a documented site.",
+        "ownership": "No historical ownership is claimed.",
+        "scale": "The route board and world route are not to scale.",
+        "appearance": "The graybox board is not a historical map artifact."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-LOUIS",
+      "zoneId": "royal-lodging-civic-area",
+      "label": "Louis station",
+      "presentation": "graybox",
+      "interactionType": "open_station",
+      "canonicalTarget": { "targetType": "station", "stationId": "CHAR-LOUIS" },
+      "focusOverlay": "station",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": ["royal-lodging-civic-area"] },
+      "evidenceIds": ["E1"],
+      "factIds": ["F-S1-002", "F-S1-004"],
+      "sourceIds": ["S1"],
+      "provenance": "dramatization",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The station does not claim Louis stood at this exact point.",
+        "ownership": "Nearby props do not imply Louis's ownership.",
+        "scale": "The encounter spacing is not to scale.",
+        "appearance": "The graybox figure is a dramatized interaction marker."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-E1-DECLARATION",
+      "zoneId": "royal-lodging-civic-area",
+      "label": "Louis declaration",
+      "presentation": "graybox",
+      "interactionType": "inspect_evidence",
+      "canonicalTarget": { "targetType": "evidence", "evidenceId": "E1" },
+      "focusOverlay": "evidence_inspector",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": ["royal-lodging-civic-area"] },
+      "evidenceIds": ["E1"],
+      "factIds": ["F-S1-002", "F-S1-004"],
+      "sourceIds": ["S1"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The document stand is not a claim about where the declaration was present.",
+        "ownership": "The stand does not imply ownership of the source artifact.",
+        "scale": "The display is not to scale.",
+        "appearance": "The graybox display is not an authentic copy."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-CIVIC-STATION",
+      "zoneId": "royal-lodging-civic-area",
+      "label": "Varennes civic response station",
+      "presentation": "graybox",
+      "interactionType": "open_station",
+      "canonicalTarget": { "targetType": "station", "stationId": "STATION-VARENNES-CIVIC" },
+      "focusOverlay": "station",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": ["royal-lodging-civic-area"] },
+      "evidenceIds": ["E5"],
+      "factIds": ["F-S3-002", "F-S3-003", "F-S3-005"],
+      "sourceIds": ["S2", "S3"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The station combines civic content rather than reconstructing one exact office.",
+        "ownership": "No individual is depicted as solely owning the collective response.",
+        "scale": "The station and surrounding area are not to scale.",
+        "appearance": "The graybox station is a static dossier marker, not open roleplay."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-E5-BRIDGE-DOSSIER",
+      "zoneId": "bridge-approach",
+      "label": "Passage and detention dossier",
+      "presentation": "graybox",
+      "interactionType": "inspect_evidence",
+      "canonicalTarget": { "targetType": "evidence", "evidenceId": "E5" },
+      "focusOverlay": "evidence_inspector",
+      "prerequisites": { "evidenceIds": [], "discoveredZoneIds": ["bridge-approach"] },
+      "evidenceIds": ["E5"],
+      "factIds": ["F-S2-004", "F-S2-005", "F-S2-006", "F-S3-002", "F-S3-003", "F-S3-005", "F-S4-005"],
+      "sourceIds": ["S2", "S3", "S4"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The dossier stand does not claim exact halt or document locations.",
+        "ownership": "The station does not resolve contested obstruction actors.",
+        "scale": "The approach and prop placement are not to scale.",
+        "appearance": "The graybox display does not depict an authentic barrier or record."
+      }
+    },
+    {
+      "interactableId": "INTERACTABLE-RS-01-ROUTE",
+      "zoneId": "bridge-approach",
+      "label": "Route repair checkpoint",
+      "presentation": "graybox",
+      "interactionType": "enter_repair_checkpoint",
+      "canonicalTarget": { "targetType": "repair_checkpoint", "repairCheckpointId": "RS-01-ROUTE" },
+      "focusOverlay": "repair_checkpoint",
+      "prerequisites": { "evidenceIds": ["E3", "E4"], "discoveredZoneIds": ["bridge-approach"] },
+      "evidenceIds": ["E3", "E4"],
+      "factIds": ["F-S2-002", "F-S4-004"],
+      "sourceIds": ["S2", "S4"],
+      "provenance": "reconstruction",
+      "countsAsHistoricalEvidence": false,
+      "placementLabel": "SCHEMATIC RECONSTRUCTION - NOT TO SCALE",
+      "placementStatus": "schematic_temporal_reconstruction",
+      "reconstructionConfidence": "low",
+      "limitations": {
+        "location": "The checkpoint is a game reconstruction, not a documented exact position.",
+        "ownership": "It makes no ownership claim.",
+        "scale": "The checkpoint spacing and sequence are not to scale.",
+        "appearance": "The graybox marker is not historical evidence."
+      }
+    }
+  ]
+}

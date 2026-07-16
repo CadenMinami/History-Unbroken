@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseVersion": "1.0.3",
+  "caseId": "varennes",
+  "title": "The Road That Should Have Closed",
+  "anomalies": [
+    {
+      "id": "E6A",
+      "title": "Recognition Echo",
+      "summary": "The altered record claims Drouet never suspected the travelers and never began a pursuit.",
+      "provenance": "fictional_temporal_anomaly",
+      "presentationWeight": 1
+    },
+    {
+      "id": "E6B",
+      "title": "Route Echo",
+      "summary": "The altered record shows the route correction failing to reach Drouet, leaving him on the announced Verdun road.",
+      "provenance": "fictional_temporal_anomaly",
+      "presentationWeight": 1
+    },
+    {
+      "id": "E6C",
+      "title": "Authorization Echo",
+      "summary": "The altered record claims Varennes received a timely warning but was ordered to let the travelers continue.",
+      "provenance": "fictional_temporal_anomaly",
+      "presentationWeight": 1
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "UNC-MOTIVE",
+      "label": "The sources establish planned participation but do not settle every part of Louis's private motive.",
+      "authority": "claim_limit",
+      "factIds": ["F-S1-002", "F-S8-001", "F-S9-001"]
+    },
+    {
+      "id": "UNC-NOT-INEVITABLE",
+      "label": "The reviewed record does not establish that the flight alone made the monarchy's later fall or other revolutionary outcomes inevitable.",
+      "authority": "claim_limit",
+      "factIds": ["F-S5-005"]
+    }
+  ],
+  "comparisonFindings": [
+    {
+      "id": "CMP-REJECT-E6A",
+      "label": "Test the recognition echo",
+      "requiredItemIds": ["E6A", "FO1", "E3", "E4"],
+      "conclusion": "FO1 records that Drouet suspected the travelers and set out, so the recognition echo does not fit this fractured branch. The historical report and route board show what recognition enabled in the reviewed sequence.",
+      "result": { "action": "reject_anomaly", "anomalyId": "E6A" }
+    },
+    {
+      "id": "CMP-SUPPORT-E6B",
+      "label": "Test the route echo",
+      "requiredItemIds": ["E6B", "FO1", "FO2", "FO3", "E3", "E4", "E5"],
+      "conclusion": "The branch preserves suspicion but loses the route correction, leaving Drouet away from Varennes before warning and civic action. That pattern fits the route echo.",
+      "result": { "action": "support_active_anomaly", "anomalyId": "E6B" }
+    },
+    {
+      "id": "CMP-REJECT-E6C",
+      "label": "Test the authorization echo",
+      "requiredItemIds": ["E6C", "FO2", "FO3", "E5"],
+      "conclusion": "The fractured branch records no timely warning or civic alarm, so an order issued after a timely warning cannot explain it. The civic dossier shows the collective response present in the reviewed sequence.",
+      "result": { "action": "reject_anomaly", "anomalyId": "E6C" }
+    }
+  ]
+}

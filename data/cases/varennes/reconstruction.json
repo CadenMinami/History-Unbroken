@@ -1,0 +1,150 @@
+{
+  "version": "1.1.0",
+  "caseId": "varennes",
+  "caseVersion": "1.0.3",
+  "repairSteps": [
+    {
+      "id": "RS-01-ROUTE",
+      "sequence": 1,
+      "title": "Restore the route correction",
+      "actionLabel": "Restore Varennes route information",
+      "statement": "Drouet's report says that he was informed near Clermont that the carriage had turned toward Varennes rather than continuing toward Verdun. The report does not identify who supplied that correction.",
+      "nodeIds": ["NODE-ROUTE"],
+      "edgeIds": ["EDGE-RECOGNITION-ROUTE"],
+      "requiredActionIds": [],
+      "factIds": ["F-S2-002", "F-S4-004"],
+      "evidenceIds": ["E3", "E4"],
+      "sourceIds": ["S2", "S4"],
+      "provenance": "historical_reconstruction"
+    },
+    {
+      "id": "RS-02-PURSUIT",
+      "sequence": 2,
+      "title": "Redirect the pursuit",
+      "actionLabel": "Send the pursuit toward Varennes",
+      "statement": "In Drouet's report, the route information enabled him and Guillaume to take a shorter road toward Varennes.",
+      "nodeIds": ["NODE-PURSUIT"],
+      "edgeIds": ["EDGE-ROUTE-PURSUIT"],
+      "requiredActionIds": [],
+      "factIds": ["F-S2-003"],
+      "evidenceIds": ["E3"],
+      "sourceIds": ["S2"],
+      "provenance": "historical_reconstruction"
+    },
+    {
+      "id": "RS-03-WARNING",
+      "sequence": 3,
+      "title": "Deliver the warning",
+      "actionLabel": "Warn people in Varennes",
+      "statement": "Drouet reported warning an innkeeper in Varennes, who then alerted other people.",
+      "nodeIds": ["NODE-WARNING"],
+      "edgeIds": ["EDGE-PURSUIT-WARNING"],
+      "requiredActionIds": [],
+      "factIds": ["F-S2-004"],
+      "evidenceIds": ["E3"],
+      "sourceIds": ["S2"],
+      "provenance": "historical_reconstruction"
+    },
+    {
+      "id": "RS-04-MOBILIZATION",
+      "sequence": 4,
+      "title": "Reconstruct collective action",
+      "actionLabel": "Mobilize the local response",
+      "statement": "The reviewed accounts describe officials, residents, and National Guardsmen taking part in the response after the alarm.",
+      "nodeIds": ["NODE-MOBILIZATION"],
+      "edgeIds": ["EDGE-WARNING-MOBILIZATION"],
+      "requiredActionIds": [],
+      "factIds": ["F-S2-004", "F-S3-002"],
+      "evidenceIds": ["E3", "E5"],
+      "sourceIds": ["S2", "S3"],
+      "provenance": "historical_reconstruction"
+    },
+    {
+      "id": "RS-05-OBSTRUCTION",
+      "sequence": 5,
+      "title": "Reconstruct parallel local actions",
+      "actionLabel": "Restore passage control and inspection",
+      "statement": "The reviewed records place blocked onward passage and passport inspection within one collective local response. The repair requires both actions as an authored reconstruction; the sources do not prove that either action alone, or the pair as a strict but-for cause, produced detention.",
+      "nodeIds": ["NODE-OBSTRUCTION", "NODE-PASSPORT"],
+      "edgeIds": ["EDGE-MOBILIZATION-OBSTRUCTION", "EDGE-MOBILIZATION-PASSPORT"],
+      "requiredActionIds": ["RA-05-OBSTRUCTION", "RA-05-PASSPORT"],
+      "factIds": ["F-S2-005", "F-S2-006", "F-S3-002", "F-S3-003", "F-S3-005"],
+      "evidenceIds": ["E3", "E5"],
+      "sourceIds": ["S2", "S3"],
+      "provenance": "historical_reconstruction"
+    },
+    {
+      "id": "RS-06-DETENTION",
+      "sequence": 6,
+      "title": "Restore collective detention",
+      "actionLabel": "Place the travelers under guard",
+      "statement": "In this bounded reconstruction, guarded detention follows the combined local response, including passage control, passport inspection, municipal action, gathered residents, and guards. The surviving sources do not prove either edge as a strict but-for cause. Neither incoming edge represents a sole physical arrest mechanism.",
+      "nodeIds": ["NODE-DETENTION"],
+      "edgeIds": ["EDGE-OBSTRUCTION-DETENTION", "EDGE-PASSPORT-DETENTION"],
+      "requiredActionIds": [],
+      "factIds": ["F-S2-005", "F-S2-006", "F-S3-003", "F-S3-005"],
+      "evidenceIds": ["E3", "E5"],
+      "sourceIds": ["S2", "S3"],
+      "provenance": "historical_reconstruction"
+    }
+  ],
+  "politicalMeaning": [
+    {
+      "id": "PM-01-FRAMINGS",
+      "statement": "Contemporary official, diplomatic, and radical records offered competing framings of the royal departure, including a kidnapping explanation and published challenges to it.",
+      "factIds": ["F-S5-001", "F-S5-003", "F-S5-004A"],
+      "evidenceIds": ["E7"],
+      "sourceIds": ["S5-PROCLAMATION", "S5-SHORT", "S5-CORDELIERS"],
+      "provenance": "bounded_historical_observation"
+    },
+    {
+      "id": "PM-02-CONTINUITY",
+      "statement": "The September 1791 Constitution retained monarchical government, so the flight did not immediately end monarchy or determine every later outcome.",
+      "factIds": ["F-S5-005"],
+      "evidenceIds": ["E7"],
+      "sourceIds": ["S5-CONSTITUTION"],
+      "provenance": "bounded_historical_observation"
+    }
+  ],
+  "counterfactualBoundary": {
+    "label": "UNKNOWN",
+    "statement": "The fictional branch ends after the carriage passes Varennes because the reviewed record does not establish a precise alternate future.",
+    "provenance": "fictional_counterfactual_boundary"
+  },
+  "debrief": {
+    "established": [
+      {
+        "id": "DB-EST-01",
+        "statement": "The completed caseboard identifies the route-information handoff, while reviewed records support a reconstruction of collective action ending in guarded detention.",
+        "factIds": ["F-S2-002", "F-S2-006", "F-S3-005"],
+        "evidenceIds": ["E3", "E5"],
+        "sourceIds": ["S2", "S3"],
+        "provenance": "historical_reconstruction",
+        "limitations": "This is an authored synthesis of cited records, not a verbatim historical statement. The records are not fully independent corroboration."
+      },
+      {
+        "id": "DB-EST-02",
+        "statement": "The reviewed sequence included local mobilization, blocked onward passage, passport inspection, and detention after the warning.",
+        "factIds": ["F-S2-004", "F-S2-005", "F-S2-006", "F-S3-002", "F-S3-003", "F-S3-005"],
+        "evidenceIds": ["E3", "E5"],
+        "sourceIds": ["S2", "S3"],
+        "provenance": "historical_reconstruction",
+        "limitations": "The records support this observed sequence; historical necessity belongs only to the game's explicitly fictional fracture model."
+      }
+    ],
+    "claimLimits": [
+      {
+        "id": "DB-LIMIT-01",
+        "statement": "The sources do not settle every part of Louis's private motive.",
+        "uncertaintyId": "UNC-MOTIVE"
+      },
+      {
+        "id": "DB-LIMIT-02",
+        "statement": "The reviewed record does not make later revolutionary outcomes inevitable.",
+        "uncertaintyId": "UNC-NOT-INEVITABLE"
+      }
+    ],
+    "finalStateBoundary": "This summary reports final validated caseboard actions and the student's recorded submitted argument. It does not claim that the prose was historically adjudicated or reveal earlier beliefs or unrecorded reasoning.",
+    "teacherReviewBoundary": "This deterministic learning summary is formative. Future AI-assisted comments require teacher review before grading use."
+  }
+}

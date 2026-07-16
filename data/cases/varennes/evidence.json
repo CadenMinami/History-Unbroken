@@ -1,0 +1,129 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "title": "Louis XVI's Declaration",
+      "shortTitle": "Louis's declaration",
+      "kind": "historical_evidence",
+      "sourceType": "primary",
+      "verificationStatus": "verified",
+      "epistemicClassification": "source_claim",
+      "provenance": "verified_historical_record",
+      "sourceIds": ["S1"],
+      "dependencyLineageIds": ["L1-LOUIS-DECLARATION"],
+      "sourceLineageIds": ["L1-LOUIS-DECLARATION"],
+      "factIds": ["F-S1-002", "F-S1-004"],
+      "studentExcerpt": "Louis wrote that he had left to regain his freedom and keep his family safe.",
+      "description": "Louis's stated explanation for leaving. It does not settle every private motive.",
+      "countsAsHistoricalEvidence": true
+    },
+    {
+      "id": "E2",
+      "title": "Royal Travel-Preparation Dossier",
+      "shortTitle": "Travel dossier",
+      "kind": "historical_evidence",
+      "sourceType": "reconstruction",
+      "verificationStatus": "verified",
+      "epistemicClassification": "reconstruction",
+      "provenance": "historical_reconstruction",
+      "sourceIds": ["S8", "S9"],
+      "dependencyLineageIds": ["L8-BODYGUARD-JUDICIAL-DOSSIER", "L9-FERSEN-PAPERS"],
+      "sourceLineageIds": ["L8-BODYGUARD-JUDICIAL-DOSSIER", "L9-FERSEN-PAPERS"],
+      "factIds": ["F-S8-001", "F-S8-002", "F-S9-001"],
+      "studentExcerpt": "Bodyguard testimony and Fersen's papers independently describe advance preparations involving Louis.",
+      "description": "A cited reconstruction combining two independent participant lineages about planned preparation.",
+      "countsAsHistoricalEvidence": true
+    },
+    {
+      "id": "E3",
+      "title": "Drouet's Report to the National Assembly",
+      "shortTitle": "Drouet's report",
+      "kind": "historical_evidence",
+      "sourceType": "primary",
+      "verificationStatus": "verified",
+      "epistemicClassification": "source_claim",
+      "provenance": "verified_historical_record",
+      "sourceIds": ["S2"],
+      "dependencyLineageIds": ["L2-DROUET-ASSEMBLY-REPORT"],
+      "sourceLineageIds": ["L2-DROUET-ASSEMBLY-REPORT"],
+      "factIds": ["F-S2-001", "F-S2-002", "F-S2-003", "F-S2-004", "F-S2-005", "F-S2-006"],
+      "studentExcerpt": "Drouet reported suspecting the travelers, learning near Clermont that they had turned toward Varennes, and reaching the town by side roads.",
+      "description": "Participant testimony that may emphasize Drouet's role and therefore requires corroboration.",
+      "countsAsHistoricalEvidence": true
+    },
+    {
+      "id": "E4",
+      "title": "Route and Timing Board",
+      "shortTitle": "Route board",
+      "kind": "historical_evidence",
+      "sourceType": "reconstruction",
+      "verificationStatus": "verified",
+      "epistemicClassification": "reconstruction",
+      "provenance": "historical_reconstruction",
+      "sourceIds": ["S2", "S4"],
+      "dependencyLineageIds": ["L2-DROUET-ASSEMBLY-REPORT", "L11-ROUTE-SCHOLARSHIP"],
+      "sourceLineageIds": ["L2-DROUET-ASSEMBLY-REPORT"],
+      "factIds": ["F-S2-002", "F-S2-003", "F-S4-003", "F-S4-004", "F-S4-005"],
+      "studentExcerpt": "The route board shows the announced Verdun road, the later turn toward Varennes, accumulated delay, and a schematic onward bridge passage.",
+      "description": "A not-to-scale reconstruction. It does not create an independent eyewitness lineage from Drouet's report.",
+      "countsAsHistoricalEvidence": true
+    },
+    {
+      "id": "E5",
+      "title": "Varennes Civic-Response Dossier",
+      "shortTitle": "Civic response",
+      "kind": "historical_evidence",
+      "sourceType": "reconstruction",
+      "verificationStatus": "verified",
+      "epistemicClassification": "reconstruction",
+      "provenance": "historical_reconstruction",
+      "sourceIds": ["S2", "S3", "S4"],
+      "dependencyLineageIds": ["L2-DROUET-ASSEMBLY-REPORT", "L3-VARENNES-MUNICIPAL-RECORD", "L11-ROUTE-SCHOLARSHIP"],
+      "sourceLineageIds": ["L2-DROUET-ASSEMBLY-REPORT"],
+      "factIds": ["F-S2-004", "F-S2-005", "F-S2-006", "F-S3-002", "F-S3-003", "F-S3-005", "F-S4-005"],
+      "studentExcerpt": "The municipal record describes an alarm, gathered residents and National Guardsmen, blocked onward passage, passport inspection, and guarded lodging.",
+      "description": "A cited reconstruction showing collective action. Exact bridge-actor attribution remains contested, and the records do not establish either local action or their pair as a strict but-for cause of detention.",
+      "countsAsHistoricalEvidence": true
+    },
+    {
+      "id": "E7",
+      "title": "Immediate Political-Reaction Packet",
+      "shortTitle": "Political reactions",
+      "kind": "historical_evidence",
+      "sourceType": "reconstruction",
+      "verificationStatus": "verified",
+      "epistemicClassification": "reconstruction",
+      "provenance": "historical_reconstruction",
+      "sourceIds": ["S5-PROCLAMATION", "S5-CONSTITUTION", "S5-SHORT", "S5-CORDELIERS"],
+      "dependencyLineageIds": ["L5-ASSEMBLY-INSTITUTIONAL", "L6-SHORT-DIPLOMATIC", "L7-CORDELIERS-PETITION"],
+      "sourceLineageIds": ["L5-ASSEMBLY-INSTITUTIONAL", "L6-SHORT-DIPLOMATIC", "L7-CORDELIERS-PETITION"],
+      "factIds": ["F-S5-001", "F-S5-003", "F-S5-004A", "F-S5-005"],
+      "studentExcerpt": "Official, diplomatic, and radical records framed the departure differently; the September Constitution nevertheless retained monarchy.",
+      "description": "A bounded multi-voice packet showing political contestation without claiming universal opinion or inevitable collapse.",
+      "countsAsHistoricalEvidence": true
+    }
+  ],
+  "branchObservations": [
+    {
+      "id": "FO1",
+      "title": "Altered Drouet Station Record",
+      "content": "Drouet suspected the travelers and set out on the announced Verdun road. No later route correction appears.",
+      "provenance": "fictional_branch_observation",
+      "countsAsHistoricalEvidence": false
+    },
+    {
+      "id": "FO2",
+      "title": "Altered Varennes Station Record",
+      "content": "The royal carriage passed through before any warning or civic alarm arrived.",
+      "provenance": "fictional_branch_observation",
+      "countsAsHistoricalEvidence": false
+    },
+    {
+      "id": "FO3",
+      "title": "Altered Route Replay",
+      "content": "The route replay places Drouet away from Varennes when the carriage passes the town.",
+      "provenance": "fictional_branch_observation",
+      "countsAsHistoricalEvidence": false
+    }
+  ]
+}

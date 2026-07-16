@@ -1,0 +1,61 @@
+.workspace { min-height: 100svh; border-top: 4px solid var(--ink); background: var(--paper); }
+.masthead { min-height: 58px; padding: 0 clamp(16px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--ink); background: var(--white); }
+.masthead a { font-weight: 600; text-decoration: none; text-transform: uppercase; }
+.masthead span, .eyebrow { font-family: var(--font-mono), monospace; font-size: .68rem; text-transform: uppercase; }
+.masthead span { color: var(--graphite); }
+.hero, .summaryBand, .recordBand, .limitsBand, .teacherBoundary { padding-left: max(24px, calc((100% - 1240px) / 2)); padding-right: max(24px, calc((100% - 1240px) / 2)); }
+.hero { padding-top: 72px; padding-bottom: 64px; }
+.hero > svg { width: 42px; height: 42px; color: var(--evidence-green); }
+.eyebrow { margin: 8px 0 0; color: var(--archive-blue); }
+.hero h1 { margin: 8px 0 14px; overflow-wrap: anywhere; font-family: var(--font-serif), serif; font-size: clamp(3.2rem, 7vw, 6.5rem); font-weight: 500; line-height: .96; }
+.hero > p:last-child { max-width: 680px; margin: 0; color: var(--graphite); line-height: 1.65; }
+.summaryBand, .recordBand, .limitsBand { padding-top: 62px; padding-bottom: 62px; border-top: 1px solid var(--ink); }
+.summaryBand { background: var(--white); }
+.sectionIntro { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; margin-bottom: 28px; }
+.sectionIntro > span { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--ink); font-family: var(--font-mono), monospace; font-size: .72rem; }
+.sectionIntro h2, .teacherBoundary h2 { margin: 3px 0 0; font-family: var(--font-serif), serif; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 500; }
+.establishedGrid { margin-left: 64px; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+.establishedGrid article { min-height: 185px; padding: 22px; display: grid; grid-template-columns: 22px 1fr; gap: 12px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.establishedGrid article > svg { width: 19px; color: var(--evidence-green); }
+.establishedGrid p { margin: 0; line-height: 1.6; }
+.establishedBody { display: grid; gap: 12px; }
+.establishedBody small { color: var(--graphite); line-height: 1.45; }
+.establishedBody > div { display: flex; flex-wrap: wrap; gap: 12px; }
+.provenanceLabel, .argumentHeading, .counterfactualBoundary > span { font-family: var(--font-mono), monospace; font-size: .68rem; font-weight: 600; text-transform: uppercase; }
+.provenanceLabel { color: var(--archive-blue); }
+.establishedGrid a { display: inline-flex; align-items: center; gap: 5px; color: var(--archive-blue); font-size: .72rem; }
+.establishedGrid a svg { width: 12px; }
+.metrics { margin-left: 64px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+.metrics div { min-height: 100px; padding: 18px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--white); }
+.metrics b, .metrics span { display: block; }
+.metrics b { font-family: var(--font-serif), serif; font-size: 2rem; font-weight: 500; }
+.metrics span { color: var(--graphite); font-size: .72rem; text-transform: uppercase; }
+.recordColumns { margin: 30px 0 0 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.recordColumns h3 { font-family: var(--font-mono), monospace; font-size: .72rem; text-transform: uppercase; }
+.recordColumns ul { padding: 0; list-style: none; }
+.recordColumns li { padding: 10px 0; border-top: 1px solid var(--line); line-height: 1.4; }
+.recordColumns li span { margin-right: 10px; color: var(--archive-blue); font-family: var(--font-mono), monospace; font-size: .7rem; }
+.recordBand blockquote { margin: 32px 0 18px 64px; padding: 24px; border-left: 4px solid var(--archive-blue); background: var(--white); font-family: var(--font-serif), serif; font-size: 1.35rem; line-height: 1.5; }
+.argumentHeading { margin: 32px 0 -20px 64px; color: var(--archive-blue); }
+.boundary { margin: 0 0 0 64px; color: var(--graphite); font-size: .78rem; line-height: 1.5; }
+.limitList { margin-left: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.limitList article { padding: 20px; display: grid; grid-template-columns: 24px 1fr; gap: 12px; border-top: 3px double var(--ochre); background: var(--white); }
+.limitList svg { width: 19px; color: var(--ochre); }
+.limitList p { margin: 0; line-height: 1.55; }
+.counterfactualBoundary { margin: 0 0 24px 64px; padding: 20px; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; border: 1px solid var(--ink); background: var(--ink); color: var(--white); }
+.counterfactualBoundary > span { color: #cbd0d3; }
+.counterfactualBoundary strong { justify-self: end; font-family: var(--font-mono), monospace; letter-spacing: 0; }
+.counterfactualBoundary p { grid-column: 1 / -1; margin: 0; line-height: 1.55; }
+.teacherBoundary { padding-top: 52px; padding-bottom: 70px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; color: var(--white); background: var(--ink); }
+.teacherBoundary .eyebrow { color: #9ec1d6; }
+.teacherBoundary p:last-child { max-width: 680px; color: #cbd0d3; line-height: 1.55; }
+.teacherBoundary a { min-height: 48px; padding: 0 16px; display: inline-flex; align-items: center; gap: 18px; color: var(--ink); background: var(--white); text-decoration: none; }
+.teacherBoundary a svg { width: 17px; }
+.gate { min-height: 100svh; padding: clamp(40px, 10vw, 130px); display: grid; align-content: center; justify-items: start; }
+.gate h1 { margin: 8px 0 16px; font-family: var(--font-serif), serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 500; }
+.gate > p:not(.eyebrow) { max-width: 620px; color: var(--graphite); line-height: 1.6; }
+.gate a { display: inline-flex; align-items: center; gap: 12px; }
+.gate svg { width: 16px; }
+a:focus-visible { outline: 2px solid var(--archive-blue); outline-offset: 3px; }
+@media (max-width: 760px) { .establishedGrid, .metrics, .recordColumns, .argumentHeading, .recordBand blockquote, .boundary, .counterfactualBoundary, .limitList { margin-left: 0; } .establishedGrid, .recordColumns, .limitList, .teacherBoundary { grid-template-columns: 1fr; } .metrics { grid-template-columns: 1fr 1fr; } .teacherBoundary a { width: fit-content; } }
+@media (max-width: 430px) { .masthead span { display: none; } .hero, .summaryBand, .recordBand, .limitsBand, .teacherBoundary { padding-left: 16px; padding-right: 16px; } .metrics { grid-template-columns: 1fr; } .hero h1 { font-size: 2.65rem; } }

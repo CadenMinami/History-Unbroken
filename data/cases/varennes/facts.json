@@ -1,0 +1,170 @@
+[
+  {
+    "id": "F-S1-002",
+    "claim": "Louis represented the departure as a purposeful attempt to recover liberty and secure himself and his family.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S1"]
+  },
+  {
+    "id": "F-S1-004",
+    "claim": "Louis argued that the emerging settlement denied him effective freedom and sufficient authority.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S1"]
+  },
+  {
+    "id": "F-S2-001",
+    "claim": "Drouet reported suspecting the travelers partly from resemblance to the king's image on an assignat.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2"]
+  },
+  {
+    "id": "F-S2-002",
+    "claim": "Drouet reported first taking the announced road toward Verdun, then learning near Clermont that the carriage had taken the road toward Varennes.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2"]
+  },
+  {
+    "id": "F-S2-003",
+    "claim": "Drouet reported traveling with Guillaume by side roads and reaching Varennes while the carriage was still there.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2"]
+  },
+  {
+    "id": "F-S2-004",
+    "claim": "Drouet reported warning an innkeeper, who then alerted others.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2"]
+  },
+  {
+    "id": "F-S2-005",
+    "claim": "Drouet reported that he and Guillaume obstructed the bridge passage with vehicles.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2"]
+  },
+  {
+    "id": "F-S2-006",
+    "claim": "Drouet reported involvement by municipal officials, the National Guard, residents, and passport inspection before detention.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2"]
+  },
+  {
+    "id": "F-S3-002",
+    "claim": "The municipal record describes officials, residents, National Guardsmen, alarms, posts, barricades, and reinforcements.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S3"]
+  },
+  {
+    "id": "F-S3-003",
+    "claim": "Drouet and the municipal record both describe vehicle obstruction at the bridge passage but disagree about the actors.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2", "S3"]
+  },
+  {
+    "id": "F-S3-005",
+    "claim": "The municipal record attributes Sauce observable roles in alerting colleagues, requesting the passport, lodging the travelers, summoning Judge Destez, and arranging security.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S3"]
+  },
+  {
+    "id": "F-S4-003",
+    "claim": "Delays accumulated and planned escort rendezvous failed or became ineffective.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S4"]
+  },
+  {
+    "id": "F-S4-004",
+    "claim": "The reviewed route reconstruction preserves Drouet's reported turn from the announced Verdun road toward Varennes after receiving corrected route information.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S2", "S4"]
+  },
+  {
+    "id": "F-S4-005",
+    "claim": "Varennes included an approach and halt zone, an onward bridge passage, and a planned relay beyond the bridge.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S4"]
+  },
+  {
+    "id": "F-S5-001",
+    "claim": "The Assembly's 22 June proclamation described the royal family as having been carried off.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S5-PROCLAMATION"]
+  },
+  {
+    "id": "F-S5-003",
+    "claim": "On 26 June William Short reported that public terminology had shifted from abduction to evasion.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S5-SHORT"]
+  },
+  {
+    "id": "F-S5-004A",
+    "claim": "A 14 July Cordeliers petition argued that confidence in an official called king was impossible and requested a republic or wider consultation.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S5-CORDELIERS"]
+  },
+  {
+    "id": "F-S5-005",
+    "claim": "The Constitution of 3 September 1791 still declared the government monarchical and delegated executive power to the king.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S5-CONSTITUTION"]
+  },
+  {
+    "id": "F-S8-001",
+    "claim": "Moustier testified that Louis personally ordered advance preparation of courier clothing.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S8"]
+  },
+  {
+    "id": "F-S8-002",
+    "claim": "Maldent testified that Louis led him from a concealed room and assigned him behind the departing carriage.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S8"]
+  },
+  {
+    "id": "F-S9-001",
+    "claim": "Fersen's 20 June journal records advance timing and arrest-contingency discussion involving Louis.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S9"]
+  },
+  {
+    "id": "F-S11-001",
+    "claim": "France had been undergoing revolutionary political change since 1789.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11"]
+  },
+  {
+    "id": "F-S11-002",
+    "claim": "Political authority was being reallocated and contested among national institutions and the king.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11"]
+  },
+  {
+    "id": "F-S11-003",
+    "claim": "Louis XVI remained king in June 1791; France did not become a republic until September 1792.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11"]
+  },
+  {
+    "id": "F-S11-004",
+    "claim": "The written constitution was unfinished in June 1791 and would define and limit royal power.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11"]
+  },
+  {
+    "id": "F-S11-005",
+    "claim": "The royal family resided at the Tuileries in Paris.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11"]
+  },
+  {
+    "id": "F-S11-006",
+    "claim": "A crowd and National Guard prevented Louis's attempted departure for Saint-Cloud on 18 April 1791.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11-SAINT-CLOUD"]
+  },
+  {
+    "id": "F-S11-007",
+    "claim": "The royal family secretly left the Tuileries during the night of 20-21 June 1791.",
+    "verificationStatus": "verified",
+    "sourceIds": ["S11"]
+  }
+]

@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "interpretations": [
+    {
+      "id": "I-S11-001",
+      "claim": "Mutual mistrust and suspicion existed before the flight.",
+      "authority": "orientation_only",
+      "conditionEligible": false,
+      "sourceLedgerEntryId": "S11",
+      "boundary": "Must be paired with I-S11-002 and cannot be used as a deterministic condition or repair gate."
+    },
+    {
+      "id": "I-S11-002",
+      "claim": "Substantial confidence in Louis also remained before the flight.",
+      "authority": "orientation_only",
+      "conditionEligible": false,
+      "sourceLedgerEntryId": "S11",
+      "boundary": "Must be paired with I-S11-001 and cannot be generalized into a nationwide measurement."
+    }
+  ],
+  "requiredInterpretationGroups": [
+    {
+      "allOf": ["I-S11-001", "I-S11-002"]
+    }
+  ],
+  "cards": [
+    {
+      "id": "PRIMER-01",
+      "sequence": 1,
+      "title": "France is in revolution",
+      "standardText": "France has been undergoing revolutionary political change since 1789. Political authority is being remade and contested.",
+      "reducedText": "France has been in revolution since 1789. Political authority is changing and contested.",
+      "classification": "verified_context",
+      "factIds": ["F-S11-001", "F-S11-002"],
+      "interpretationIds": [],
+      "retainedTerms": ["France", "1789", "political authority", "contested"],
+      "visual": "revolution",
+      "glossary": null,
+      "closingPrompt": null
+    },
+    {
+      "id": "PRIMER-02",
+      "sequence": 2,
+      "title": "France still has a king",
+      "standardText": "Louis XVI remains king in June 1791. France is not yet a republic.",
+      "reducedText": "Louis XVI is still king. France is not yet a republic.",
+      "classification": "verified_context",
+      "factIds": ["F-S11-003"],
+      "interpretationIds": [],
+      "retainedTerms": ["Louis XVI", "king", "not yet a republic"],
+      "visual": "crown",
+      "glossary": null,
+      "closingPrompt": null
+    },
+    {
+      "id": "PRIMER-03",
+      "sequence": 3,
+      "title": "The king's power is being limited",
+      "standardText": "A written constitution is still being finished. It will define and limit the king's powers.",
+      "reducedText": "A constitution is being written to define and limit the king's powers.",
+      "classification": "verified_context",
+      "factIds": ["F-S11-004"],
+      "interpretationIds": [],
+      "retainedTerms": ["constitution", "define", "limit", "king"],
+      "visual": "constitution",
+      "glossary": {
+        "term": "Constitutional monarchy",
+        "definition": "A system in which a monarch remains head of state while a constitution defines and limits political power."
+      },
+      "closingPrompt": null
+    },
+    {
+      "id": "PRIMER-04",
+      "sequence": 4,
+      "title": "The royal family is in Paris",
+      "standardText": "The royal family lives at the Tuileries in Paris. On 18 April, a crowd and National Guard stopped Louis from departing for Saint-Cloud.",
+      "reducedText": "The royal family lives at the Tuileries in Paris. On 18 April, a crowd and National Guard stopped Louis from leaving for Saint-Cloud.",
+      "classification": "verified_context",
+      "factIds": ["F-S11-005", "F-S11-006"],
+      "interpretationIds": [],
+      "retainedTerms": ["Tuileries", "Paris", "18 April", "crowd", "National Guard", "Saint-Cloud"],
+      "visual": "tuileries",
+      "glossary": null,
+      "closingPrompt": null
+    },
+    {
+      "id": "PRIMER-05",
+      "sequence": 5,
+      "title": "Trust is an open question",
+      "standardText": "Many people still support monarchy, but trust between the crown and revolutionary politics is fragile. This is a contested interpretation, not a nationwide measurement.",
+      "reducedText": "Many people support monarchy, but trust is fragile. This is an interpretation, not a measured national fact.",
+      "classification": "contested_interpretation",
+      "factIds": ["F-S11-002"],
+      "interpretationIds": ["I-S11-001", "I-S11-002"],
+      "retainedTerms": ["people", "support monarchy", "trust", "interpretation"],
+      "visual": "contested",
+      "glossary": {
+        "term": "Contested interpretation",
+        "definition": "An explanation or meaning that historians or historical actors can reasonably dispute."
+      },
+      "closingPrompt": null
+    },
+    {
+      "id": "PRIMER-06",
+      "sequence": 6,
+      "title": "The royal family leaves secretly",
+      "standardText": "On the night of 20-21 June 1791, the royal family secretly leaves the Tuileries in Paris.",
+      "reducedText": "The royal family secretly leaves the Tuileries in Paris on the night of 20-21 June 1791.",
+      "classification": "verified_context",
+      "factIds": ["F-S11-007"],
+      "interpretationIds": [],
+      "retainedTerms": ["royal family", "secretly", "Tuileries", "Paris", "20-21 June 1791"],
+      "visual": "departure",
+      "glossary": null,
+      "closingPrompt": "You are not expected to know what happens next. That is the case you will investigate."
+    }
+  ]
+}

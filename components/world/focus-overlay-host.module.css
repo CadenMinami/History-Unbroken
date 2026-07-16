@@ -1,0 +1,25 @@
+.scrim { position: fixed; z-index: 10; inset: 0; padding: 72px 5vw 5vw; display: grid; place-items: center; background: rgb(16 20 19 / 72%); backdrop-filter: blur(5px); }
+.dialog { width: min(1040px, 100%); max-height: calc(100svh - 108px); overflow: auto; color: var(--ink); background: var(--paper); border-top: 4px solid var(--archive-blue); box-shadow: 0 24px 70px rgb(0 0 0 / 38%); }
+.header { min-height: 74px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #f8f3e7; background: var(--ink); }
+.header p, .header span, .eyebrow, .sources article > span { margin: 0; font-family: var(--font-mono), monospace; font-size: .68rem; text-transform: uppercase; }
+.header p { color: #b9d3dd; }
+.header span { color: #c7ccc8; }
+.header button { width: 42px; height: 42px; display: grid; place-items: center; color: currentColor; border: 1px solid rgb(255 255 255 / 45%); background: transparent; cursor: pointer; }
+.header button svg { width: 19px; }
+.header button:focus-visible, .sources a:focus-visible { outline: 3px solid #e3b85e; outline-offset: 3px; }
+.body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, .8fr); }
+.record { padding: 38px 42px 46px; border-right: 1px solid var(--line); }
+.eyebrow { color: var(--archive-blue); }
+.record h2 { margin: 9px 0 28px; max-width: 680px; font-family: var(--font-serif), serif; font-size: 3rem; font-weight: 500; line-height: 1.02; }
+.record blockquote { margin: 0; padding: 24px 0 24px 25px; font-family: var(--font-serif), serif; font-size: 1.45rem; line-height: 1.35; border-left: 4px solid var(--archive-blue); }
+.record > p:last-child { max-width: 650px; margin-top: 24px; color: var(--graphite); line-height: 1.65; }
+.sources { padding: 38px 28px; background: #e8e2d2; }
+.sources article { margin-top: 18px; padding-top: 18px; border-top: 1px solid #a9a18f; }
+.sources article > span { color: var(--archive-blue); }
+.sources h3 { margin: 7px 0 10px; font-family: var(--font-serif), serif; font-size: 1.2rem; }
+.sources article p { color: var(--graphite); font-size: .82rem; line-height: 1.5; }
+.sources a { display: inline-flex; align-items: center; gap: 7px; color: var(--archive-blue); font-size: .8rem; text-underline-offset: 3px; }
+.sources a svg { width: 14px; }
+.dialog footer { padding: 13px 22px; color: #f3eee2; background: #4f5960; }
+.dialog footer p { margin: 0; font-size: .76rem; line-height: 1.45; }
+@media (max-width: 760px) { .scrim { padding: 58px 0 0; place-items: stretch; } .dialog { max-height: calc(100svh - 58px); } .body { grid-template-columns: 1fr; } .record { padding: 28px 22px 34px; border-right: 0; } .record h2 { font-size: 2.1rem; } .record blockquote { font-size: 1.2rem; } .sources { padding: 28px 22px; } }

@@ -1,0 +1,45 @@
+.verified_context,
+.historical_reconstruction,
+.contested_interpretation,
+.fictional_anomaly,
+.branch_observation {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.67rem;
+  text-transform: uppercase;
+}
+
+.verified_context {
+  color: var(--evidence-green);
+}
+
+.historical_reconstruction {
+  color: var(--archive-blue);
+}
+
+.contested_interpretation {
+  color: var(--ochre);
+}
+
+.fictional_anomaly {
+  color: var(--correction-red);
+}
+
+.branch_observation {
+  color: #75542c;
+}
+
+.verified_context svg,
+.historical_reconstruction svg,
+.contested_interpretation svg,
+.fictional_anomaly svg,
+.branch_observation svg {
+  width: 14px;
+  height: 14px;
+}
+
+.contrast {
+  color: #f1c88e;
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "GATE-REJECT-RECOGNITION",
+    "label": "Reject the recognition echo using branch-state and historical comparisons",
+    "authority": "traceability_only",
+    "requiredFactIds": ["F-S2-001"],
+    "requiredEvidenceIds": ["E3", "E4"]
+  },
+  {
+    "id": "GATE-IDENTIFY-ROUTE",
+    "label": "Identify the route-information echo as the active fracture",
+    "authority": "traceability_only",
+    "requiredFactIds": ["F-S2-002", "F-S4-004"],
+    "requiredEvidenceIds": ["E3", "E4", "E5"]
+  },
+  {
+    "id": "GATE-REJECT-AUTHORIZATION",
+    "label": "Reject the authorization echo using the civic-response record",
+    "authority": "traceability_only",
+    "requiredFactIds": ["F-S3-002", "F-S3-005"],
+    "requiredEvidenceIds": ["E5"]
+  },
+  {
+    "id": "GATE-OPERATIONAL-MECHANISM",
+    "label": "Build the reviewed recognition-to-detention mechanism",
+    "authority": "traceability_only",
+    "requiredFactIds": ["F-S2-002", "F-S2-003", "F-S2-004", "F-S2-005", "F-S2-006", "F-S3-002", "F-S3-003", "F-S3-005", "F-S4-004"],
+    "requiredEvidenceIds": ["E3", "E4", "E5"]
+  },
+  {
+    "id": "GATE-INTENTIONAL-PARTICIPATION",
+    "label": "Establish Louis's knowing and intentional participation without claiming complete motive",
+    "authority": "traceability_only",
+    "requiredFactIds": ["F-S1-002", "F-S8-001", "F-S9-001"],
+    "requiredEvidenceIds": ["E1", "E2"]
+  },
+  {
+    "id": "GATE-LIMITED-CONSEQUENCE",
+    "label": "Identify bounded competing reactions and preserve institutional continuity",
+    "authority": "traceability_only",
+    "requiredFactIds": ["F-S5-001", "F-S5-003", "F-S5-004A", "F-S5-005"],
+    "requiredEvidenceIds": ["E7"]
+  }
+]

@@ -1,0 +1,79 @@
+{
+  "conditions": [
+    {
+      "id": "COND-BG-001",
+      "category": "background",
+      "label": "Unfinished constitutional settlement and contested political authority",
+      "factIds": ["F-S11-002", "F-S11-004"]
+    },
+    {
+      "id": "COND-BG-002",
+      "category": "background",
+      "label": "The royal family's politically constrained position in Paris",
+      "factIds": ["F-S11-005", "F-S11-006"]
+    },
+    {
+      "id": "COND-BG-003",
+      "category": "background",
+      "label": "Louis's public objection that the emerging settlement left him too little freedom and authority",
+      "factIds": ["F-S1-004"]
+    },
+    {
+      "id": "COND-JR-002",
+      "category": "journey",
+      "label": "Accumulated delays and failed or ineffective escort coordination",
+      "factIds": ["F-S4-003"]
+    },
+    {
+      "id": "COND-GE-001",
+      "category": "geographic",
+      "label": "Road choices and Varennes's layout constrained pursuit and onward passage",
+      "factIds": ["F-S4-004", "F-S4-005"]
+    },
+    {
+      "id": "COND-CV-001",
+      "category": "civic",
+      "label": "Municipal officers, residents, and National Guards could organize a collective response",
+      "factIds": ["F-S3-002", "F-S3-005"]
+    }
+  ],
+  "causalNodes": [
+    { "id": "NODE-RECOGNITION", "category": "trigger", "label": "Recognition or suspicion", "factIds": ["F-S2-001"] },
+    { "id": "NODE-ROUTE", "category": "mechanism", "label": "Accurate route information", "factIds": ["F-S2-002", "F-S4-004"] },
+    { "id": "NODE-PURSUIT", "category": "mechanism", "label": "Redirected pursuit", "factIds": ["F-S2-003"] },
+    { "id": "NODE-WARNING", "category": "mechanism", "label": "Warning at Varennes", "factIds": ["F-S2-004"] },
+    { "id": "NODE-MOBILIZATION", "category": "mechanism", "label": "Local mobilization", "factIds": ["F-S3-002"] },
+    { "id": "NODE-OBSTRUCTION", "category": "mechanism", "label": "Blocked onward passage", "factIds": ["F-S2-005", "F-S3-003"] },
+    { "id": "NODE-PASSPORT", "category": "mechanism", "label": "Passport inspection", "factIds": ["F-S2-006", "F-S3-005"] },
+    { "id": "NODE-DETENTION", "category": "mechanism", "label": "Guarded collective detention", "factIds": ["F-S2-006", "F-S3-005"] },
+    { "id": "CONS-REACTION-CONTINUITY", "category": "consequence", "label": "Later records used competing political framings, while the September Constitution retained monarchy", "factIds": ["F-S5-001", "F-S5-003", "F-S5-004A", "F-S5-005"] }
+  ],
+  "causalEdges": [
+    { "id": "EDGE-RECOGNITION-ROUTE", "fromNodeId": "NODE-RECOGNITION", "toNodeId": "NODE-ROUTE", "verb": "enabled", "factIds": ["F-S2-001", "F-S2-002"] },
+    { "id": "EDGE-ROUTE-PURSUIT", "fromNodeId": "NODE-ROUTE", "toNodeId": "NODE-PURSUIT", "verb": "enabled", "factIds": ["F-S2-002", "F-S4-004"] },
+    { "id": "EDGE-PURSUIT-WARNING", "fromNodeId": "NODE-PURSUIT", "toNodeId": "NODE-WARNING", "verb": "enabled", "factIds": ["F-S2-003", "F-S2-004"] },
+    { "id": "EDGE-WARNING-MOBILIZATION", "fromNodeId": "NODE-WARNING", "toNodeId": "NODE-MOBILIZATION", "verb": "triggered", "factIds": ["F-S2-004", "F-S3-002"] },
+    { "id": "EDGE-MOBILIZATION-OBSTRUCTION", "fromNodeId": "NODE-MOBILIZATION", "toNodeId": "NODE-OBSTRUCTION", "verb": "enabled", "factIds": ["F-S2-005", "F-S3-003"] },
+    { "id": "EDGE-MOBILIZATION-PASSPORT", "fromNodeId": "NODE-MOBILIZATION", "toNodeId": "NODE-PASSPORT", "verb": "enabled", "factIds": ["F-S2-006", "F-S3-002", "F-S3-005"] },
+    { "id": "EDGE-OBSTRUCTION-DETENTION", "fromNodeId": "NODE-OBSTRUCTION", "toNodeId": "NODE-DETENTION", "verb": "contributed_to", "factIds": ["F-S2-005", "F-S2-006", "F-S3-003", "F-S3-005"] },
+    { "id": "EDGE-PASSPORT-DETENTION", "fromNodeId": "NODE-PASSPORT", "toNodeId": "NODE-DETENTION", "verb": "contributed_to", "factIds": ["F-S2-006", "F-S3-005"] }
+  ],
+  "solution": {
+    "activeAnomalyId": "E6B",
+    "rejectedAnomalyIds": ["E6A", "E6C"],
+    "requiredCausalNodeIds": ["NODE-RECOGNITION", "NODE-ROUTE", "NODE-PURSUIT", "NODE-WARNING", "NODE-MOBILIZATION", "NODE-OBSTRUCTION", "NODE-PASSPORT", "NODE-DETENTION"],
+    "requiredCausalEdgeIds": ["EDGE-RECOGNITION-ROUTE", "EDGE-ROUTE-PURSUIT", "EDGE-PURSUIT-WARNING", "EDGE-WARNING-MOBILIZATION", "EDGE-MOBILIZATION-OBSTRUCTION", "EDGE-MOBILIZATION-PASSPORT", "EDGE-OBSTRUCTION-DETENTION", "EDGE-PASSPORT-DETENTION"],
+    "requiredComparisonIds": ["CMP-REJECT-E6A", "CMP-SUPPORT-E6B", "CMP-REJECT-E6C"],
+    "requiredEvidenceGroups": [
+      { "allOf": ["E1", "E2"] },
+      { "allOf": ["E3", "E5"] },
+      { "allOf": ["E7"] }
+    ],
+    "minimumHistoricalLineages": 3,
+    "minimumConditions": 2,
+    "requiredConditionCategories": ["background"],
+    "requireOneConditionFrom": ["journey", "geographic", "civic"],
+    "limitedConsequenceIds": ["CONS-REACTION-CONTINUITY"],
+    "uncertaintyIds": ["UNC-MOTIVE", "UNC-NOT-INEVITABLE"]
+  }
+}
