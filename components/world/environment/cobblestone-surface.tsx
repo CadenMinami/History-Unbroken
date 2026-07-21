@@ -18,7 +18,7 @@ const TEXTURE_URLS = {
     "/world/textures/cobblestone-floor-08/cobblestone-floor-08-roughness-1k.jpg",
 };
 
-const COBBLE_COLOR = new Color("#aea99f");
+const COBBLE_COLOR = new Color("#8e8578");
 const COBBLE_NORMAL_SCALE = new Vector2(0.38, 0.38);
 
 interface CobblestoneSurfaceProps {
@@ -40,7 +40,7 @@ export function CobblestoneFallbackSurface({
       rotation={[-Math.PI / 2, rotationY, 0]}
     >
       <planeGeometry args={size} />
-      <meshStandardMaterial color="#77756f" roughness={1} />
+      <meshStandardMaterial color="#6c665c" roughness={1} />
     </mesh>
   );
 }

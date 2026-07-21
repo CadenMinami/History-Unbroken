@@ -1,5 +1,5 @@
 {
-  "name": "history-unbroken",
+  "name": "unchanged",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -17,7 +17,7 @@
     "test:e2e": "playwright test --workers=4",
     "test:deployed": "playwright test --config=playwright.deployed.config.ts",
     "test:live:openai": "playwright test --config=playwright.live.config.ts",
-    "test:performance": "HISTORY_UNBROKEN_PERFORMANCE=1 playwright test tests/e2e/world-performance.spec.ts --workers=1",
+    "test:performance": "UNCHANGED_PERFORMANCE=1 playwright test tests/e2e/world-performance.spec.ts --workers=1",
     "capture:screenshots": "playwright test --config=playwright.capture.config.ts",
     "verify:release": "node scripts/verify-release.mjs"
   },

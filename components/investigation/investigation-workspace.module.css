@@ -120,11 +120,11 @@
 }
 
 .routeBand {
-  min-height: 188px;
-  padding: 36px clamp(18px, 4vw, 48px);
+  min-height: 148px;
+  padding: 28px clamp(18px, 4vw, 48px);
   display: grid;
-  grid-template-columns: minmax(300px, 0.7fr) minmax(420px, 1.3fr);
-  align-items: end;
+  grid-template-columns: minmax(300px, 1.1fr) minmax(260px, 0.6fr);
+  align-items: center;
   gap: clamp(32px, 7vw, 96px);
   border-bottom: 1px solid var(--ink);
   background: rgba(255, 254, 251, 0.78);
@@ -150,32 +150,62 @@
   line-height: 1.55;
 }
 
-.routeDiagram {
+.nextAction {
   min-width: 0;
+  padding: 16px 18px;
   display: grid;
-  grid-template-columns: auto minmax(30px, 1fr) auto minmax(30px, 1fr) auto;
-  align-items: center;
-  gap: 12px;
+  gap: 7px;
+  border: 1px solid var(--ink);
+  border-left: 4px solid var(--correction-red);
+  background: var(--white);
+}
+
+.nextActionLabel {
+  color: var(--archive-blue);
   font-family: var(--font-mono), monospace;
-  font-size: 0.66rem;
+  font-size: 0.67rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.routeDiagram i {
-  height: 2px;
-  background: var(--archive-blue);
+.nextAction strong {
+  font-size: 0.94rem;
 }
 
-.routeDiagram .brokenRoute {
-  height: 12px;
-  border-top: 2px solid var(--correction-red);
-  border-bottom: 2px solid var(--correction-red);
-  background: transparent;
-  transform: skewX(-28deg);
+.nextAction > span:last-child {
+  color: var(--graphite);
+  font-size: 0.78rem;
+}
+
+.nextAction button {
+  width: fit-content;
+  min-height: 34px;
+  margin-top: 3px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--ink);
+  color: var(--white);
+  background: var(--ink);
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.nextAction button:hover,
+.nextAction button:focus-visible {
+  color: var(--ink);
+  background: var(--white);
+}
+
+.nextAction button:focus-visible {
+  outline: 2px solid var(--archive-blue);
+  outline-offset: 3px;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(230px, 0.72fr) minmax(520px, 1.8fr) minmax(270px, 0.88fr);
+  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 2.2fr);
   min-height: calc(100svh - 250px);
 }
 
@@ -183,12 +213,21 @@
 .records,
 .notebook {
   min-width: 0;
-  padding: 28px clamp(18px, 2.5vw, 36px) 48px;
+  padding: 24px clamp(16px, 2.2vw, 30px) 40px;
 }
 
 .stations,
 .records {
   border-right: 1px solid var(--line);
+}
+
+.records {
+  border-right: 0;
+}
+
+.notebook {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--ink);
 }
 
 .stations,
@@ -199,7 +238,7 @@
 .sectionHeading {
   align-items: flex-start;
   gap: 13px;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
 }
 
 .sectionHeading > span {
@@ -222,7 +261,7 @@
 .station {
   align-items: flex-start;
   gap: 13px;
-  padding: 18px 0;
+  padding: 14px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -302,7 +341,7 @@
 }
 
 .recordGroup + .recordGroup {
-  margin-top: 36px;
+  margin-top: 24px;
 }
 
 .groupHeading {
@@ -338,7 +377,7 @@
 }
 
 .anomalyRecord {
-  min-height: 238px;
+  min-height: 214px;
   display: flex;
   flex-direction: column;
   border-top: 3px solid var(--correction-red);
@@ -562,12 +601,17 @@
 }
 
 .findings {
-  margin-top: 26px;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .finding {
-  padding: 19px 0;
-  border-top: 1px solid var(--line);
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--white);
 }
 
 .findingTitle {

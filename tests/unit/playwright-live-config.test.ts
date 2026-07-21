@@ -17,8 +17,8 @@ const SPEECH_SECRET_BYTES = Uint8Array.from(
   (_, index) => index + 1,
 );
 const SOURCE_ENVIRONMENT = {
-  HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "1",
-  HISTORY_UNBROKEN_LIVE_OPENAI_PORT: "3417",
+  UNCHANGED_LIVE_OPENAI_SMOKE: "1",
+  UNCHANGED_LIVE_OPENAI_PORT: "3417",
   OPENAI_API_KEY: `  ${API_KEY_SENTINEL}  `,
   OPENAI_MODEL: "wrong-model",
   OPENAI_SPEECH_MODEL: "wrong-speech-model",
@@ -35,12 +35,12 @@ describe("live OpenAI Playwright environment", () => {
   it("fails closed unless explicitly opted in with a nonblank key", () => {
     expect(() =>
       resolveLiveOpenAIEnvironment({ OPENAI_API_KEY: API_KEY_SENTINEL }),
-    ).toThrow("HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE=1");
+    ).toThrow("UNCHANGED_LIVE_OPENAI_SMOKE=1");
 
     for (const openAIKey of [undefined, "", "   "]) {
       expect(() =>
         resolveLiveOpenAIEnvironment({
-          HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "1",
+          UNCHANGED_LIVE_OPENAI_SMOKE: "1",
           OPENAI_API_KEY: openAIKey,
         }),
       ).toThrow("nonblank OPENAI_API_KEY");
@@ -48,7 +48,7 @@ describe("live OpenAI Playwright environment", () => {
 
     try {
       resolveLiveOpenAIEnvironment({
-        HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "0",
+        UNCHANGED_LIVE_OPENAI_SMOKE: "0",
         OPENAI_API_KEY: API_KEY_SENTINEL,
       });
     } catch (error) {
@@ -65,7 +65,7 @@ describe("live OpenAI Playwright environment", () => {
       expect(
         resolveLiveOpenAIEnvironment({
           ...SOURCE_ENVIRONMENT,
-          HISTORY_UNBROKEN_LIVE_OPENAI_PORT: port,
+          UNCHANGED_LIVE_OPENAI_PORT: port,
         }).port,
       ).toBe(3_400);
     }
@@ -76,7 +76,7 @@ describe("live OpenAI Playwright environment", () => {
       resolveLiveOpenAIBuildEnvironment(SOURCE_ENVIRONMENT);
 
     expect(buildEnvironment).toMatchObject({
-      HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "1",
+      UNCHANGED_LIVE_OPENAI_SMOKE: "1",
       OPENAI_API_KEY: "",
       OPENAI_MODEL: "",
       OPENAI_SPEECH_MODEL: "",
@@ -87,7 +87,7 @@ describe("live OpenAI Playwright environment", () => {
 
   it("keeps explicit build blanks authoritative over .env.local sentinels", () => {
     const fixtureDirectory = mkdtempSync(
-      join(tmpdir(), "history-unbroken-live-build-env-"),
+      join(tmpdir(), "unchanged-live-build-env-"),
     );
     const sentinels = {
       OPENAI_API_KEY: "dotenv-key-sentinel",
@@ -169,7 +169,7 @@ describe("live OpenAI Playwright environment", () => {
   });
 
   it("keeps the exported Playwright config free of credentials and secrets", async () => {
-    vi.stubEnv("HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE", "1");
+    vi.stubEnv("UNCHANGED_LIVE_OPENAI_SMOKE", "1");
     vi.stubEnv("OPENAI_API_KEY", API_KEY_SENTINEL);
     vi.stubEnv("SPEECH_AUTHORIZATION_SECRET", "serialized-secret-sentinel");
     vi.resetModules();

@@ -11,6 +11,7 @@ import {
 } from "react";
 
 import { loadVarennesCase } from "@/lib/case-engine/load-case";
+import { migrateLegacyStorageValue } from "@/lib/browser-storage/rebrand-migration";
 import {
   LEARNING_SESSION_STORAGE_KEY,
   restoreLearningSession,
@@ -68,7 +69,10 @@ export function CourseAlignmentProvider({
     queueMicrotask(() => {
       if (cancelled) return;
       const restored = restoreLearningSession(
-        window.localStorage.getItem(LEARNING_SESSION_STORAGE_KEY) ?? "",
+        migrateLegacyStorageValue(
+          window.localStorage,
+          LEARNING_SESSION_STORAGE_KEY,
+        ) ?? "",
         { caseId: casePackage.caseId, caseVersion: casePackage.caseVersion },
       );
       if (restored.session) {

@@ -78,11 +78,11 @@ test("uses explicit push-to-talk, editable transcription, and exact-caption prov
       };
       Object.assign(window, { __voiceTest: voiceTest });
       window.localStorage.setItem(
-        "history-unbroken:varennes:state",
+        "unchanged:varennes:state",
         JSON.stringify(caseState),
       );
       window.localStorage.setItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
         JSON.stringify(spatialState),
       );
 
@@ -268,9 +268,9 @@ test("uses explicit push-to-talk, editable transcription, and exact-caption prov
     }).__voiceTest;
     return {
       ...value,
-      persistedCase: window.localStorage.getItem("history-unbroken:varennes:state"),
+      persistedCase: window.localStorage.getItem("unchanged:varennes:state"),
       persistedSpatial: window.localStorage.getItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
       ),
     };
   });
@@ -287,11 +287,11 @@ test("keeps typed input complete when microphone permission is denied", async ({
   await page.addInitScript(
     ({ caseState, spatialState }) => {
       window.localStorage.setItem(
-        "history-unbroken:varennes:state",
+        "unchanged:varennes:state",
         JSON.stringify(caseState),
       );
       window.localStorage.setItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
         JSON.stringify(spatialState),
       );
       Object.defineProperty(navigator, "mediaDevices", {

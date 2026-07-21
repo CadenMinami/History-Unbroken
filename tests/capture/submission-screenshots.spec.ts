@@ -78,7 +78,7 @@ test("captures the complete submission storyboard from the real case flow", asyn
       value: 12,
     });
     // Keep the reproducible screenshot flow at the authored High profile.
-    window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+    window.sessionStorage.setItem("unchanged:world-test-mode", "1");
   });
   await mkdir(outputDirectory, { recursive: true });
   for (const entry of await readdir(outputDirectory)) {

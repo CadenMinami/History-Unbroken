@@ -1,8 +1,8 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import type { Group } from "three";
+import { useLayoutEffect, useRef } from "react";
+import { Mesh, type Group, type Material } from "three";
 
 import {
   shouldAnimateFigureMotion,
@@ -14,6 +14,7 @@ export type { FigureMotion } from "./figure-motion";
 export type { FigurePalette } from "./period-figure-resources";
 
 export type PeriodFigureProps = Readonly<{
+  foreground?: boolean;
   motion?: FigureMotion;
   palette?: FigurePalette;
   reducedMotion?: boolean;
@@ -32,6 +33,7 @@ const DEFAULT_PALETTE: FigurePalette = {
 };
 
 export function PeriodFigure({
+  foreground = false,
   motion = "idle",
   palette = DEFAULT_PALETTE,
   reducedMotion = false,
@@ -42,6 +44,47 @@ export function PeriodFigure({
   const rightArmRef = useRef<Group>(null);
   const leftLegRef = useRef<Group>(null);
   const rightLegRef = useRef<Group>(null);
+
+  useLayoutEffect(() => {
+    if (!foreground || !rootRef.current) return;
+
+    const materialStates: Array<{
+      depthTest: boolean;
+      depthWrite: boolean;
+      material: Material;
+      mesh: Mesh;
+      renderOrder: number;
+    }> = [];
+
+    rootRef.current.traverse((object) => {
+      if (!(object instanceof Mesh)) return;
+      const materials = Array.isArray(object.material)
+        ? object.material
+        : [object.material];
+      for (const material of materials) {
+        materialStates.push({
+          depthTest: material.depthTest,
+          depthWrite: material.depthWrite,
+          material,
+          mesh: object,
+          renderOrder: object.renderOrder,
+        });
+        material.depthTest = false;
+        material.depthWrite = false;
+        material.needsUpdate = true;
+      }
+      object.renderOrder = 100;
+    });
+
+    return () => {
+      for (const state of materialStates) {
+        state.material.depthTest = state.depthTest;
+        state.material.depthWrite = state.depthWrite;
+        state.material.needsUpdate = true;
+        state.mesh.renderOrder = state.renderOrder;
+      }
+    };
+  }, [foreground]);
 
   useFrame(({ clock }) => {
     const root = rootRef.current;
@@ -90,7 +133,16 @@ export function PeriodFigure({
   });
 
   return (
-    <group dispose={null} ref={rootRef} scale={scale}>
+    <group
+      dispose={null}
+      renderOrder={foreground ? 100 : 0}
+      ref={rootRef}
+      scale={scale}
+      userData={{
+        cameraVisibilityTarget: true,
+        cameraVisibilityTargetHeight: 0.96,
+      }}
+    >
       <group ref={leftLegRef} position={[-0.14, 0.72, 0]}>
         <mesh castShadow dispose={null} geometry={PERIOD_FIGURE_GEOMETRIES.upperLeg} position={[0, -0.35, 0]}>
           <meshStandardMaterial color={palette.breeches} roughness={0.92} />

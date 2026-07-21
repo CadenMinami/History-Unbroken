@@ -10,7 +10,9 @@ import {
   DISTRICT_DRESSING_PRINCIPAL_PATH_HALF_WIDTH,
   DISTRICT_FACADE_FAMILIES,
   DISTRICT_FACADE_PLACEMENTS,
+  DISTRICT_FACADE_PRESENTATION_SCALE,
   DISTRICT_TRAVEL_CLEARANCE,
+  getDistrictTravelBoundaryWalls,
   getDistrictDressingFootprintRadius,
   getDistrictDressingMeshCount,
   selectDistrictDressingPlacements,
@@ -55,6 +57,22 @@ describe("district presentation layout", () => {
     );
   });
 
+  it("renders facade geometry at a smaller human-scale presentation size", () => {
+    expect(DISTRICT_FACADE_PRESENTATION_SCALE).toBe(0.9);
+
+    const source = readFileSync(
+      join(
+        process.cwd(),
+        "components/world/environment/modular-facade.tsx",
+      ),
+      "utf8",
+    );
+
+    expect(source).toMatch(
+      /scale=\{\s*\[\s*DISTRICT_FACADE_PRESENTATION_SCALE/,
+    );
+  });
+
   it("preserves a clear continuous route around every facade extent", () => {
     for (const placement of DISTRICT_FACADE_PLACEMENTS) {
       const halfDepth = placement.size[2] / 2;
@@ -67,6 +85,33 @@ describe("district presentation layout", () => {
         `${placement.id} intrudes into the authored travel corridor`,
       ).toBeGreaterThanOrEqual(DISTRICT_TRAVEL_CLEARANCE.halfWidth);
     }
+  });
+
+  it("derives a closed street boundary from the authored travel corridor", () => {
+    const walls = getDistrictTravelBoundaryWalls();
+
+    expect(walls).toHaveLength(4);
+    expect(walls.map((wall) => wall.id)).toEqual([
+      "district-travel-boundary-north",
+      "district-travel-boundary-south",
+      "district-travel-boundary-west",
+      "district-travel-boundary-east",
+    ]);
+    expect(walls[0].position[2]).toBeGreaterThan(
+      DISTRICT_TRAVEL_CLEARANCE.halfWidth,
+    );
+    expect(walls[1].position[2]).toBeLessThan(
+      -DISTRICT_TRAVEL_CLEARANCE.halfWidth,
+    );
+    expect(walls[0].args[0]).toBe((
+      DISTRICT_TRAVEL_CLEARANCE.maxX - DISTRICT_TRAVEL_CLEARANCE.minX
+    ) / 2);
+    expect(walls[2].position[0]).toBeLessThan(
+      DISTRICT_TRAVEL_CLEARANCE.minX,
+    );
+    expect(walls[3].position[0]).toBeGreaterThan(
+      DISTRICT_TRAVEL_CLEARANCE.maxX,
+    );
   });
 
   it("does not embed collision, evidence, interaction, or canonical state", () => {

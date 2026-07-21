@@ -7,7 +7,7 @@ import {
 } from "@/schemas/course-alignment";
 
 export const COURSE_ALIGNMENT_STORAGE_KEY =
-  "history-unbroken:varennes:course-alignment";
+  "unchanged:varennes:course-alignment";
 
 const courseAlignmentEnvelopeSchema = z
   .object({

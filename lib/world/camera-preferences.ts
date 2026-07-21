@@ -2,9 +2,10 @@ import {
   CAMERA_CONFIG,
   clampCameraSensitivity,
 } from "@/lib/world/camera-config";
+import { migrateLegacyStorageValue } from "@/lib/browser-storage/rebrand-migration";
 
 export const CAMERA_PREFERENCES_STORAGE_KEY =
-  "history-unbroken:world-camera-preferences";
+  "unchanged:world-camera-preferences";
 export const CAMERA_PREFERENCES_VERSION = "1.0.0" as const;
 
 export interface CameraPreferences {
@@ -88,12 +89,14 @@ function browserStorage(): Storage | undefined {
 }
 
 export function loadCameraPreferences(
-  storage?: Pick<Storage, "getItem">,
+  storage?: Pick<Storage, "getItem"> & Partial<Pick<Storage, "setItem">>,
 ): CameraPreferences {
   try {
     const source = storage ?? browserStorage();
     if (!source) return defaultCameraPreferences();
-    return parseCameraPreferences(source.getItem(CAMERA_PREFERENCES_STORAGE_KEY));
+    return parseCameraPreferences(
+      migrateLegacyStorageValue(source, CAMERA_PREFERENCES_STORAGE_KEY),
+    );
   } catch {
     return defaultCameraPreferences();
   }

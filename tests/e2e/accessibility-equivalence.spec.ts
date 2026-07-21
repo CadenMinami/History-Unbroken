@@ -1,9 +1,9 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const LEARNING_SESSION_STORAGE_KEY =
-  "history-unbroken:varennes:learning-session";
+  "unchanged:varennes:learning-session";
 const SPATIAL_SESSION_STORAGE_KEY =
-  "history-unbroken:varennes:spatial-session";
+  "unchanged:varennes:spatial-session";
 
 async function advanceToModeSelection(page: Page): Promise<void> {
   for (let step = 0; step < 5; step += 1) {

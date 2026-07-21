@@ -19,6 +19,11 @@ import {
 } from "three";
 
 import type { GraphicsProfile } from "@/lib/world/graphics-profile";
+import { CAMERA_CONFIG } from "@/lib/world/camera-config";
+import {
+  applyFacadeOcclusion,
+  collectCameraOccludingFacades,
+} from "@/lib/world/camera-facade-occlusion";
 import {
   DEFAULT_CAMERA_PREFERENCES,
   type CameraPreferences,
@@ -43,6 +48,11 @@ import {
   DISTRICT_BUILDINGS,
   GroundedDistrict,
 } from "./environment/grounded-district";
+import {
+  DISTRICT_FACADE_PRESENTATION_SCALE,
+  getDistrictTravelBoundaryWalls,
+} from "./environment/district-layout";
+import { getFacadeVisualBounds } from "./environment/modular-facade";
 import { WorldLighting } from "./environment/world-lighting";
 import { WorldPostProcessing } from "./environment/world-post-processing";
 import {
@@ -64,12 +74,24 @@ const worldCandidates = [
   ...CIVIC_CANDIDATES,
   ...BRIDGE_CANDIDATES,
 ] as const;
+const districtTravelBoundaryWalls = getDistrictTravelBoundaryWalls();
 
 const PRINCIPAL_SUBJECT_NAMES = [
   "principal-character-investigator",
   "principal-character-drouet",
   "principal-character-louis",
 ] as const;
+const MAX_CAMERA_VISIBILITY_TARGET_DISTANCE = 24;
+const CAMERA_VISIBILITY_TARGET_SCREEN_MARGIN = 0.18;
+
+function isDescendantOfInvestigator(candidate: Object3D): boolean {
+  let current: Object3D | null = candidate;
+  while (current) {
+    if (current.name === "principal-character-investigator") return true;
+    current = current.parent;
+  }
+  return false;
+}
 
 function SceneSubjectTelemetry() {
   const scene = useThree((state) => state.scene);
@@ -165,10 +187,12 @@ function SceneSubjectTelemetry() {
         });
       let firstHitBelongsToSubject = false;
       let firstHitName: string | null = null;
+      const firstHitPath: string[] = [];
       if (firstVisibleHit) {
         firstHitName = firstVisibleHit.object.name || firstVisibleHit.object.type;
         let current: Object3D | null = firstVisibleHit.object;
         while (current) {
+          firstHitPath.push(current.name || current.type);
           if (current === subject) {
             firstHitBelongsToSubject = true;
             break;
@@ -186,6 +210,7 @@ function SceneSubjectTelemetry() {
         cameraSpaceCenterZ: cameraSpaceCenter.z,
         firstHitBelongsToSubject,
         firstHitName,
+        firstHitPath,
         screenCenterNdc: [screenCenter.x, screenCenter.y, screenCenter.z],
         screenHeightRatio: Math.max(0, maxY - minY) / 2,
         screenWidthRatio: Math.max(0, maxX - minX) / 2,
@@ -221,6 +246,142 @@ function ContextLossMonitor({ onContextLost }: { onContextLost: () => void }) {
     () => subscribeToWebGLContextLoss(renderer.domElement, onContextLost),
     [onContextLost, renderer],
   );
+
+  return null;
+}
+
+function CameraFacadeOcclusion({
+  controllerRef,
+  telemetryEnabled = false,
+}: {
+  controllerRef: React.RefObject<EcctrlHandle | null>;
+  telemetryEnabled?: boolean;
+}) {
+  const scene = useThree((state) => state.scene);
+  const playerTargetRef = useRef(new Vector3());
+  const playerHeadTargetRef = useRef(new Vector3());
+  const visibilityTargetRefs = useRef<Vector3[]>([]);
+  const targetProjectionRef = useRef(new Vector3());
+  const targetDirectionRef = useRef(new Vector3());
+  const facadeGroupsRef = useRef<Object3D[]>([]);
+
+  useEffect(
+    () => () => {
+      applyFacadeOcclusion(facadeGroupsRef.current, []);
+    },
+    [],
+  );
+
+  useFrame((frameState) => {
+    const controller = controllerRef.current;
+    if (!controller) return;
+
+    const playerPosition = controller.currPos ?? controller.body.translation();
+    if (
+      !Number.isFinite(playerPosition.x) ||
+      !Number.isFinite(playerPosition.y) ||
+      !Number.isFinite(playerPosition.z)
+    ) {
+      return;
+    }
+
+    const facades: Object3D[] = [];
+    scene.traverse((candidate) => {
+      if (candidate.userData.cameraOcclusion === true) {
+        facades.push(candidate);
+      }
+    });
+    const previousFacades = facadeGroupsRef.current;
+    const facadesChanged =
+      facades.length !== previousFacades.length ||
+      facades.some((facade, index) => facade !== previousFacades[index]);
+    if (facadesChanged) {
+      applyFacadeOcclusion(previousFacades, []);
+      facadeGroupsRef.current = facades;
+    }
+    if (facades.length === 0) {
+      if (telemetryEnabled) {
+        frameState.gl.domElement.dataset.facadeOcclusion = JSON.stringify({
+          facadeIds: [],
+          occludingFacadeIds: [],
+        });
+      }
+      return;
+    }
+
+    playerTargetRef.current.set(
+      playerPosition.x,
+      playerPosition.y + CAMERA_CONFIG.target.height,
+      playerPosition.z,
+    );
+    playerHeadTargetRef.current.set(
+      playerPosition.x,
+      playerPosition.y + 1.55,
+      playerPosition.z,
+    );
+    const supplementalTargets: Vector3[] = [];
+    const supplementalTargetNames: string[] = [];
+    scene.traverse((candidate) => {
+      if (
+        candidate.userData.cameraVisibilityTarget !== true ||
+        isDescendantOfInvestigator(candidate)
+      ) {
+        return;
+      }
+
+      const target =
+        visibilityTargetRefs.current[supplementalTargets.length] ??
+        new Vector3();
+      visibilityTargetRefs.current[supplementalTargets.length] = target;
+      candidate.getWorldPosition(target);
+      const height = candidate.userData.cameraVisibilityTargetHeight;
+      if (typeof height === "number" && Number.isFinite(height)) {
+        target.y += height;
+      }
+
+      const targetDistance = targetDirectionRef.current
+        .subVectors(target, frameState.camera.position)
+        .length();
+      if (
+        !Number.isFinite(targetDistance) ||
+        targetDistance > MAX_CAMERA_VISIBILITY_TARGET_DISTANCE
+      ) {
+        return;
+      }
+
+      const projectedTarget = targetProjectionRef.current
+        .copy(target)
+        .project(frameState.camera);
+      if (
+        projectedTarget.z < -1 ||
+        projectedTarget.z > 1 ||
+        Math.abs(projectedTarget.x) > 1 + CAMERA_VISIBILITY_TARGET_SCREEN_MARGIN ||
+        Math.abs(projectedTarget.y) > 1 + CAMERA_VISIBILITY_TARGET_SCREEN_MARGIN
+      ) {
+        return;
+      }
+
+      supplementalTargets.push(target);
+      supplementalTargetNames.push(candidate.name || candidate.uuid);
+    });
+    const occludingFacades = collectCameraOccludingFacades({
+      cameraPosition: frameState.camera.position,
+      facades,
+      target: playerTargetRef.current,
+      targets: [playerHeadTargetRef.current, ...supplementalTargets],
+    });
+    applyFacadeOcclusion(facades, occludingFacades);
+    if (telemetryEnabled) {
+      frameState.gl.domElement.dataset.facadeOcclusion = JSON.stringify({
+        cameraPosition: frameState.camera.position.toArray(),
+        facadeIds: facades.map((facade) => facade.name),
+        occludingFacadeIds: occludingFacades.map((facade) => facade.name),
+        target: playerTargetRef.current.toArray(),
+        supplementalTargetNames,
+        supplementalTargets: supplementalTargets.map((target) => target.toArray()),
+      });
+    }
+  });
 
   return null;
 }
@@ -278,7 +439,7 @@ export function SceneRuntime({
   return (
     <Canvas
       camera={{
-        fov: 46,
+        fov: CAMERA_CONFIG.fov.default,
         position: [
           initialCamera.position.x,
           initialCamera.position.y,
@@ -293,7 +454,13 @@ export function SceneRuntime({
         preserveDrawingBuffer: testMode,
       }}
       onCreated={({ gl }) => onCanvasElement(gl.domElement)}
-      shadows={graphicsProfile.shadows.enabled ? "basic" : false}
+      shadows={
+        graphicsProfile.shadows.enabled
+          ? graphicsProfile.tier === "high"
+            ? "soft"
+            : "basic"
+          : false
+      }
     >
       <ZoneReadinessRegistry
         onChange={onZoneReadinessChange}
@@ -323,21 +490,40 @@ export function SceneRuntime({
           <Physics colliders={false} gravity={[0, -9.81, 0]} timeStep={1 / 60}>
             <RigidBody colliders={false} type="fixed">
               <CuboidCollider args={[120, 0.1, 80]} position={[36, -0.1, 0]} />
-              {DISTRICT_BUILDINGS.map((building) => (
+              {districtTravelBoundaryWalls.map((wall) => (
                 <CuboidCollider
-                  args={[
-                    building.size[0] / 2,
-                    building.size[1] / 2,
-                    building.size[2] / 2,
-                  ]}
-                  key={building.id}
-                  position={[
-                    building.position[0],
-                    building.size[1] / 2 + 0.45,
-                    building.position[2],
-                  ]}
+                  args={[...wall.args]}
+                  key={wall.id}
+                  position={wall.position}
                 />
               ))}
+              {DISTRICT_BUILDINGS.map((building) => {
+                const bounds = getFacadeVisualBounds({
+                  depth: building.size[2],
+                  wallHeight: building.size[1],
+                  width: building.size[0],
+                });
+                const scaledHalfHeight =
+                  bounds.halfHeight * DISTRICT_FACADE_PRESENTATION_SCALE;
+                const facadeDirection = building.position[2] > 0 ? -1 : 1;
+                const scaledCenterZ =
+                  bounds.localCenterZ * DISTRICT_FACADE_PRESENTATION_SCALE;
+                return (
+                  <CuboidCollider
+                    args={[
+                      bounds.halfWidth * DISTRICT_FACADE_PRESENTATION_SCALE,
+                      scaledHalfHeight,
+                      bounds.halfDepth * DISTRICT_FACADE_PRESENTATION_SCALE,
+                    ]}
+                    key={building.id}
+                    position={[
+                      building.position[0],
+                      scaledHalfHeight,
+                      building.position[2] + facadeDirection * scaledCenterZ,
+                    ]}
+                  />
+                );
+              })}
               <CuboidCollider
                 args={[0.75, 0.72, 0.5]}
                 position={[0, 0.72, -2.35]}
@@ -376,6 +562,10 @@ export function SceneRuntime({
               reducedMotion={reducedMotion}
             />
           </Physics>
+          <CameraFacadeOcclusion
+            controllerRef={controllerRef}
+            telemetryEnabled={telemetryEnabled}
+          />
         </Suspense>
         <WorldPostProcessing profile={graphicsProfile} />
         {testMode ? null : (

@@ -18,19 +18,21 @@ interface CinematicConversationProps {
 
 const stationPresentation: Record<
   StationId,
-  { heading: string; initials: string; boundary: string }
+  { heading: string; initials: string; subtitle: string; boundary: string }
 > = {
   "CHAR-DROUET": {
-    heading: "Conversation with Drouet station",
+    heading: "Jean-Baptiste Drouet",
     initials: "JD",
+    subtitle: "Witness to the altered route",
     boundary:
-      "This AI-directed dramatization is bounded to authored knowledge and cannot become historical evidence.",
+      "Dramatized dialogue is limited to this station's authored knowledge. It is formative, not historical evidence.",
   },
   "CHAR-LOUIS": {
-    heading: "Conversation with Louis XVI station",
+    heading: "Louis XVI",
     initials: "LXVI",
+    subtitle: "Public position in the declaration",
     boundary:
-      "This station voices Louis's stated declaration. The source cannot establish his complete private motive, and this dramatization cannot become historical evidence.",
+      "Dramatized dialogue is limited to Louis's stated declaration. It cannot establish a complete private motive or become historical evidence.",
   },
 };
 
@@ -56,7 +58,7 @@ export function CinematicConversation({
   return (
     <div className={styles.scrim}>
       <section
-        aria-labelledby="world-conversation-heading"
+        aria-label={`Conversation with ${presentation.heading} station`}
         aria-modal="true"
         className={styles.dialog}
         onKeyDown={(event) => {
@@ -83,8 +85,9 @@ export function CinematicConversation({
       >
         <header>
           <div>
-            <p>Dramatized source station / Generated dialogue</p>
+            <p>Source station / Dramatized dialogue</p>
             <h2 id="world-conversation-heading">{presentation.heading}</h2>
+            <small>{presentation.subtitle}</small>
           </div>
           <button aria-label="Close conversation" onClick={close} ref={closeRef} type="button">
             <X aria-hidden="true" />

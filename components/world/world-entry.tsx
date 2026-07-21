@@ -11,7 +11,7 @@ function WorldLoadingShell() {
   return (
     <main className={styles.world} data-testid="world-canvas-shell">
       <header className={styles.masthead}>
-        <Link href="/">History Unbroken</Link>
+        <Link href="/">Unchanged</Link>
         <span>CASE 01 / SPATIAL RECONSTRUCTION</span>
       </header>
       <section className={styles.loadingStage} aria-label="Loading 3D reconstruction">

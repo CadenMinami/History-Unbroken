@@ -3,6 +3,7 @@
 .dialog > header { min-height: 82px; padding: 16px 20px 16px 26px; display: flex; align-items: center; justify-content: space-between; gap: 22px; color: #faf5e9; background: #202523; }
 .dialog > header p { margin: 0 0 5px; color: #efbdad; font-family: var(--font-mono), monospace; font-size: .66rem; text-transform: uppercase; }
 .dialog > header h2 { margin: 0; font-family: var(--font-serif), serif; font-size: 1.55rem; font-weight: 500; }
+.dialog > header small { margin-top: 3px; display: block; color: #d4dfd8; font-size: .72rem; }
 .dialog > header button { width: 42px; height: 42px; display: grid; place-items: center; color: currentColor; border: 1px solid rgb(255 255 255 / 45%); background: transparent; cursor: pointer; }
 .dialog > header button svg { width: 19px; }
 .dialog > header button:focus-visible { outline: 3px solid #e3b85e; outline-offset: 3px; }
@@ -10,5 +11,5 @@
 .portrait { min-height: 530px; display: grid; place-items: center; color: #f7ead2; background: #52615d; border-right: 1px solid var(--line); }
 .portrait span { width: 118px; height: 118px; display: grid; place-items: center; font-family: var(--font-serif), serif; font-size: 2.5rem; border: 1px solid currentColor; border-radius: 50%; }
 .panel { padding: 26px 32px 36px; }
-.disclosure { margin: 0; padding: 11px 13px; color: #713a30; border-left: 4px solid var(--correction-red); background: #f5e4dd; font-size: .75rem; line-height: 1.5; }
+.disclosure { margin: 0; padding: 10px 12px; color: #4b504f; border-left: 3px solid var(--archive-blue); background: #edf3f3; font-size: .72rem; line-height: 1.45; }
 @media (max-width: 760px) { .scrim { padding: 58px 0 0; place-items: stretch; } .dialog { max-height: calc(100svh - 58px); } .body { grid-template-columns: 1fr; } .portrait { min-height: 120px; border-right: 0; } .portrait span { width: 70px; height: 70px; font-size: 1.6rem; } .panel { padding: 22px; } }

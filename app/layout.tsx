@@ -22,7 +22,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "History Unbroken",
+  title: "Unchanged",
   description: "A playable historical reasoning mystery about the Flight to Varennes.",
 };
 

@@ -3,10 +3,10 @@ import { defineConfig } from "@playwright/test";
 import { resolveLiveOpenAIEnvironment } from "./tests/live/live-openai-environment";
 
 const liveEnvironment = resolveLiveOpenAIEnvironment({
-  HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE:
-    process.env.HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE,
-  HISTORY_UNBROKEN_LIVE_OPENAI_PORT:
-    process.env.HISTORY_UNBROKEN_LIVE_OPENAI_PORT,
+  UNCHANGED_LIVE_OPENAI_SMOKE:
+    process.env.UNCHANGED_LIVE_OPENAI_SMOKE,
+  UNCHANGED_LIVE_OPENAI_PORT:
+    process.env.UNCHANGED_LIVE_OPENAI_PORT,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
 });
 const baseURL = `http://127.0.0.1:${liveEnvironment.port}`;

@@ -316,7 +316,7 @@ describe("CameraInputBoundary", () => {
     );
   });
 
-  it("publishes pointerlockerror as denial and keeps right-drag fallback usable", () => {
+  it("publishes pointerlockerror as denial and keeps primary-drag fallback usable", () => {
     const { canvas, channel } = mountBoundary();
     requestPointerLockMock(canvas).mockReturnValueOnce(
       new Promise<void>(() => undefined),
@@ -326,8 +326,13 @@ describe("CameraInputBoundary", () => {
     act(() => document.dispatchEvent(new Event("pointerlockerror")));
     expect(channel.getSnapshot().captureDenied).toBe(true);
 
-    fireEvent.pointerDown(canvas, { button: 2 });
-    dispatchPointerMove(canvas, 7, -4);
+    fireEvent.pointerDown(canvas, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.pointerMove(canvas, {
+      button: 0,
+      buttons: 1,
+      clientX: 107,
+      clientY: 96,
+    });
 
     expect(channel.getSnapshot().fallbackDragActive).toBe(true);
     expect(channel.consumeLookDelta()).toEqual({ x: 7, y: -4 });

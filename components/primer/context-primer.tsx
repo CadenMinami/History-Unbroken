@@ -64,7 +64,7 @@ export function ContextPrimerView({ primer, onComplete }: ContextPrimerViewProps
   return (
     <main className={styles.primer}>
       <header className={styles.masthead}>
-        <span className={styles.wordmark}>History Unbroken</span>
+        <span className={styles.wordmark}>Unchanged</span>
         <span className={styles.caseCode}>CASE 01 / CONTEXT</span>
       </header>
 

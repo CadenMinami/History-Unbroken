@@ -7,7 +7,7 @@ import {
 } from "@/schemas/learning-session";
 
 export const LEARNING_SESSION_STORAGE_KEY =
-  "history-unbroken:varennes:learning-session";
+  "unchanged:varennes:learning-session";
 
 const learningSessionEnvelopeSchema = z
   .object({

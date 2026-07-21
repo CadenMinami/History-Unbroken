@@ -17,6 +17,7 @@ export function InvestigatorModel({
   return (
     <group name="principal-character-investigator" position={[0, -0.72, 0]}>
       <PeriodCharacter
+        foreground
         motion={motion}
         profile={profile}
         reducedMotion={reducedMotion}

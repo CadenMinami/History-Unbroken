@@ -114,14 +114,14 @@ Run Phase 0 using the initial Codex handoff brief as the controlling instruction
 
 ### What Codex proposed
 
-- Move the planning bundle into the empty `CadenMinami/History-Unbroken` repository without committing.
+- Move the planning bundle into the empty project repository without committing.
 - Test a reusable historical-integrity workflow against deadline pressure before relying on it.
 - Put reusable historical review behavior in a global skill and project-specific coordination rules in `AGENTS.md`.
 - Replace the answer-revealing fictional route item with three equally labeled anomaly candidates.
 
 ### What Codex implemented
 
-- Cloned the empty GitHub repository to `/Users/caden/Documents/Codex/History-Unbroken`.
+- Cloned the empty GitHub repository into the local project workspace.
 - Migrated the planning bundle as uncommitted working-tree files.
 - Created and validated the global `historical-integrity` skill.
 - Added root `AGENTS.md` with historical, AI-authority, engineering, and parallel-agent rules.
@@ -133,7 +133,7 @@ Run Phase 0 using the initial Codex handoff brief as the controlling instruction
 - Use layered mystery Option C: reveal the fracture window but require the player to identify the active link.
 - Create a historical-integrity skill.
 - Establish strong instructions for future parallel coding agents.
-- Use `CadenMinami/History-Unbroken` as the project repository.
+- Use the project GitHub repository as the shared source of truth.
 
 ### What the user rejected or changed
 
@@ -1295,7 +1295,7 @@ The final production run reported:
 ### Quality-review closure
 
 - A fresh code-quality review found that ordinary Playwright runs could inherit an ambient `OPENAI_API_KEY` and accidentally become paid, nondeterministic provider tests.
-- At this checkpoint, the production-test web server forced an empty provider key by default and still used `HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE=1` as its live-key opt-in. Release closure later moved all live execution to the separate credential-isolated launcher; ordinary Playwright now remains no-key regardless of that flag.
+- At this checkpoint, the production-test web server forced an empty provider key by default and still used `UNCHANGED_LIVE_OPENAI_SMOKE=1` as its live-key opt-in. Release closure later moved all live execution to the separate credential-isolated launcher; ordinary Playwright now remains no-key regardless of that flag.
 - Added a focused configuration contract for default key stripping and explicit smoke opt-in.
 - Added shell-level coverage proving that active WebGL context loss enters the graphics fallback, can retry, and preserves inspected case progress.
 - The specification reviewer and the post-fix code-quality reviewer both approved Task 10 with no remaining findings.
@@ -1666,7 +1666,7 @@ The final production run reported:
 - Fresh verification passed 89 Vitest files with 582 tests, typecheck, warning-free lint, the production build, and all 35 production Playwright tests.
 - The isolated 4x-CPU classroom proxy passed with 4,171,804 initial compressed bytes, 3,972.8 ms to interaction, 36 FPS median, 34 FPS p10, a 50.6 ms maximum post-load stall, a nonblank canvas, and 1.490 units of measured movement.
 - Final review found and fixed provider-environment isolation gaps in ordinary Vitest runs and ordinary/screenshot Playwright. Those no-key paths now explicitly blank `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_SPEECH_MODEL`, and `SPEECH_AUTHORIZATION_SECRET` for their build and runtime environments.
-- Final review removed invalid documentation that suggested `HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE=1 npm run capture:screenshots` could recapture live output. Screenshot capture is intentionally always no-key, fallback frames cannot be described as live GPT-5.6 output, and no separate credential-isolated live capture launcher exists.
+- Final review removed invalid documentation that suggested `UNCHANGED_LIVE_OPENAI_SMOKE=1 npm run capture:screenshots` could recapture live output. Screenshot capture is intentionally always no-key, fallback frames cannot be described as live GPT-5.6 output, and no separate credential-isolated live capture launcher exists.
 - Added browser proof that an oversize upload issues zero alignment requests before the alignment-service boundary.
 - The repository is now public. Deployment, production credentials, formal screen-reader review, physical Chromebook verification, unfamiliar-user playtesting, final video, `/feedback`, and submission remain open.
 - No live call, deployment, commit, or push occurred in this documentation checkpoint.
@@ -1878,3 +1878,36 @@ The final production run reported:
   templates to ignored local storage.
 - The public README now links only to maintained product, architecture,
   historical-source, AI-boundary, and build-log documentation.
+
+## 2026-07-21 / Product Rebrand To Unchanged
+
+### What the user decided
+
+- Rename the product from its former working title to `Unchanged`.
+- Keep the existing GitHub repository address unchanged.
+
+### What Codex implemented
+
+- Updated public product copy, metadata, package identity, environment-variable
+  namespaces, tests, and maintained documentation to use `Unchanged`.
+- Added non-destructive browser-storage migration from the former namespace to
+  `unchanged:*`, preserving case progress, learning preferences, spatial
+  session state, camera preferences, and world session flags when a current
+  value does not already exist.
+- Updated the asset-ledger proof hashes affected by the renamed license record.
+- Replaced the tracked product screenshots with current `Unchanged` frames and
+  removed stale images carrying the previous title.
+
+### Why this matters
+
+- The product name is consistent for students, teachers, judges, and local
+  development without silently discarding an existing learner session.
+- The repository URL remains stable, so existing links and the submission
+  repository are not disrupted by the product-name change.
+
+### Fresh verification
+
+- Full unit and integration coverage passed: 113 Vitest files and 929 tests.
+- ESLint, TypeScript, diff whitespace checks, and a production build passed.
+- The tracked screenshot set was regenerated through the teacher setup,
+  fracture briefing, and spatial entry flow using the active local application.

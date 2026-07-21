@@ -4,10 +4,11 @@ import {
   type SpatialSessionEnvelope,
   spatialSessionEnvelopeSchema,
 } from "@/schemas/spatial-session";
+import { migrateLegacyStorageValue } from "@/lib/browser-storage/rebrand-migration";
 import type { SceneManifest } from "@/schemas/world-manifest";
 
 export const SPATIAL_SESSION_STORAGE_KEY =
-  "history-unbroken:varennes:spatial-session";
+  "unchanged:varennes:spatial-session";
 
 export type SpatialRestoreReason =
   | "invalid_json"
@@ -223,7 +224,10 @@ export function persistInvestigationMode(
   manifest: SceneManifest,
   mode: InvestigationMode,
 ): SpatialSessionEnvelope {
-  const serialized = storage.getItem(SPATIAL_SESSION_STORAGE_KEY);
+  const serialized = migrateLegacyStorageValue(
+    storage,
+    SPATIAL_SESSION_STORAGE_KEY,
+  );
   const current = serialized
     ? restoreSpatialSession(manifest, serialized).session
     : createInitialSpatialSession(manifest);

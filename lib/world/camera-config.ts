@@ -20,6 +20,9 @@ export const CAMERA_CONFIG = Object.freeze({
     max: 6,
     default: 4,
   }),
+  fov: Object.freeze({
+    default: 46,
+  }),
   zoom: Object.freeze({
     distancePerWheelPixel: 0.004,
   }),

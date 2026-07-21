@@ -107,6 +107,75 @@ export const DISTRICT_TRAVEL_CLEARANCE = Object.freeze({
   maxX: 84,
 });
 
+const DISTRICT_TRAVEL_BOUNDARY_HALF_DEPTH = 0.35;
+const DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT = 4;
+
+export type DistrictTravelBoundaryWall = Readonly<{
+  args: readonly [number, number, number];
+  id:
+    | "district-travel-boundary-north"
+    | "district-travel-boundary-south"
+    | "district-travel-boundary-west"
+    | "district-travel-boundary-east";
+  position: readonly [number, number, number];
+}>;
+
+/**
+ * Keeps the investigator within the authored street rather than allowing
+ * traversal behind presentation-only building shells.
+ */
+export function getDistrictTravelBoundaryWalls(): readonly DistrictTravelBoundaryWall[] {
+  const halfLength =
+    (DISTRICT_TRAVEL_CLEARANCE.maxX - DISTRICT_TRAVEL_CLEARANCE.minX) / 2;
+  const centerX =
+    (DISTRICT_TRAVEL_CLEARANCE.maxX + DISTRICT_TRAVEL_CLEARANCE.minX) / 2;
+  const wallOffset =
+    DISTRICT_TRAVEL_CLEARANCE.halfWidth + DISTRICT_TRAVEL_BOUNDARY_HALF_DEPTH;
+  const northSouthArgs = [
+    halfLength,
+    DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT,
+    DISTRICT_TRAVEL_BOUNDARY_HALF_DEPTH,
+  ] as const;
+  const eastWestArgs = [
+    DISTRICT_TRAVEL_BOUNDARY_HALF_DEPTH,
+    DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT,
+    DISTRICT_TRAVEL_CLEARANCE.halfWidth,
+  ] as const;
+
+  return [
+    {
+      args: northSouthArgs,
+      id: "district-travel-boundary-north",
+      position: [centerX, DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT, wallOffset],
+    },
+    {
+      args: northSouthArgs,
+      id: "district-travel-boundary-south",
+      position: [centerX, DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT, -wallOffset],
+    },
+    {
+      args: eastWestArgs,
+      id: "district-travel-boundary-west",
+      position: [
+        DISTRICT_TRAVEL_CLEARANCE.minX - DISTRICT_TRAVEL_BOUNDARY_HALF_DEPTH,
+        DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT,
+        0,
+      ],
+    },
+    {
+      args: eastWestArgs,
+      id: "district-travel-boundary-east",
+      position: [
+        DISTRICT_TRAVEL_CLEARANCE.maxX + DISTRICT_TRAVEL_BOUNDARY_HALF_DEPTH,
+        DISTRICT_TRAVEL_BOUNDARY_HALF_HEIGHT,
+        0,
+      ],
+    },
+  ];
+}
+
+export const DISTRICT_FACADE_PRESENTATION_SCALE = 0.9;
+
 // Dressing stays close to authored facades and outside the route used by
 // principal characters. The final-zone exclusion is deliberately broader
 // than the E5 interaction radius because that area must remain source-safe.

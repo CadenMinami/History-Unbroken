@@ -226,7 +226,7 @@ export function TeacherSetup() {
           <ArrowLeft aria-hidden="true" />
           Case home
         </Link>
-        <span className={styles.wordmark}>History Unbroken</span>
+        <span className={styles.wordmark}>Unchanged</span>
         <span className={styles.caseCode}>Teacher setup / Case 01</span>
       </header>
 

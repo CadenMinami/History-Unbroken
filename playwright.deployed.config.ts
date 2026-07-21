@@ -1,19 +1,19 @@
 import { defineConfig, devices, type PlaywrightTestConfig } from "@playwright/test";
 
 interface DeployedRegressionEnvironment {
-  HISTORY_UNBROKEN_DEPLOYED_URL?: string;
+  UNCHANGED_DEPLOYED_URL?: string;
 }
 
 const deployedSpecs = ["public-url-regression.spec.ts"] as const;
 
 function invalidDeploymentUrl(message: string): Error {
-  return new Error(`HISTORY_UNBROKEN_DEPLOYED_URL ${message}.`);
+  return new Error(`UNCHANGED_DEPLOYED_URL ${message}.`);
 }
 
 export function resolveDeployedBaseUrl(
   environment: Readonly<DeployedRegressionEnvironment>,
 ): string {
-  const rawUrl = environment.HISTORY_UNBROKEN_DEPLOYED_URL?.trim();
+  const rawUrl = environment.UNCHANGED_DEPLOYED_URL?.trim();
   if (!rawUrl) {
     throw invalidDeploymentUrl(
       "is required and must be the HTTPS origin of the deployed application",
@@ -87,8 +87,8 @@ export function resolveDeployedRegressionConfiguration(
 // inert when the required target is absent; the setup module validates the
 // actual environment before a browser can open.
 const configuredBaseUrl =
-  process.env.HISTORY_UNBROKEN_DEPLOYED_URL ??
-  "https://history-unbroken-target-required.invalid";
+  process.env.UNCHANGED_DEPLOYED_URL ??
+  "https://unchanged-target-required.invalid";
 
 export default defineConfig(
   createDeployedRegressionConfiguration(configuredBaseUrl),

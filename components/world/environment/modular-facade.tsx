@@ -1,8 +1,14 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
+import { Color, Shape, ShapeGeometry } from "three";
+
 import type { TextureTier } from "@/lib/world/graphics-profile";
 
-import type { DistrictFacadePlacement } from "./district-layout";
+import {
+  DISTRICT_FACADE_PRESENTATION_SCALE,
+  type DistrictFacadePlacement,
+} from "./district-layout";
 import {
   FacadeSurfaceMaterial,
   getScaleAwareFacadeRepeat,
@@ -23,6 +29,178 @@ type FacadeWindowProps = Readonly<{
   windowColor: string;
   narrow?: boolean;
 }>;
+
+const WALL_BASE_Y = 0.42;
+const ROOF_PITCH = 0.48;
+const ROOF_THICKNESS = 0.16;
+const ROOF_OVERHANG = 0.28;
+const ROOF_EAVE_CLEARANCE = 0.035;
+const FACADE_SURFACE_DEPTH = 0.16;
+const FACADE_BASE_DEPTH = 0.18;
+const ROOF_FRONT_OVERHANG = 0.3;
+const ROOF_BACK_OVERHANG = 0.15;
+const MAX_FRONT_FIXTURE_PROJECTION = 0.2;
+
+type PitchedRoofPanelLayout = Readonly<{
+  eaveBottomY: number;
+  lowestPointY: number;
+  position: readonly [number, number, number];
+  ridgeEdgeX: number;
+  rotationZ: number;
+  size: readonly [number, number, number];
+}>;
+
+type PitchedRoofLayout = Readonly<{
+  panels: readonly [PitchedRoofPanelLayout, PitchedRoofPanelLayout];
+  ridgeCap: Readonly<{
+    position: readonly [number, number, number];
+    size: readonly [number, number, number];
+    width: number;
+  }>;
+  gable: Readonly<{
+    apexY: number;
+    baseY: number;
+    eaveY: number;
+    halfWidth: number;
+  }>;
+  centerZ: number;
+  wallTopY: number;
+}>;
+
+export function getFacadeShellLayout(depth: number): Readonly<{
+  backZ: number;
+  bodyCenterZ: number;
+  facadeCenterZ: number;
+  facadeDepth: number;
+  frontZ: number;
+  roofCenterZ: number;
+  roofDepth: number;
+}> {
+  const frontZ = depth / 2 + 0.09;
+  const backZ = frontZ - depth;
+  const roofFrontZ = frontZ + ROOF_FRONT_OVERHANG;
+  const roofBackZ = backZ - ROOF_BACK_OVERHANG;
+  const roofDepth = roofFrontZ - roofBackZ;
+
+  return {
+    backZ,
+    bodyCenterZ: (frontZ + backZ) / 2,
+    facadeCenterZ: frontZ - FACADE_SURFACE_DEPTH / 2,
+    facadeDepth: FACADE_SURFACE_DEPTH,
+    frontZ,
+    roofCenterZ: (roofFrontZ + roofBackZ) / 2,
+    roofDepth,
+  };
+}
+
+export function getFacadeVisualFootprint(
+  width: number,
+  depth: number,
+): Readonly<{
+  halfDepth: number;
+  halfWidth: number;
+}> {
+  const shell = getFacadeShellLayout(depth);
+  return {
+    halfDepth: shell.roofDepth / 2,
+    halfWidth: width / 2 + ROOF_OVERHANG,
+  };
+}
+
+export function getFacadeVisualBounds({
+  depth,
+  wallHeight,
+  width,
+}: Readonly<{
+  depth: number;
+  wallHeight: number;
+  width: number;
+}>): Readonly<{
+  halfDepth: number;
+  halfHeight: number;
+  halfWidth: number;
+  localCenterZ: number;
+  maxY: number;
+}> {
+  const footprint = getFacadeVisualFootprint(width, depth);
+  const roof = getPitchedRoofLayout({ depth, wallHeight, width });
+  const roofTopY = roof.ridgeCap.position[1] + roof.ridgeCap.size[1] / 2;
+  const chimneyTopY = wallHeight + 1.2 + 1.34 / 2;
+  const maxY = Math.max(roofTopY, chimneyTopY);
+  const shell = getFacadeShellLayout(depth);
+  const backZ = Math.min(shell.backZ, shell.roofCenterZ - shell.roofDepth / 2);
+  const frontZ = Math.max(
+    shell.frontZ + MAX_FRONT_FIXTURE_PROJECTION,
+    shell.roofCenterZ + shell.roofDepth / 2,
+  );
+
+  return {
+    halfDepth: (frontZ - backZ) / 2,
+    halfHeight: maxY / 2,
+    halfWidth: footprint.halfWidth,
+    localCenterZ: (frontZ + backZ) / 2,
+    maxY,
+  };
+}
+
+/**
+ * Produces a roof that sits on top of a facade wall instead of extending
+ * through it. The small ridge gap avoids coplanar roof halves and is covered
+ * by a separate cap.
+ */
+export function getPitchedRoofLayout({
+  depth,
+  wallHeight,
+  width,
+}: Readonly<{
+  depth: number;
+  wallHeight: number;
+  width: number;
+}>): PitchedRoofLayout {
+  const wallTopY = wallHeight + WALL_BASE_Y;
+  const footprint = getFacadeVisualFootprint(width, depth);
+  const shell = getFacadeShellLayout(depth);
+  const halfSpan = footprint.halfWidth;
+  const ridgeGap = ROOF_THICKNESS * Math.sin(ROOF_PITCH) + 0.06;
+  const innerEdgeX = ridgeGap / 2;
+  const horizontalRun = halfSpan - innerEdgeX;
+  const panelLength = horizontalRun / Math.cos(ROOF_PITCH);
+  const rise = horizontalRun * Math.tan(ROOF_PITCH);
+  const eaveBottomY = wallTopY + ROOF_EAVE_CLEARANCE;
+  const panelCenterY =
+    eaveBottomY + rise / 2 + (ROOF_THICKNESS * Math.cos(ROOF_PITCH)) / 2;
+  const panelCenterX = (halfSpan + innerEdgeX) / 2;
+  const panelDepth = shell.roofDepth;
+  const ridgeY = eaveBottomY + rise;
+  const panelSize = [panelLength, ROOF_THICKNESS, panelDepth] as const;
+
+  const createPanel = (side: -1 | 1): PitchedRoofPanelLayout => ({
+    eaveBottomY,
+    lowestPointY: eaveBottomY,
+    position: [side * panelCenterX, panelCenterY, shell.roofCenterZ],
+    ridgeEdgeX: side * innerEdgeX,
+    rotationZ: -side * ROOF_PITCH,
+    size: panelSize,
+  });
+  const panels = [createPanel(-1), createPanel(1)] as const;
+
+  return {
+    centerZ: shell.roofCenterZ,
+    panels,
+    ridgeCap: {
+      position: [0, ridgeY + ROOF_THICKNESS / 2, shell.roofCenterZ],
+      size: [ridgeGap + 0.12, ROOF_THICKNESS, panelDepth + 0.08],
+      width: ridgeGap + 0.12,
+    },
+    gable: {
+      apexY: ridgeY,
+      baseY: wallTopY,
+      eaveY: eaveBottomY + (halfSpan - width / 2) * Math.tan(ROOF_PITCH),
+      halfWidth: width / 2,
+    },
+    wallTopY,
+  };
+}
 
 function FacadeWindow({
   id,
@@ -81,6 +259,7 @@ function PitchedRoof({
   height,
   roof,
   textureTier,
+  wallColor,
   width,
 }: Readonly<{
   castShadow: boolean;
@@ -88,25 +267,51 @@ function PitchedRoof({
   height: number;
   roof: string;
   textureTier: TextureTier;
+  wallColor: string;
   width: number;
 }>) {
-  const pitch = 0.58;
-  const panelWidth = width * 0.62;
+  const layout = getPitchedRoofLayout({
+    depth,
+    wallHeight: height,
+    width,
+  });
   const roofRepeat = getScaleAwareFacadeRepeat("roof", [
-    panelWidth,
-    depth + 0.55,
+    layout.panels[0].size[0],
+    layout.panels[0].size[2],
   ]);
+  const shell = getFacadeShellLayout(depth);
+  // Clearly darker than the wall so the flat-shaded gable reads as a shaded
+  // attic end instead of a bright bare triangle.
+  const gableColor = useMemo(
+    () => new Color(wallColor).multiplyScalar(0.42),
+    [wallColor],
+  );
+  const gableGeometry = useMemo(() => {
+    const { apexY, baseY, eaveY, halfWidth } = layout.gable;
+    const shape = new Shape();
+    shape.moveTo(-halfWidth, 0);
+    shape.lineTo(halfWidth, 0);
+    shape.lineTo(halfWidth, eaveY - baseY);
+    shape.lineTo(0, apexY - baseY);
+    shape.lineTo(-halfWidth, eaveY - baseY);
+    shape.closePath();
+    return new ShapeGeometry(shape);
+  }, [layout.gable]);
+
+  useEffect(() => () => gableGeometry.dispose(), [gableGeometry]);
+
   return (
-    <group position={[0, height + 0.64, 0]}>
-      {[-1, 1].map((side) => (
+    <group name="pitched-roof">
+      {layout.panels.map((panel, index) => (
         <mesh
           castShadow={castShadow}
-          key={side}
-          position={[side * width * 0.25, 0.34, 0]}
+          key={panel.rotationZ}
+          name={`roof-panel-${index}`}
+          position={panel.position}
           receiveShadow
-          rotation={[0, 0, -side * pitch]}
+          rotation={[0, 0, panel.rotationZ]}
         >
-          <boxGeometry args={[panelWidth, 0.16, depth + 0.55]} />
+          <boxGeometry args={panel.size} />
           <FacadeSurfaceMaterial
             color={roof}
             family="roof"
@@ -115,9 +320,28 @@ function PitchedRoof({
           />
         </mesh>
       ))}
-      <mesh castShadow={castShadow} position={[0, 0.95, 0]}>
-        <boxGeometry args={[0.18, 0.16, depth + 0.64]} />
+      <mesh
+        castShadow={castShadow}
+        name="roof-ridge-cap"
+        position={layout.ridgeCap.position}
+      >
+        <boxGeometry args={layout.ridgeCap.size} />
         <meshStandardMaterial color="#494039" roughness={0.95} />
+      </mesh>
+      <mesh
+        geometry={gableGeometry}
+        name="roof-gable-front"
+        position={[0, layout.gable.baseY, shell.frontZ + 0.012]}
+      >
+        <meshStandardMaterial color={gableColor} roughness={0.95} />
+      </mesh>
+      <mesh
+        geometry={gableGeometry}
+        name="roof-gable-back"
+        position={[0, layout.gable.baseY, shell.backZ - 0.012]}
+        rotation={[0, Math.PI, 0]}
+      >
+        <meshStandardMaterial color={gableColor} roughness={0.95} />
       </mesh>
     </group>
   );
@@ -131,7 +355,7 @@ function FamilyDetails({
   placement: DistrictFacadePlacement;
 }>) {
   const [width, height, depth] = placement.size;
-  const frontZ = depth / 2 + 0.1;
+  const frontZ = getFacadeShellLayout(depth).frontZ;
   const trimMaterial = (
     <meshStandardMaterial color={placement.palette.trim} roughness={0.95} />
   );
@@ -229,7 +453,8 @@ export function ModularFacade({
   textureTier,
 }: ModularFacadeProps) {
   const [width, height, depth] = placement.size;
-  const frontZ = depth / 2 + 0.09;
+  const shell = getFacadeShellLayout(depth);
+  const frontZ = shell.frontZ;
   const windowCount =
     placement.family === "narrow-row"
       ? 2
@@ -241,32 +466,48 @@ export function ModularFacade({
   const facesRoadFromNorth = placement.position[2] > 0;
   const resolvedTextureTier = textureTier ?? "low";
   const wallFamily = selectFacadePbrFamily(placement.family);
+  // A darker damp base course visually anchors the building to the ground.
+  const plinthColor = useMemo(
+    () => `#${new Color(placement.palette.stone).multiplyScalar(0.58).getHexString()}`,
+    [placement.palette.stone],
+  );
 
   return (
     <group
       name={`facade-${placement.id}`}
       position={placement.position}
       rotation={[0, facesRoadFromNorth ? Math.PI : 0, 0]}
+      userData={{ cameraOcclusion: true }}
+      scale={[
+        DISTRICT_FACADE_PRESENTATION_SCALE,
+        DISTRICT_FACADE_PRESENTATION_SCALE,
+        DISTRICT_FACADE_PRESENTATION_SCALE,
+      ]}
     >
-      <mesh castShadow={castShadow} position={[0, 0.22, 0]} receiveShadow>
-        <boxGeometry args={[width + 0.2, 0.44, depth + 0.18]} />
+      <mesh
+        castShadow={castShadow}
+        name="facade-body"
+        position={[0, (height + WALL_BASE_Y) / 2 - 0.08, shell.bodyCenterZ]}
+        receiveShadow
+      >
+        <boxGeometry args={[width, height + WALL_BASE_Y + 0.16, depth]} />
         <FacadeSurfaceMaterial
-          color={placement.palette.stone}
-          family="stone"
-          repeat={getScaleAwareFacadeRepeat("stone", [width + 0.2, 0.44])}
+          color={placement.palette.wall}
+          family={wallFamily}
+          repeat={getScaleAwareFacadeRepeat(wallFamily, [width, height])}
           textureTier={resolvedTextureTier}
         />
       </mesh>
       <mesh
         castShadow={castShadow}
-        position={[0, height / 2 + 0.42, 0]}
+        position={[0, 0.22, shell.frontZ - FACADE_BASE_DEPTH / 2 + 0.04]}
         receiveShadow
       >
-        <boxGeometry args={[width, height, depth]} />
+        <boxGeometry args={[width + 0.2, 0.44, FACADE_BASE_DEPTH]} />
         <FacadeSurfaceMaterial
-          color={placement.palette.wall}
-          family={wallFamily}
-          repeat={getScaleAwareFacadeRepeat(wallFamily, [width, height])}
+          color={plinthColor}
+          family="stone"
+          repeat={getScaleAwareFacadeRepeat("stone", [width + 0.2, 0.44])}
           textureTier={resolvedTextureTier}
         />
       </mesh>
@@ -276,6 +517,7 @@ export function ModularFacade({
         height={height}
         roof={placement.palette.roof}
         textureTier={resolvedTextureTier}
+        wallColor={placement.palette.wall}
         width={width}
       />
       <mesh
@@ -304,9 +546,9 @@ export function ModularFacade({
       <FamilyDetails castShadow={castShadow} placement={placement} />
       <mesh
         castShadow={castShadow}
-        position={[width * 0.28, height + 1.2, 0]}
+        position={[width * 0.28, height + 1.2, shell.roofCenterZ]}
       >
-        <boxGeometry args={[0.42, 1.34, 0.58]} />
+        <boxGeometry args={[0.42, 1.34, 0.36]} />
         <meshStandardMaterial color="#55514c" roughness={0.98} />
       </mesh>
     </group>

@@ -100,7 +100,7 @@ export function PostRoadZone({
         />
       </group>
 
-      <group position={e4Position}>
+      <group position={e4Position} userData={{ cameraOcclusion: true }}>
         <mesh castShadow position={[0, 1.2, 0]} scale={[1.7, 1.15, 0.12]}>
           <boxGeometry />
           <meshStandardMaterial color="#4d5559" roughness={0.94} />
@@ -111,7 +111,7 @@ export function PostRoadZone({
         </mesh>
         <mesh position={[0, 1.2, 0.13]} scale={[1.48, 0.92, 0.025]}>
           <boxGeometry />
-          <meshStandardMaterial color="#d8d5ca" roughness={0.9} />
+          <meshStandardMaterial color="#c4b99f" roughness={0.9} />
         </mesh>
       </group>
     </group>

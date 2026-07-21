@@ -55,7 +55,7 @@ describe("createCharacterTurn", () => {
 
     expect(response.status).toBe("ok");
     if (response.status !== "ok") throw new Error("Expected live response.");
-    expect(response.turn.spokenResponse).toContain("In the reviewed report, Drouet said");
+    expect(response.turn.spokenResponse).toContain("near Clermont I learned");
     expect(response.turn.spokenResponse).toContain("fictional branch");
     expect(response.turn.factIdsUsed).toEqual(["F-S2-002"]);
     expect(response.turn.evidenceIdsReferenced).toEqual(["E3"]);
@@ -64,6 +64,27 @@ describe("createCharacterTurn", () => {
     expect(state).toEqual(before);
     expect(JSON.stringify(generateStructured.mock.calls[0])).not.toContain('"solution"');
     expect(JSON.stringify(generateStructured.mock.calls[0])).not.toContain("E6B");
+  });
+
+  it("directs the model to select the narrowest source-bounded reply to the student's question", async () => {
+    const { request } = createRequest();
+    const generateStructured = vi.fn().mockResolvedValue({
+      claimUnitIds: [],
+      evidenceReactionUnitId: "REACTION-DROUET-E3-QUALIFY",
+      followUpQuestionUnitId: null,
+      refusalUnitId: null,
+    } satisfies CharacterTurnPlan);
+
+    await createCharacterTurn(request, {
+      gateway: { generateStructured },
+    });
+
+    expect(generateStructured.mock.calls[0]?.[0]).toMatchObject({
+      instructions: expect.stringMatching(/narrowest.*direct/i),
+    });
+    expect(generateStructured.mock.calls[0]?.[0]?.instructions).toMatch(
+      /do not select a broad fallback/i,
+    );
   });
 
   it("falls back when the model selects an unauthorized unit", async () => {

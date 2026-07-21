@@ -7,8 +7,10 @@ function resolveCapturePort(value: string | undefined): number {
     : 3_300;
 }
 
-const port = resolveCapturePort(process.env.HISTORY_UNBROKEN_CAPTURE_PORT);
+const port = resolveCapturePort(process.env.UNCHANGED_CAPTURE_PORT);
 const baseURL = `http://127.0.0.1:${port}`;
+const reuseExistingServer =
+  process.env.UNCHANGED_CAPTURE_REUSE_SERVER === "1";
 
 export default defineConfig({
   testDir: "./tests/capture",
@@ -33,6 +35,6 @@ export default defineConfig({
     },
     url: baseURL,
     timeout: 120_000,
-    reuseExistingServer: false,
+    reuseExistingServer,
   },
 });

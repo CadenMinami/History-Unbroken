@@ -50,7 +50,7 @@ function canonicalSigningRepresentation(
   authorization: Omit<SpeechAuthorization, "signature">,
 ): string {
   return [
-    ["domain", "history-unbroken-speech-authorization-v1"],
+    ["domain", "unchanged-speech-authorization-v1"],
     ["mediaVersion", authorization.mediaVersion],
     ["caseId", authorization.caseId],
     ["stationId", authorization.stationId],

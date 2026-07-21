@@ -113,11 +113,27 @@ interface InvestigatorControllerProps {
 }
 
 function stopHorizontalVelocity(controller: EcctrlHandle) {
-  const body = controller.body;
+  const body = getActivePhysicsBody(controller);
   if (!body) return;
 
   const velocity = body.linvel();
   body.setLinvel({ x: 0, y: velocity.y, z: 0 }, true);
+}
+
+function getActivePhysicsBody(controller: EcctrlHandle | null) {
+  const body = controller?.body;
+  if (!body) return null;
+
+  try {
+    return body.isValid() ? body : null;
+  } catch {
+    // Rapier has already freed the native body during a React scene teardown.
+    return null;
+  }
+}
+
+function hasActivePhysicsBody(controller: EcctrlHandle | null) {
+  return Boolean(getActivePhysicsBody(controller));
 }
 
 function getPhysicalControlKey(event: KeyboardEvent): PhysicalControlKey | null {
@@ -179,6 +195,13 @@ function InvestigatorControllerRuntime({
 
   const applyControls = useCallback(
     (controller: EcctrlHandle, state: InvestigatorControlState, active: boolean) => {
+      const wasMoving = movingRef.current;
+      if (!hasActivePhysicsBody(controller)) {
+        movingRef.current = false;
+        if (wasMoving) invalidate();
+        return;
+      }
+
       const movement = resolveInvestigatorMovement(state, active);
       const moving = Boolean(
         active &&
@@ -187,7 +210,6 @@ function InvestigatorControllerRuntime({
             movement.leftward ||
             movement.rightward),
       );
-      const wasMoving = movingRef.current;
       movingRef.current = moving;
       controller.setMovement(movement);
       if (shouldStopHorizontalVelocity(wasMoving, moving, active)) {
@@ -200,7 +222,8 @@ function InvestigatorControllerRuntime({
 
   useFrame(({ clock }) => {
     const controller = controllerRef.current;
-    if (!controllerReadyRef.current && controller?.body) {
+    const hasPhysicsBody = hasActivePhysicsBody(controller);
+    if (!controllerReadyRef.current && controller && hasPhysicsBody) {
       applyControls(controller, getAcceptedControls(getControls()), enabled);
       controllerReadyRef.current = true;
       onControllerReady();
@@ -210,7 +233,7 @@ function InvestigatorControllerRuntime({
 
     const nextMotion = resolveInvestigatorMotion(
       movingRef.current,
-      controller?.runActive ?? false,
+      hasPhysicsBody && controller ? controller.runActive : false,
       enabled,
     );
     if (nextMotion !== motion) setMotion(nextMotion);
@@ -219,7 +242,7 @@ function InvestigatorControllerRuntime({
     if (!onPositionChange || clock.elapsedTime - lastPositionSampleAt.current < 0.1) {
       return;
     }
-    const body = controller?.body;
+    const body = getActivePhysicsBody(controller);
     if (!body) return;
     const position = body.translation();
     lastPositionSampleAt.current = clock.elapsedTime;

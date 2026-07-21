@@ -28,7 +28,7 @@ const releaseGates = Object.freeze([
 // testing is deliberate, opt-in, and kept in its separate credentialed command.
 const noKeyEnvironment = {
   ...process.env,
-  HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "",
+  UNCHANGED_LIVE_OPENAI_SMOKE: "",
   OPENAI_API_KEY: "",
   OPENAI_MODEL: "",
   OPENAI_SPEECH_MODEL: "",

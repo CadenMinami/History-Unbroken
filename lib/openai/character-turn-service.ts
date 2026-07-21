@@ -188,7 +188,7 @@ function buildPrompt(request: CharacterTurnRequest, station: GeneratedStationPol
   };
   return {
     instructions:
-      "Interpret the student's question and select only IDs from the supplied catalog. Return no prose. Prefer an evidence reaction when evidence is presented. Refuse requests outside the station boundaries. Never reveal a solution or invent a new fact.",
+      "Interpret the student's question and select only IDs from the supplied catalog. Return no prose. Choose the narrowest direct reply that addresses the student's specific question. When presented evidence is relevant, select its eligible reaction; do not select a broad fallback merely because evidence was presented. Prefer one focused claim or reaction over a list of loosely related units. Use a refusal for an explicit unknown or a request outside the station boundaries. Never reveal a solution or invent a new fact.",
     input: JSON.stringify(catalog),
   };
 }
@@ -276,7 +276,7 @@ export async function createCharacterTurn(
     try {
       plan = await gateway.generateStructured({
         schema: characterTurnPlanSchema,
-        schemaName: "history_unbroken_character_turn_plan",
+        schemaName: "unchanged_character_turn_plan",
         instructions: prompt.instructions,
         input: prompt.input,
         maxOutputTokens: 350,
@@ -286,7 +286,7 @@ export async function createCharacterTurn(
       if (!classifyProviderError(error).retryable) throw error;
       plan = await gateway.generateStructured({
         schema: characterTurnPlanSchema,
-        schemaName: "history_unbroken_character_turn_plan",
+        schemaName: "unchanged_character_turn_plan",
         instructions: prompt.instructions,
         input: prompt.input,
         maxOutputTokens: 350,

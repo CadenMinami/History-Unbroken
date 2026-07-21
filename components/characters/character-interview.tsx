@@ -41,15 +41,15 @@ const stationDetails: Record<
   }
 > = {
   "CHAR-DROUET": {
-    name: "Drouet station",
-    boundary: "Fictional branch perspective",
+    name: "Jean-Baptiste Drouet",
+    boundary: "Scope: the altered route and his reported pursuit. This dramatization is not evidence.",
     icon: UserRoundSearch,
     allowedEvidenceIds: ["E3", "E4", "E5"],
   },
   "CHAR-LOUIS": {
-    name: "Louis XVI station",
+    name: "Louis XVI",
     boundary:
-      "Louis's stated declaration; it cannot establish his complete private motive",
+      "Scope: Louis's public declaration. It cannot establish his complete private motive.",
     icon: Crown,
     allowedEvidenceIds: ["E1"],
   },
@@ -195,10 +195,10 @@ export function CharacterInterview({
     <section className={styles.interview} aria-labelledby="character-interview-heading">
       <div className={styles.heading}>
         <div>
-          <p>Bounded source exchange</p>
-          <h3 id="character-interview-heading">Test a source claim</h3>
+          <p>Source station / AI-directed dramatization</p>
+          <h3 id="character-interview-heading">Ask {activeDetails.name}</h3>
         </div>
-        <span>Not historical evidence</span>
+        <span>Formative only</span>
       </div>
 
       {lockedStationId ? null : (
@@ -208,13 +208,14 @@ export function CharacterInterview({
             const Icon = details.icon;
             return (
               <button
+                aria-label={`${details.name} station`}
                 aria-pressed={stationId === candidateId}
                 key={candidateId}
                 onClick={() => chooseStation(candidateId)}
                 type="button"
               >
                 <Icon aria-hidden="true" />
-                {details.name}
+                {details.name.replace("Jean-Baptiste ", "")}
               </button>
             );
           })}
@@ -254,7 +255,7 @@ export function CharacterInterview({
             setQuestionRevision(questionRevisionRef.current);
             setQuestion(event.target.value);
           }}
-          placeholder="Ask what this station observed, inferred, or cannot know."
+          placeholder={`Ask what ${activeDetails.name} observed, what a source supports, or where the record stops.`}
           rows={4}
           value={question}
         />
@@ -274,9 +275,15 @@ export function CharacterInterview({
           stationId={stationId}
         />
 
-        <button disabled={pending || question.trim().length === 0} type="submit">
+        <button
+          aria-label={
+            pending ? "Checking source bounds" : `Ask source: ${activeDetails.name}`
+          }
+          disabled={pending || question.trim().length === 0}
+          type="submit"
+        >
           {pending ? <LoaderCircle aria-hidden="true" className={styles.spinner} /> : <Send aria-hidden="true" />}
-          {pending ? "Checking source bounds" : "Ask source"}
+          {pending ? "Checking source bounds" : `Ask ${activeDetails.name}`}
         </button>
       </form>
 
@@ -294,8 +301,8 @@ export function CharacterInterview({
           role="article"
         >
           <div className={styles.responseMeta}>
-            <span>{responseDetails.boundary}</span>
-            <span>{response.status === "ok" ? "GPT-5.6 directed" : "Authored fallback"}</span>
+            <span>{responseDetails.name}</span>
+            <span>{response.status === "ok" ? "Guided response" : "Archive fallback"}</span>
           </div>
           <blockquote>{response.turn.spokenResponse}</blockquote>
           <VoicedResponse
@@ -311,21 +318,18 @@ export function CharacterInterview({
             }}
             disclosureClassName={styles.speechDisclosure}
             providerAudioFactory={providerAudioFactory}
-            speakerName={activeDetails.name.replace(" station", "")}
+            speakerName={activeDetails.name.replace("Jean-Baptiste ", "")}
             speechAdapterFactory={speechAdapterFactory}
           />
           {response.turn.followUpQuestion ? <p>{response.turn.followUpQuestion}</p> : null}
-          <dl>
-            <div>
-              <dt>Evidence referenced</dt>
-              <dd>{response.turn.evidenceIdsReferenced.join(", ") || "None"}</dd>
-            </div>
-            <div>
-              <dt>Epistemic status</dt>
-              <dd>{response.turn.epistemicStatus}</dd>
-            </div>
-          </dl>
-          <small>AI-directed dramatization. This response cannot be pinned or scored as evidence.</small>
+          <p className={styles.responseHandling}>
+            <strong>Source handling</strong>
+            {" "}
+            {response.turn.evidenceIdsReferenced.length > 0
+              ? `Presented: ${response.turn.evidenceIdsReferenced.join(", ")}. `
+              : "No evidence was presented. "}
+            {response.turn.evidenceReaction.replaceAll("_", " ")}. This response cannot be pinned or scored as evidence.
+          </p>
         </div>
       ) : null}
     </section>

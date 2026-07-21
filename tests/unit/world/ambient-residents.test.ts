@@ -58,6 +58,28 @@ describe("ambient resident placements", () => {
     }
   });
 
+  it("keeps each resident's walking envelope clear of every other resident", () => {
+    const placements = buildAmbientResidentPlacements(manifest, ambientLines, 16);
+
+    for (let index = 0; index < placements.length; index += 1) {
+      for (let comparisonIndex = index + 1; comparisonIndex < placements.length; comparisonIndex += 1) {
+        const first = placements[index];
+        const second = placements[comparisonIndex];
+        const baseDistance = Math.hypot(
+          first.basePosition[0] - second.basePosition[0],
+          first.basePosition[2] - second.basePosition[2],
+        );
+        const closestApproach =
+          baseDistance - first.pathRadius - second.pathRadius;
+
+        expect(
+          closestApproach,
+          `${first.residentId} can overlap ${second.residentId}`,
+        ).toBeGreaterThanOrEqual(1.1);
+      }
+    }
+  });
+
   it("freezes path motion when reduced motion is active", () => {
     const placement = buildAmbientResidentPlacements(
       manifest,

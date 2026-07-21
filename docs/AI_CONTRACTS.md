@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document records the implemented authority boundary for GPT-5.6 in History Unbroken. The model interprets student language and selects from authored policy units. It does not define historical truth, write visible historical prose, mutate game state, or affect repair eligibility.
+This document records the implemented authority boundary for GPT-5.6 in Unchanged. The model interprets student language and selects from authored policy units. It does not define historical truth, write visible historical prose, mutate game state, or affect repair eligibility.
 
 No model output, rubric score, feedback status, or extracted span can unlock, block, delay, or revoke the repair.
 

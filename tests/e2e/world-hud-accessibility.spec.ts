@@ -81,7 +81,7 @@ async function installClassroomUnsupportedPointerLock(page: Page): Promise<void>
       configurable: true,
       value: undefined,
     });
-    window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+    window.sessionStorage.setItem("unchanged:world-test-mode", "1");
   });
 }
 
@@ -256,7 +256,7 @@ test("keeps every Classroom zone prompt visible, unobscured, and accessible", as
     if (index > 0) {
       await page.evaluate((serialized) => {
         window.localStorage.setItem(
-          "history-unbroken:varennes:spatial-session",
+          "unchanged:varennes:spatial-session",
           serialized,
         );
       }, spatialSessionFor(zone));

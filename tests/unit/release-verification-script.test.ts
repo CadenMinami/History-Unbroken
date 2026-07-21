@@ -36,6 +36,6 @@ describe("local release verification command", () => {
     expect(source).toContain('OPENAI_MODEL: ""');
     expect(source).toContain('OPENAI_SPEECH_MODEL: ""');
     expect(source).toContain('SPEECH_AUTHORIZATION_SECRET: ""');
-    expect(source).toContain('HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: ""');
+    expect(source).toContain('UNCHANGED_LIVE_OPENAI_SMOKE: ""');
   });
 });

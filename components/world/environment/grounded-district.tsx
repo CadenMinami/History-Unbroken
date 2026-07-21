@@ -21,9 +21,9 @@ import { OptionalAssetBoundary } from "./optional-asset-boundary";
 export const DISTRICT_BUILDINGS = DISTRICT_FACADE_PLACEMENTS;
 
 export const DISTRICT_GROUND_PRESENTATION = Object.freeze({
-  color: "#514c40",
-  roadWidth: 8.4,
-  roadRepeatZ: 2.4,
+  color: "#3d3830",
+  roadWidth: 10.4,
+  roadRepeatZ: 3,
 });
 
 function DistrictFacades({
@@ -35,14 +35,18 @@ function DistrictFacades({
   placements: readonly DistrictFacadePlacement[];
   textureTier: GraphicsProfile["textureTier"];
 }>) {
-  return placements.map((placement) => (
-    <ModularFacade
-      castShadow={castShadow}
-      key={placement.id}
-      placement={placement}
-      textureTier={textureTier}
-    />
-  ));
+  return (
+    <group name="district-facades">
+      {placements.map((placement) => (
+        <ModularFacade
+          castShadow={castShadow}
+          key={placement.id}
+          placement={placement}
+          textureTier={textureTier}
+        />
+      ))}
+    </group>
+  );
 }
 
 function StreetLantern({
@@ -100,8 +104,11 @@ export function GroundedDistrict({
 
   return (
     <>
-      <mesh receiveShadow position={[36, -0.12, 0]}>
-        <boxGeometry args={[180, 0.2, 50]} />
+      {/* The terrain extends past the fog far plane so the horizon fades into
+          dusk haze, and its top sits nearly flush with the road surface so
+          buildings across the street never read as floating behind a ledge. */}
+      <mesh receiveShadow position={[36, -0.02, 0]}>
+        <boxGeometry args={[420, 0.2, 260]} />
         <meshStandardMaterial
           color={DISTRICT_GROUND_PRESENTATION.color}
           roughness={1}

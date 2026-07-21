@@ -18,6 +18,7 @@ import { useOptionalCourseAlignment } from "@/components/course-alignment/course
 import { InvestigationModeLink } from "@/components/investigation-mode/investigation-mode-link";
 import { loadVarennesCase } from "@/lib/case-engine/load-case";
 import { isInvestigationComplete } from "@/lib/case-engine/selectors";
+import { migrateLegacyStorageValue } from "@/lib/browser-storage/rebrand-migration";
 import {
   ambientSoundReducer,
   createAmbientSoundscape,
@@ -217,7 +218,7 @@ function readBrowserStorage(
   key: string,
 ): string | null {
   try {
-    return window[storageKind].getItem(key);
+    return migrateLegacyStorageValue(window[storageKind], key);
   } catch {
     return null;
   }
@@ -393,15 +394,15 @@ export function WorldShell({ capabilityCheck = supportsWebGL }: WorldShellProps)
   const browserActivityActiveRef = useRef(true);
   const testMode =
     process.env.NEXT_PUBLIC_WORLD_TEST_MODE === "1" ||
-    readBrowserStorage("sessionStorage", "history-unbroken:world-test-mode") ===
+    readBrowserStorage("sessionStorage", "unchanged:world-test-mode") ===
       "1";
   const telemetryEnabled =
-    readBrowserStorage("sessionStorage", "history-unbroken:world-telemetry") ===
+    readBrowserStorage("sessionStorage", "unchanged:world-telemetry") ===
     "1";
   const performanceTelemetryEnabled =
     readBrowserStorage(
       "sessionStorage",
-      "history-unbroken:world-performance-telemetry",
+      "unchanged:world-performance-telemetry",
     ) === "1";
   const reasoningHandoff = getWorldReasoningHandoff(
     state,
@@ -930,15 +931,15 @@ export function WorldShell({ capabilityCheck = supportsWebGL }: WorldShellProps)
   useEffect(() => {
     if (!performanceTelemetryEnabled) return;
     const target = window as Window & {
-      __historyUnbrokenWorldPerformance?: {
+      __unchangedWorldPerformance?: {
         samples: Array<{ fps: number; timestampMs: number }>;
       };
     };
     const bridge = { samples: performanceSamplesRef.current };
-    target.__historyUnbrokenWorldPerformance = bridge;
+    target.__unchangedWorldPerformance = bridge;
     return () => {
-      if (target.__historyUnbrokenWorldPerformance === bridge) {
-        delete target.__historyUnbrokenWorldPerformance;
+      if (target.__unchangedWorldPerformance === bridge) {
+        delete target.__unchangedWorldPerformance;
       }
     };
   }, [performanceTelemetryEnabled]);
@@ -1438,6 +1439,10 @@ export function WorldShell({ capabilityCheck = supportsWebGL }: WorldShellProps)
         cameraSettingsButtonRef={cameraSettingsButtonRef}
         currentZoneIndex={currentZoneIndex}
         currentZoneLabel={currentZoneLabel}
+        evidenceProgress={{
+          completed: state.inspectedItemIds.length,
+          total: casePackage.evidence.length,
+        }}
         graphicsTier={graphicsTier}
         handoffHref={reasoningHandoff.href}
         handoffLabel={reasoningHandoff.label}

@@ -1,7 +1,7 @@
 # Poly Haven CC0 Verification Record
 
 This project-authored record documents the license verification performed for the
-small Poly Haven asset set used by History Unbroken. It intentionally contains no
+small Poly Haven asset set used by Unchanged. It intentionally contains no
 copied Poly Haven page HTML or artwork.
 
 - Verified on: 2026-07-16

@@ -34,7 +34,7 @@ const investigationState = {
 test("investigation route does not overflow a 320px viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.addInitScript((savedState) => {
-    window.localStorage.setItem("history-unbroken:varennes:state", JSON.stringify(savedState));
+    window.localStorage.setItem("unchanged:varennes:state", JSON.stringify(savedState));
   }, investigationState);
 
   await page.goto("/play/investigate");

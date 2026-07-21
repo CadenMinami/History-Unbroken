@@ -129,15 +129,15 @@ test("loads the source-safe final zone with a reachable E5 prompt", async ({
   };
 
   await page.addInitScript(({ session, savedCaseState }) => {
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
-    window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-test-mode", "1");
     window.localStorage.setItem(
-      "history-unbroken:varennes:spatial-session",
+      "unchanged:varennes:spatial-session",
       JSON.stringify(session),
     );
-    if (!window.localStorage.getItem("history-unbroken:varennes:state")) {
+    if (!window.localStorage.getItem("unchanged:varennes:state")) {
       window.localStorage.setItem(
-        "history-unbroken:varennes:state",
+        "unchanged:varennes:state",
         JSON.stringify(savedCaseState),
       );
     }
@@ -210,7 +210,7 @@ test("loads the source-safe final zone with a reachable E5 prompt", async ({
     .poll(() =>
       page.evaluate(() => {
         const saved = JSON.parse(
-          window.localStorage.getItem("history-unbroken:varennes:state") ??
+          window.localStorage.getItem("unchanged:varennes:state") ??
             "null",
         ) as { state?: { inspectedItemIds?: string[] } } | null;
         return saved?.state?.inspectedItemIds ?? [];
@@ -247,7 +247,7 @@ test("loads the source-safe final zone with a reachable E5 prompt", async ({
   await page.evaluate(() => {
     const revision = 21;
     window.localStorage.setItem(
-      "history-unbroken:varennes:state",
+      "unchanged:varennes:state",
       JSON.stringify({
         persistenceVersion: "1.2.0",
         savedAt: "2026-07-19T12:10:00.000Z",

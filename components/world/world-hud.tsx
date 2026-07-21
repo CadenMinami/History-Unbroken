@@ -18,6 +18,10 @@ interface WorldHudProps {
   cameraSettingsButtonRef: RefObject<HTMLButtonElement | null>;
   currentZoneIndex: number;
   currentZoneLabel: string;
+  evidenceProgress: Readonly<{
+    completed: number;
+    total: number;
+  }>;
   ambientMuted: boolean;
   graphicsTier: "high" | "balanced" | "classroom";
   handoffHref: string;
@@ -54,10 +58,10 @@ function cameraStatusLine(
     return "Camera captured / Escape to release.";
   }
   if (!snapshot.pointerLockSupported) {
-    return "Right-drag to look / Keyboard remains available.";
+    return "Drag the world to look / Keyboard remains available.";
   }
   if (snapshot.captureDenied) {
-    return "Capture blocked / Right-drag fallback.";
+    return "Camera capture unavailable / Drag the world to look.";
   }
   if (!pointerLockIntroduced) return "Click world to capture camera.";
   return null;
@@ -71,6 +75,7 @@ export function WorldHud({
   cameraSettingsButtonRef,
   currentZoneIndex,
   currentZoneLabel,
+  evidenceProgress,
   ambientMuted,
   graphicsTier,
   handoffHref,
@@ -109,7 +114,7 @@ export function WorldHud({
         data-testid="world-hud"
       >
         <Link data-world-route-source="brand_link" href="/">
-          History Unbroken
+          Unchanged
         </Link>
         <span>VARENNES / SCHEMATIC RECONSTRUCTION</span>
         <InvestigationModeLink
@@ -121,51 +126,6 @@ export function WorldHud({
           Use non-spatial investigation
         </InvestigationModeLink>
       </header>
-
-      <section
-        aria-busy={!ready}
-        aria-live="polite"
-        className={styles.status}
-        data-testid="world-status"
-        hidden={cameraSettingsOpen}
-        role="status"
-      >
-        <p>Spatial archive / {worldMode}</p>
-        <strong>
-          {ready
-            ? "Varennes reconstruction ready"
-            : "Preparing Varennes reconstruction"}
-        </strong>
-        {cameraStatus ? (
-          <span className={styles.statusLine}>{cameraStatus}</span>
-        ) : null}
-        <small className={styles.mobileDisclosure}>
-          Authored dramatization; not testimony or evidence.
-        </small>
-      </section>
-      <div className={styles.caseFileControl}>
-        {handoffOpensCaseboard ? (
-          <button
-            className={styles.caseFileLink}
-            disabled={pendingAction !== null}
-            onClick={onOpenCaseboard}
-            ref={reasoningButtonRef}
-            type="button"
-          >
-            {handoffLabel}
-          </button>
-        ) : (
-          <Link
-            className={styles.caseFileLink}
-            data-world-route-source={
-              handoffHref === "/play" ? "briefing_link" : "case_handoff_link"
-            }
-            href={handoffHref}
-          >
-            {handoffLabel}
-          </Link>
-        )}
-      </div>
 
       <button
         aria-label="Open route journal"
@@ -188,18 +148,81 @@ export function WorldHud({
         <small>Authored dramatization; not testimony or evidence.</small>
       </aside>
 
-      <nav
-        aria-label={`Reconstruction route, stop ${currentZoneIndex + 1} of 4`}
-        className={styles.routeCompass}
+      <aside
+        aria-label="Case status and current reconstruction location"
+        className={styles.caseRail}
+        data-testid="world-case-rail"
+        hidden={cameraSettingsOpen}
       >
-        <ol aria-hidden="true">
+        <section
+          aria-busy={!ready}
+          aria-live="polite"
+          className={styles.status}
+          data-testid="world-status"
+          hidden={cameraSettingsOpen}
+          role="status"
+        >
+          <p>Spatial archive / {worldMode}</p>
+          <strong>
+            {ready
+              ? "Varennes reconstruction ready"
+              : "Preparing Varennes reconstruction"}
+          </strong>
+          {cameraStatus ? (
+            <span className={styles.statusLine}>{cameraStatus}</span>
+          ) : null}
+        </section>
+
+        <div className={styles.caseObjective}>
+          <span>Case objective</span>
+          {handoffOpensCaseboard ? (
+            <button
+              className={styles.caseFileLink}
+              disabled={pendingAction !== null}
+              onClick={onOpenCaseboard}
+              ref={reasoningButtonRef}
+              type="button"
+            >
+              {handoffLabel}
+            </button>
+          ) : (
+            <Link
+              className={styles.caseFileLink}
+              data-world-route-source={
+                handoffHref === "/play" ? "briefing_link" : "case_handoff_link"
+              }
+              href={handoffHref}
+            >
+              {handoffLabel}
+            </Link>
+          )}
+        </div>
+
+        <dl className={styles.caseMetrics}>
+          <div>
+            <dt>Evidence</dt>
+            <dd>
+              {evidenceProgress.completed} / {evidenceProgress.total}
+            </dd>
+          </div>
+          <div>
+            <dt>Route</dt>
+            <dd>
+              {currentZoneIndex + 1} / 4
+            </dd>
+          </div>
+          <div>
+            <dt>District</dt>
+            <dd>{currentZoneLabel}</dd>
+          </div>
+        </dl>
+
+        <ol aria-hidden="true" className={styles.routeProgress}>
           {[0, 1, 2, 3].map((index) => (
             <li data-current={index === currentZoneIndex} key={index} />
           ))}
         </ol>
-        {guidanceSetting === "off" ? null : (
-          <span>Objective / {handoffLabel}</span>
-        )}
+
         {guidanceSetting === "guided" ? (
           <small className={styles.guidedHint}>
             Follow nearby prompts, then review discoveries in the journal.
@@ -222,14 +245,6 @@ export function WorldHud({
               {setting}
             </button>
           ))}
-        </div>
-      </nav>
-
-      <aside className={styles.location} aria-label="Current reconstruction location">
-        <span>{String(currentZoneIndex + 1).padStart(2, "0")}</span>
-        <div>
-          <p>Current district</p>
-          <strong>{currentZoneLabel}</strong>
         </div>
       </aside>
 

@@ -54,7 +54,7 @@
         {
           "evidenceReactionUnitId": "REACTION-DROUET-E3-QUALIFY",
           "reaction": "qualified",
-          "text": { "standard": "In the reviewed report, Drouet said he learned near Clermont that the carriage had turned toward Varennes. That attributed account conflicts with my experience in this fictional branch, where no correction reached me.", "reduced": "In the reviewed report, Drouet said the carriage turned toward Varennes. In this fictional branch, I never received that correction." },
+          "text": { "standard": "That report says that near Clermont I learned the carriage had turned toward Varennes. In this fictional branch, that correction never reached me.", "reduced": "The report says the carriage turned toward Varennes. In this fictional branch, I never received that correction." },
           "epistemicClassification": "dramatization",
           "provenance": "dramatized_dialogue",
           "countsAsHistoricalEvidence": false,
@@ -66,7 +66,7 @@
         {
           "evidenceReactionUnitId": "REACTION-DROUET-E4-QUALIFY",
           "reaction": "qualified",
-          "text": { "standard": "The reviewed report says Drouet turned toward Varennes, and the E4 reconstruction plots that reported route. In this fictional branch, my route does not match that reconstruction.", "reduced": "The reviewed report says Drouet turned toward Varennes. My fictional branch route does not." },
+          "text": { "standard": "That route board follows a report that says I turned toward Varennes. In this fictional branch, I stayed on the announced Verdun road.", "reduced": "The report and route board say I turned toward Varennes. In this fictional branch, I stayed on the Verdun road." },
           "epistemicClassification": "dramatization",
           "provenance": "dramatized_dialogue",
           "countsAsHistoricalEvidence": false,
@@ -78,7 +78,7 @@
         {
           "evidenceReactionUnitId": "REACTION-DROUET-E5-QUALIFY",
           "reaction": "qualified",
-          "text": { "standard": "The presented E5 reconstruction draws on overlapping reports. It describes officials, residents, National Guard involvement, passport inspection, and disputed bridge obstruction. In this fictional branch, no route correction brought me to Varennes. The reports do not show that any one actor or action was sufficient.", "reduced": "The E5 reconstruction draws on overlapping reports about local action. In this fictional branch, no route correction brought me to Varennes." },
+          "text": { "standard": "That report describes officials, residents, National Guardsmen, passport inspection, and a disputed bridge obstruction. In this fictional branch, no correction brought me to Varennes. It does not show that any one person or action was enough by itself.", "reduced": "The report describes local action. In this fictional branch, no correction brought me to Varennes." },
           "epistemicClassification": "dramatization",
           "provenance": "dramatized_dialogue",
           "countsAsHistoricalEvidence": false,
@@ -129,7 +129,7 @@
       "claimUnits": [
         {
           "claimId": "CLAIM-LOUIS-LIBERTY-SAFETY",
-          "text": { "standard": "In my declaration, I presented the departure as an attempt to recover liberty and secure my family.", "reduced": "My declaration said I left for liberty and my family's safety." },
+          "text": { "standard": "In my declaration, I said I left to regain my liberty and protect my family.", "reduced": "My declaration said I left for liberty and my family's safety." },
           "epistemicClassification": "dramatization",
           "provenance": "dramatized_dialogue",
           "countsAsHistoricalEvidence": false,
@@ -140,7 +140,7 @@
         },
         {
           "claimId": "CLAIM-LOUIS-AUTHORITY",
-          "text": { "standard": "My declaration argued that the emerging settlement left me without enough freedom or effective authority.", "reduced": "My declaration said the new settlement left me too little freedom and power." },
+          "text": { "standard": "In that declaration, I argued that the settlement left me with too little freedom and authority.", "reduced": "My declaration said the new settlement left me too little freedom and power." },
           "epistemicClassification": "dramatization",
           "provenance": "dramatized_dialogue",
           "countsAsHistoricalEvidence": false,
@@ -154,7 +154,7 @@
         {
           "evidenceReactionUnitId": "REACTION-LOUIS-E1-QUALIFY",
           "reaction": "qualified",
-          "text": { "standard": "That declaration records my public description of the departure as purposeful. It cannot independently establish every private motive I held.", "reduced": "The declaration describes my public position, not every private motive." },
+          "text": { "standard": "It records the public reason I gave for leaving. It cannot prove every private motive I may have had.", "reduced": "The declaration describes my public position, not every private motive." },
           "epistemicClassification": "dramatization",
           "provenance": "dramatized_dialogue",
           "countsAsHistoricalEvidence": false,
@@ -169,7 +169,7 @@
         { "followUpQuestionUnitId": "FOLLOWUP-LOUIS-CONSEQUENCE", "text": { "standard": "What political effect can you support without claiming that the flight made later events inevitable?", "reduced": "What effect can you support without saying later events were certain?" } }
       ],
       "refusalUnknownUnits": [
-        { "refusalUnitId": "REFUSAL-LOUIS-PRIVATE-MOTIVE", "unknownId": "UNKNOWN-LOUIS-COMPLETE-PRIVATE-MOTIVE", "text": { "standard": "The reviewed record cannot establish one complete private motive, so this station will not invent one.", "reduced": "The record cannot prove every private motive." } },
+        { "refusalUnitId": "REFUSAL-LOUIS-PRIVATE-MOTIVE", "unknownId": "UNKNOWN-LOUIS-COMPLETE-PRIVATE-MOTIVE", "text": { "standard": "The record cannot establish one complete private motive, so I will not invent one.", "reduced": "The record cannot prove every private motive." } },
         { "refusalUnitId": "REFUSAL-LOUIS-ALTERNATE-FUTURE", "unknownId": "UNKNOWN-LOUIS-ALTERNATE-FUTURE", "text": { "standard": "No reviewed source can tell us exactly what France would have become after an alternate escape.", "reduced": "We cannot know the exact alternate future." } }
       ],
       "safetyRefusalUnit": {

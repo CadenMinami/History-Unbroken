@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <main className="case-entry">
       <header className="case-entry__masthead">
-        <span className="wordmark">History Unbroken</span>
+        <span className="wordmark">Unchanged</span>
         <span className="archive-code">CASE 01 / 21 JUN 1791</span>
       </header>
 

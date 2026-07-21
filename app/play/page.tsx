@@ -55,7 +55,7 @@ export default function PlayPage() {
   return (
     <main className="case-entry">
       <header className="case-entry__masthead">
-        <span className="wordmark">History Unbroken</span>
+        <span className="wordmark">Unchanged</span>
         <span className="archive-code">CASE 01 / SESSION READY</span>
       </header>
       <section className="case-entry__workspace">

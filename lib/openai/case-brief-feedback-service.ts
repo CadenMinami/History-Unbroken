@@ -327,7 +327,7 @@ export async function createCaseBriefFeedback(
     try {
       plan = await gateway.generateStructured({
         schema: caseBriefFeedbackPlanSchema,
-        schemaName: "history_unbroken_case_brief_feedback_plan",
+        schemaName: "unchanged_case_brief_feedback_plan",
         instructions: prompt.instructions,
         input: prompt.input,
         maxOutputTokens: 800,
@@ -337,7 +337,7 @@ export async function createCaseBriefFeedback(
       if (!classifyProviderError(error).retryable) throw error;
       plan = await gateway.generateStructured({
         schema: caseBriefFeedbackPlanSchema,
-        schemaName: "history_unbroken_case_brief_feedback_plan",
+        schemaName: "unchanged_case_brief_feedback_plan",
         instructions: prompt.instructions,
         input: prompt.input,
         maxOutputTokens: 800,

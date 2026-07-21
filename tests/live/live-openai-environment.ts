@@ -1,8 +1,8 @@
 export type LiveOpenAIEnvironmentSource = Readonly<
   Record<string, string | undefined>
 > & {
-  HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE?: string;
-  HISTORY_UNBROKEN_LIVE_OPENAI_PORT?: string;
+  UNCHANGED_LIVE_OPENAI_SMOKE?: string;
+  UNCHANGED_LIVE_OPENAI_PORT?: string;
   OPENAI_API_KEY?: string;
   OPENAI_MODEL?: string;
   OPENAI_SPEECH_MODEL?: string;
@@ -23,9 +23,9 @@ const BUILD_BLANKED_VARIABLES = [
 function requireLiveOpenAIKey(
   environment: LiveOpenAIEnvironmentSource,
 ): string {
-  if (environment.HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE !== "1") {
+  if (environment.UNCHANGED_LIVE_OPENAI_SMOKE !== "1") {
     throw new Error(
-      "Live OpenAI smoke is disabled. Set HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE=1 to opt in; no build or provider request was started.",
+      "Live OpenAI smoke is disabled. Set UNCHANGED_LIVE_OPENAI_SMOKE=1 to opt in; no build or provider request was started.",
     );
   }
 
@@ -43,7 +43,7 @@ export function resolveLiveOpenAIEnvironment(
 ): ResolvedLiveOpenAIEnvironment {
   requireLiveOpenAIKey(environment);
 
-  const portCandidate = Number(environment.HISTORY_UNBROKEN_LIVE_OPENAI_PORT);
+  const portCandidate = Number(environment.UNCHANGED_LIVE_OPENAI_PORT);
   const port =
     Number.isInteger(portCandidate) &&
     portCandidate >= 1_024 &&

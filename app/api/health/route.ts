@@ -18,7 +18,7 @@ export async function GET(): Promise<Response> {
   return NextResponse.json(
     {
       status: "ok",
-      application: "history-unbroken",
+      application: "unchanged",
       case: {
         id: casePackage.caseId,
         schemaVersion: casePackage.schemaVersion,

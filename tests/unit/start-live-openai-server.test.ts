@@ -9,8 +9,8 @@ import {
 const API_KEY_SENTINEL = "sk-launcher-unit-test-sentinel";
 const INHERITED_SECRET_SENTINEL = "inherited-secret-sentinel";
 const SOURCE_ENVIRONMENT = {
-  HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "1",
-  HISTORY_UNBROKEN_LIVE_OPENAI_PORT: "3419",
+  UNCHANGED_LIVE_OPENAI_SMOKE: "1",
+  UNCHANGED_LIVE_OPENAI_PORT: "3419",
   OPENAI_API_KEY: `  ${API_KEY_SENTINEL}  `,
   OPENAI_MODEL: "untrusted-model",
   OPENAI_SPEECH_MODEL: "untrusted-speech-model",
@@ -130,7 +130,7 @@ describe("live OpenAI server launcher", () => {
       await runLiveOpenAIServer({
         environment: {
           ...SOURCE_ENVIRONMENT,
-          HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE: "0",
+          UNCHANGED_LIVE_OPENAI_SMOKE: "0",
         },
         createSpeechSecret,
         runCommand,
@@ -140,7 +140,7 @@ describe("live OpenAI server launcher", () => {
     }
 
     expect(caught).toBeInstanceOf(Error);
-    expect(String(caught)).toContain("HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE=1");
+    expect(String(caught)).toContain("UNCHANGED_LIVE_OPENAI_SMOKE=1");
     expect(String(caught)).not.toContain(API_KEY_SENTINEL);
     expect(runCommand).not.toHaveBeenCalled();
     expect(createSpeechSecret).not.toHaveBeenCalled();

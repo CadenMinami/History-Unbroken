@@ -29,6 +29,18 @@ export type AmbientResidentTransform = Readonly<{
   rotationY: number;
 }>;
 
+const MAX_RESIDENTS_PER_ZONE = 4;
+
+// Each slot keeps a full walking envelope away from the others. The world uses
+// ambient residents for atmosphere only, so a sparse street reads better than
+// a crowd of figures clipping through one another.
+const RESIDENT_ROUTE_SLOTS = [
+  { offset: [-2.7, -2.4] as const, pathRadius: 0.28, phase: 0.15, speed: 0.16 },
+  { offset: [2.7, 2.4] as const, pathRadius: 0.3, phase: 1.22, speed: 0.176 },
+  { offset: [-2.7, 2.4] as const, pathRadius: 0.26, phase: 2.39, speed: 0.152 },
+  { offset: [2.7, -2.4] as const, pathRadius: 0.32, phase: 3.46, speed: 0.168 },
+] as const;
+
 export function resolveAmbientResidentTransform(
   placement: AmbientResidentPlacement,
   elapsed: number,
@@ -55,7 +67,6 @@ export function buildAmbientResidentPlacements(
   requestedCount: number,
 ): AmbientResidentPlacement[] {
   if (!Number.isFinite(requestedCount) || requestedCount <= 0) return [];
-  const count = Math.min(64, Math.floor(requestedCount));
   const linesById = new Map(
     ambientLines.lines.map((line) => [line.ambientLineId, line]),
   );
@@ -70,23 +81,32 @@ export function buildAmbientResidentPlacements(
   });
   if (zoneEntries.length === 0) return [];
 
+  const count = Math.min(
+    64,
+    Math.floor(requestedCount),
+    zoneEntries.length * MAX_RESIDENTS_PER_ZONE,
+  );
+  const residentsPerZone = Array.from({ length: zoneEntries.length }, () => 0);
+
   return Array.from({ length: count }, (_, index) => {
-    const entry = zoneEntries[index % zoneEntries.length];
-    const cycle = Math.floor(index / zoneEntries.length);
-    const side = (entry.zoneIndex + cycle) % 2 === 0 ? -1 : 1;
+    const zoneEntryIndex = index % zoneEntries.length;
+    const entry = zoneEntries[zoneEntryIndex];
+    const slotIndex = residentsPerZone[zoneEntryIndex];
+    residentsPerZone[zoneEntryIndex] += 1;
+    const slot = RESIDENT_ROUTE_SLOTS[slotIndex];
     return {
       residentId: `AMBIENT-RESIDENT-${String(index + 1).padStart(2, "0")}`,
       zoneId: entry.zone.zoneId,
       ambientLineId: entry.line.ambientLineId,
       caption: entry.line.text,
       basePosition: [
-        entry.safeSpawn.position[0] + side * (2 + (cycle % 2) * 0.65),
+        entry.safeSpawn.position[0] + slot.offset[0],
         entry.safeSpawn.position[1],
-        entry.safeSpawn.position[2] + (entry.zoneIndex % 2 === 0 ? 1.5 : -1.5),
+        entry.safeSpawn.position[2] + slot.offset[1],
       ],
-      pathRadius: 0.75 + (cycle % 3) * 0.18,
-      phase: entry.zoneIndex * 1.31 + cycle * 0.83,
-      speed: 0.16 + (index % 4) * 0.018,
+      pathRadius: slot.pathRadius,
+      phase: entry.zoneIndex * 1.31 + slot.phase,
+      speed: slot.speed,
     };
   });
 }

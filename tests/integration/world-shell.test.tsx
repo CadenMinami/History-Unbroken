@@ -631,9 +631,9 @@ describe("world runtime shell", () => {
     window.sessionStorage.clear();
     delete (
       window as Window & {
-        __historyUnbrokenWorldPerformance?: unknown;
+        __unchangedWorldPerformance?: unknown;
       }
-    ).__historyUnbrokenWorldPerformance;
+    ).__unchangedWorldPerformance;
     reportContextLost = undefined;
     reportControllerReady = undefined;
     reportZoneReadiness = undefined;
@@ -724,6 +724,27 @@ describe("world runtime shell", () => {
     );
   });
 
+  it("consolidates the active objective, evidence, route, and district into one case rail", () => {
+    renderShell(() => true);
+    act(() => reportControllerReady?.());
+
+    const rail = screen.getByTestId("world-case-rail");
+    expect(rail).toHaveTextContent(/case objective.*return to case briefing/i);
+    expect(rail).toHaveTextContent(/evidence.*0 \/ 6/i);
+    expect(rail).toHaveTextContent(/route.*1 \/ 4/i);
+    expect(rail).toHaveTextContent(/archive antechamber/i);
+    expect(
+      screen.queryByRole("navigation", {
+        name: /reconstruction route, stop/i,
+      }),
+    ).toBeNull();
+    expect(
+      screen.getByRole("complementary", {
+        name: /case status and current reconstruction location/i,
+      }),
+    ).toBe(rail);
+  });
+
   it("publishes stable four-zone diagnostics without changing visible readiness copy", () => {
     renderShell(() => true);
     const shell = screen.getByTestId("world-canvas-shell");
@@ -789,7 +810,7 @@ describe("world runtime shell", () => {
 
     act(() => cameraBoundaryMocks.denyCapture());
     expect(screen.getByRole("status")).toHaveTextContent(
-      /capture blocked.*right-drag fallback/i,
+      /camera capture unavailable.*drag the world to look/i,
     );
     expect(window.localStorage.getItem(CAMERA_PREFERENCES_STORAGE_KEY)).toBeNull();
   });
@@ -842,7 +863,7 @@ describe("world runtime shell", () => {
     if (!canvas) throw new Error("Expected the controlled world canvas.");
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      /right-drag to look.*keyboard remains available/i,
+      /drag the world to look.*keyboard remains available/i,
     );
     expect(runtimeLocomotionEnabled).toBe(true);
     fireEvent.pointerDown(canvas, { button: 2 });
@@ -1003,7 +1024,9 @@ describe("world runtime shell", () => {
     expect(
       screen.getByRole("button", { name: "Guidance subtle" }),
     ).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByText(/objective \/ return to case briefing/i)).toBeInTheDocument();
+    expect(screen.getByTestId("world-case-rail")).toHaveTextContent(
+      /case objective.*return to case briefing/i,
+    );
     expect(
       screen.queryByText(/follow nearby prompts, then review discoveries/i),
     ).toBeNull();
@@ -1022,7 +1045,9 @@ describe("world runtime shell", () => {
     expect(
       screen.getByRole("button", { name: "Guidance off" }),
     ).toHaveAttribute("aria-pressed", "true");
-    expect(screen.queryByText(/objective \/ return to case briefing/i)).toBeNull();
+    expect(screen.getByTestId("world-case-rail")).toHaveTextContent(
+      /case objective.*return to case briefing/i,
+    );
     expect(
       screen.queryByText(/follow nearby prompts, then review discoveries/i),
     ).toBeNull();
@@ -1159,7 +1184,7 @@ describe("world runtime shell", () => {
 
   it("exposes renderer-owned frame samples only when the performance gate opts in", () => {
     window.sessionStorage.setItem(
-      "history-unbroken:world-performance-telemetry",
+      "unchanged:world-performance-telemetry",
       "1",
     );
     renderShell(() => true);
@@ -1173,11 +1198,11 @@ describe("world runtime shell", () => {
     expect(
       (
         window as Window & {
-          __historyUnbrokenWorldPerformance?: {
+          __unchangedWorldPerformance?: {
             samples: Array<{ fps: number; timestampMs: number }>;
           };
         }
-      ).__historyUnbrokenWorldPerformance?.samples,
+      ).__unchangedWorldPerformance?.samples,
     ).toEqual([
       { timestampMs: 100, fps: 60 },
       { timestampMs: 116.7, fps: 59.9 },
@@ -1185,7 +1210,7 @@ describe("world runtime shell", () => {
   });
 
   it("passes telemetry opt-in to the runtime without enabling world test mode", () => {
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
 
     renderShell(() => true);
 
@@ -1532,7 +1557,7 @@ describe("world runtime shell", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "This station voices Louis's stated declaration. The source cannot establish his complete private motive, and this dramatization cannot become historical evidence.",
+        "Dramatized dialogue is limited to Louis's stated declaration. It cannot establish a complete private motive or become historical evidence.",
       ),
     ).toBeInTheDocument();
     expect(
@@ -2048,7 +2073,7 @@ describe("world runtime shell", () => {
   });
 
   it("restores camera preferences and persists native settings controls only", async () => {
-    const caseStorageKey = "history-unbroken:varennes:state";
+    const caseStorageKey = "unchanged:varennes:state";
     const restoredPreferences: CameraPreferences = {
       sensitivity: 1.7,
       invertY: true,
@@ -2483,7 +2508,7 @@ describe("world runtime shell", () => {
   it.each([
     {
       destination: "/",
-      linkName: "History Unbroken",
+      linkName: "Unchanged",
       phase: "primer" as const,
     },
     {

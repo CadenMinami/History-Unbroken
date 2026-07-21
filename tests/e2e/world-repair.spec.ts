@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import sharp from "sharp";
 
-const STORAGE_KEY = "history-unbroken:varennes:state";
+const STORAGE_KEY = "unchanged:varennes:state";
 
 test.describe.configure({ mode: "serial" });
 

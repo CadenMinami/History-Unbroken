@@ -28,7 +28,7 @@ async function moveWithPositionDiagnostics(
 async function readCaseState(page: Page): Promise<unknown> {
   return page.evaluate(() => {
     const saved = window.localStorage.getItem(
-      "history-unbroken:varennes:state",
+      "unchanged:varennes:state",
     );
     return saved ? JSON.parse(saved).state : null;
   });
@@ -39,13 +39,13 @@ test("completes the real-entry E3-to-Drouet-to-E1-to-Louis world case path", asy
 }) => {
   test.setTimeout(120_000);
   await page.addInitScript(() => {
-    const initialStorageMarker = "history-unbroken:world-case-initial-storage";
+    const initialStorageMarker = "unchanged:world-case-initial-storage";
     if (!window.sessionStorage.getItem(initialStorageMarker)) {
       const hadCaseState = window.localStorage.getItem(
-        "history-unbroken:varennes:state",
+        "unchanged:varennes:state",
       );
       const hadSpatialState = window.localStorage.getItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
       );
       window.sessionStorage.setItem(
         initialStorageMarker,
@@ -55,14 +55,14 @@ test("completes the real-entry E3-to-Drouet-to-E1-to-Louis world case path", asy
         }),
       );
     }
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
   });
   await page.goto("/play");
 
   const initialStorage = await page.evaluate(() =>
     JSON.parse(
       window.sessionStorage.getItem(
-        "history-unbroken:world-case-initial-storage",
+        "unchanged:world-case-initial-storage",
       ) ?? "null",
     ),
   );

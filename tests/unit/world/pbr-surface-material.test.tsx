@@ -21,7 +21,13 @@ import {
   getScaleAwareFacadeRepeat,
   selectFacadePbrFamily,
 } from "@/components/world/environment/pbr-surface-material";
-import { ModularFacade } from "@/components/world/environment/modular-facade";
+import {
+  getFacadeShellLayout,
+  getFacadeVisualBounds,
+  getFacadeVisualFootprint,
+  getPitchedRoofLayout,
+  ModularFacade,
+} from "@/components/world/environment/modular-facade";
 import { DISTRICT_FACADE_PLACEMENTS } from "@/components/world/environment/district-layout";
 
 function sourceTextures() {
@@ -37,6 +43,90 @@ afterEach(() => {
 });
 
 describe("facade PBR material boundary", () => {
+  it("keeps pitched roof panels above the wall eaves without a ridge collision", () => {
+    const layout = getPitchedRoofLayout({
+      width: 5.8,
+      wallHeight: 4.2,
+      depth: 4,
+    });
+
+    for (const panel of layout.panels) {
+      expect(panel.lowestPointY).toBeGreaterThanOrEqual(layout.wallTopY);
+      expect(panel.eaveBottomY).toBeGreaterThanOrEqual(layout.wallTopY);
+    }
+
+    expect(layout.panels[0].ridgeEdgeX).toBeLessThan(0);
+    expect(layout.panels[1].ridgeEdgeX).toBeGreaterThan(0);
+    expect(layout.ridgeCap.width).toBeGreaterThanOrEqual(
+      layout.panels[1].ridgeEdgeX - layout.panels[0].ridgeEdgeX,
+    );
+  });
+
+  it("keeps every facade visually separated even after roof overhang is included", () => {
+    for (let index = 0; index < DISTRICT_FACADE_PLACEMENTS.length; index += 1) {
+      const current = DISTRICT_FACADE_PLACEMENTS[index]!;
+      const currentFootprint = getFacadeVisualFootprint(
+        current.size[0],
+        current.size[2],
+      );
+
+      for (const candidate of DISTRICT_FACADE_PLACEMENTS.slice(index + 1)) {
+        const candidateFootprint = getFacadeVisualFootprint(
+          candidate.size[0],
+          candidate.size[2],
+        );
+        const overlapsX =
+          Math.abs(current.position[0] - candidate.position[0]) <
+          currentFootprint.halfWidth + candidateFootprint.halfWidth;
+        const overlapsZ =
+          Math.abs(current.position[2] - candidate.position[2]) <
+          currentFootprint.halfDepth + candidateFootprint.halfDepth;
+
+        expect(
+          overlapsX && overlapsZ,
+          `${current.id} overlaps ${candidate.id} after visual roof overhang`,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it("gives every facade a full-depth body, full-length roof, and gable ends", () => {
+    const shell = getFacadeShellLayout(4);
+    const source = readFileSync(
+      join(
+        process.cwd(),
+        "components/world/environment/modular-facade.tsx",
+      ),
+      "utf8",
+    );
+
+    expect(shell.backZ).toBeCloseTo(shell.frontZ - 4);
+    expect(shell.bodyCenterZ).toBeCloseTo(shell.frontZ - 2);
+    expect(shell.roofDepth).toBeGreaterThan(4);
+    expect(shell.roofDepth).toBeLessThanOrEqual(4.6);
+    expect(source).toMatch(/name="facade-body"/);
+    expect(source).toMatch(/name="roof-gable-front"/);
+    expect(source).toMatch(/name="roof-gable-back"/);
+    expect(source).toMatch(
+      /<boxGeometry args=\{\[width, height \+ WALL_BASE_Y \+ 0\.16, depth\]\}/,
+    );
+  });
+
+  it("reports visual bounds that cover the full building volume for camera collision", () => {
+    const bounds = getFacadeVisualBounds({
+      width: 5.8,
+      wallHeight: 4.2,
+      depth: 4,
+    });
+
+    expect(bounds.halfWidth).toBeGreaterThan(5.8 / 2);
+    expect(bounds.halfDepth).toBeGreaterThan(4 / 2);
+    expect(bounds.halfDepth).toBeLessThanOrEqual(4 / 2 + 0.5);
+    expect(bounds.localCenterZ).toBeGreaterThan(-0.1);
+    expect(bounds.localCenterZ).toBeLessThan(0.45);
+    expect(bounds.maxY).toBeGreaterThan(4.2 + 0.45);
+  });
+
   it("keeps the runtime registry to the four accepted facade families", () => {
     expect(FACADE_PBR_USED_FAMILIES).toEqual([
       "plaster",

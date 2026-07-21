@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 import { CAMERA_CONFIG } from "../../lib/world/camera-config";
+import { DISTRICT_TRAVEL_CLEARANCE } from "../../components/world/environment/district-layout";
 
 test.use({ viewport: { width: 1280, height: 720 } });
 test.setTimeout(90_000);
@@ -43,6 +44,22 @@ interface CameraTelemetry {
   cameraPitch: number;
 }
 
+interface WorldSubjectTelemetry {
+  firstHitBelongsToSubject: boolean;
+  firstHitName?: string | null;
+  firstHitPath?: readonly string[];
+  intersectsViewport: boolean;
+  name: string;
+  present: boolean;
+  screenHeightRatio: number;
+  visibleMeshCount: number;
+}
+
+interface FacadeOcclusionTelemetry {
+  facadeIds: readonly string[];
+  occludingFacadeIds: readonly string[];
+}
+
 interface PointerLockHarnessSnapshot {
   autoAcknowledgeRelease: boolean;
   exitRequests: number;
@@ -64,7 +81,7 @@ interface BrowserPointerLockHarness {
 }
 
 type PointerLockHarnessWindow = Window & {
-  __historyUnbrokenPointerLockHarness: BrowserPointerLockHarness;
+  __unchangedPointerLockHarness: BrowserPointerLockHarness;
 };
 
 async function installUnsupportedPointerLock(page: Page): Promise<void> {
@@ -168,7 +185,7 @@ async function installDeterministicPointerLockHarness(
           return acknowledgeCapture(this);
         },
       });
-      Object.defineProperty(window, "__historyUnbrokenPointerLockHarness", {
+      Object.defineProperty(window, "__unchangedPointerLockHarness", {
         configurable: true,
         value: harness,
       });
@@ -183,7 +200,7 @@ async function readPointerLockHarness(
   return page.evaluate(() =>
     (
       window as unknown as PointerLockHarnessWindow
-    ).__historyUnbrokenPointerLockHarness.snapshot(),
+    ).__unchangedPointerLockHarness.snapshot(),
   );
 }
 
@@ -191,7 +208,7 @@ async function acknowledgePointerLockRelease(page: Page): Promise<void> {
   await page.evaluate(() => {
     (
       window as unknown as PointerLockHarnessWindow
-    ).__historyUnbrokenPointerLockHarness.acknowledgeRelease();
+    ).__unchangedPointerLockHarness.acknowledgeRelease();
   });
 }
 
@@ -202,7 +219,7 @@ async function setHarnessLifecycleState(
   await page.evaluate((nextState) => {
     (
       window as unknown as PointerLockHarnessWindow
-    ).__historyUnbrokenPointerLockHarness.setLifecycleState(nextState);
+    ).__unchangedPointerLockHarness.setLifecycleState(nextState);
   }, state);
 }
 
@@ -246,7 +263,7 @@ async function openTelemetryWorld(
   });
   if (pointerLockMode === "unsupported") {
     await expect(status).toContainText(
-      /right-drag to look.*keyboard remains available/i,
+      /drag the world to look.*keyboard remains available/i,
     );
   }
 
@@ -310,7 +327,7 @@ async function capturePointerLock(
 async function readInspectedEvidenceIds(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const raw = window.localStorage.getItem(
-      "history-unbroken:varennes:state",
+      "unchanged:varennes:state",
     );
     const saved = JSON.parse(raw ?? "null") as {
       state?: { inspectedItemIds?: unknown };
@@ -324,7 +341,7 @@ async function readInspectedEvidenceIds(page: Page): Promise<string[]> {
 async function installReducedMotionLearningSession(page: Page): Promise<void> {
   await page.addInitScript(() => {
     window.localStorage.setItem(
-      "history-unbroken:varennes:learning-session",
+      "unchanged:varennes:learning-session",
       JSON.stringify({
         persistenceVersion: "1.0.0",
         savedAt: "2026-07-19T12:00:00.000Z",
@@ -396,6 +413,50 @@ async function readCameraTelemetry(canvas: Locator): Promise<CameraTelemetry> {
     throw new Error(`Invalid camera telemetry: ${serialized ?? "missing"}`);
   }
   return sample as CameraTelemetry;
+}
+
+async function readWorldSubjects(
+  canvas: Locator,
+): Promise<readonly WorldSubjectTelemetry[]> {
+  const serialized = await canvas.getAttribute("data-world-subjects");
+  const subjects = JSON.parse(serialized ?? "null") as unknown;
+  if (
+    !Array.isArray(subjects) ||
+    subjects.some(
+      (subject) =>
+        typeof subject !== "object" ||
+        subject === null ||
+        !("name" in subject) ||
+        !("present" in subject) ||
+        !("visibleMeshCount" in subject) ||
+        !("firstHitBelongsToSubject" in subject),
+    )
+  ) {
+    throw new Error(
+      `Invalid world-subject telemetry: ${serialized ?? "missing"}`,
+    );
+  }
+  return subjects as WorldSubjectTelemetry[];
+}
+
+async function readFacadeOcclusion(
+  canvas: Locator,
+): Promise<FacadeOcclusionTelemetry> {
+  const serialized = await canvas.getAttribute("data-facade-occlusion");
+  const telemetry = JSON.parse(serialized ?? "null") as unknown;
+  if (
+    typeof telemetry !== "object" ||
+    telemetry === null ||
+    !("facadeIds" in telemetry) ||
+    !("occludingFacadeIds" in telemetry) ||
+    !Array.isArray(telemetry.facadeIds) ||
+    !Array.isArray(telemetry.occludingFacadeIds)
+  ) {
+    throw new Error(
+      `Invalid facade-occlusion telemetry: ${serialized ?? "missing"}`,
+    );
+  }
+  return telemetry as FacadeOcclusionTelemetry;
 }
 
 async function waitForCameraTelemetry(
@@ -506,6 +567,7 @@ async function rightDragLook(
   canvas: Locator,
   movementX: number,
   movementY: number,
+  button: 0 | 2 = 2,
 ): Promise<CameraTelemetry> {
   const before = await readCameraTelemetry(canvas);
   const expectedYaw =
@@ -517,9 +579,10 @@ async function rightDragLook(
       before.pitch - movementY * CAMERA_CONFIG.pitch.radiansPerPixel,
     ),
   );
+  const buttons = button === 0 ? 1 : 2;
   await canvas.dispatchEvent("pointerdown", {
-    button: 2,
-    buttons: 2,
+    button,
+    buttons,
     isPrimary: true,
     pointerId: 1,
     pointerType: "mouse",
@@ -528,7 +591,7 @@ async function rightDragLook(
     (element, movement) => {
       const event = new PointerEvent("pointermove", {
         bubbles: true,
-        buttons: 2,
+        buttons: movement.buttons,
         isPrimary: true,
         pointerId: 1,
         pointerType: "mouse",
@@ -539,7 +602,7 @@ async function rightDragLook(
       });
       element.dispatchEvent(event);
     },
-    { x: movementX, y: movementY },
+    { buttons, x: movementX, y: movementY },
   );
   await waitForCameraTelemetry(canvas, { minimumSampleId: before.sampleId + 1 });
   const settled = await waitForCameraTelemetry(canvas, {
@@ -548,7 +611,7 @@ async function rightDragLook(
     angleTolerance: CAMERA_ANGLE_TOLERANCE,
   });
   await canvas.dispatchEvent("pointerup", {
-    button: 2,
+    button,
     buttons: 0,
     isPrimary: true,
     pointerId: 1,
@@ -692,10 +755,10 @@ async function sampleMovement(
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript((investigationState) => {
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
-    window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-test-mode", "1");
     window.localStorage.setItem(
-      "history-unbroken:varennes:state",
+      "unchanged:varennes:state",
       JSON.stringify(investigationState),
     );
   }, {
@@ -756,7 +819,7 @@ test("locks and looks deterministically before opening a stopped E3 overlay", as
     .poll(async () => {
       const raw = await page.evaluate(() =>
         window.localStorage.getItem(
-          "history-unbroken:world-camera-preferences",
+          "unchanged:world-camera-preferences",
         ),
       );
       const saved = JSON.parse(raw ?? "null") as {
@@ -927,7 +990,7 @@ test("acknowledges pointer release before route teardown unmounts the world", as
       pendingAction: hud?.dataset.pendingAction,
       pointerLock: (
         window as unknown as PointerLockHarnessWindow
-      ).__historyUnbrokenPointerLockHarness.snapshot(),
+      ).__unchangedPointerLockHarness.snapshot(),
       pathname: window.location.pathname,
     };
   });
@@ -1011,6 +1074,74 @@ test("contracts near the archive facade and recovers smoothly after leaving", as
   ).toBeLessThanOrEqual(0.01);
 });
 
+test("keeps the investigator visible when the archive facade constrains the camera", async ({
+  page,
+}) => {
+  const { canvas } = await openTelemetryWorld(page);
+  await rightDragToYaw(page, canvas, -Math.PI / 4);
+  await holdKeysUntil(page, canvas, ["KeyW"], {
+    playerXAtMost: -3.8,
+    playerZAtMost: -3.8,
+  });
+  await rightDragToYaw(page, canvas, Math.PI);
+
+  const occlusion = await readFacadeOcclusion(canvas);
+  expect(occlusion.facadeIds.length).toBeGreaterThan(0);
+
+  const investigator = (await readWorldSubjects(canvas)).find(
+    (subject) => subject.name === "principal-character-investigator",
+  );
+
+  expect(
+    investigator,
+    `Facade occlusion: ${JSON.stringify(occlusion)}. Investigator: ${JSON.stringify(investigator)}`,
+  ).toMatchObject({
+    firstHitBelongsToSubject: true,
+    present: true,
+  });
+  expect(investigator?.visibleMeshCount).toBeGreaterThan(0);
+});
+
+test("keeps the investigator in the foreground at the default spawn", async ({
+  page,
+}) => {
+  const { canvas } = await openTelemetryWorld(page);
+  const investigator = (await readWorldSubjects(canvas)).find(
+    (subject) => subject.name === "principal-character-investigator",
+  );
+
+  expect(investigator).toMatchObject({
+    firstHitBelongsToSubject: true,
+    intersectsViewport: true,
+    present: true,
+  });
+  expect(investigator?.screenHeightRatio).toBeGreaterThanOrEqual(0.5);
+});
+
+test("keeps the investigator inside the authored street instead of behind facades", async ({
+  page,
+}) => {
+  const { canvas } = await openTelemetryWorld(page);
+  await rightDragToYaw(page, canvas, Math.PI / 2);
+
+  const before = await readCameraTelemetry(canvas);
+  await page.keyboard.down("KeyD");
+  let boundarySample: CameraTelemetry;
+  try {
+    boundarySample = await waitForCameraTelemetry(canvas, {
+      minimumElapsedTime: before.elapsedTime + 2.5,
+      minimumSampleId: before.sampleId + 1,
+    });
+  } finally {
+    await page.keyboard.up("KeyD");
+  }
+
+  expect(Math.abs(boundarySample.inputDirection[2])).toBeGreaterThan(0.9);
+  expect(Math.abs(boundarySample.playerPosition[2])).toBeLessThanOrEqual(
+    DISTRICT_TRAVEL_CLEARANCE.halfWidth + 0.2,
+  );
+});
+
 test("keeps the archive evidence table camera-nonblocking with stable shoulder composition", async ({
   page,
 }) => {
@@ -1076,6 +1207,24 @@ test("explicitly unsupported right-drag makes W follow camera-forward after a 90
   expect(movement.initial.every(Number.isFinite)).toBe(true);
   expect(movement.deltaX).toBeGreaterThan(0.4);
   expect(Math.abs(movement.deltaZ) / movement.distance).toBeLessThan(0.08);
+});
+
+test("uses primary drag to rotate the camera when pointer lock is unavailable", async ({
+  page,
+}) => {
+  const { canvas } = await openTelemetryWorld(page);
+  const before = await readCameraTelemetry(canvas);
+
+  const after = await rightDragLook(page, canvas, 140, -30, 0);
+
+  expect(after.yaw).toBeCloseTo(
+    before.yaw + 140 * CAMERA_CONFIG.yaw.radiansPerPixel,
+    4,
+  );
+  expect(after.pitch).toBeCloseTo(
+    before.pitch + 30 * CAMERA_CONFIG.pitch.radiansPerPixel,
+    4,
+  );
 });
 
 test("W keeps a normalized horizontal basis at low and high camera pitches", async ({

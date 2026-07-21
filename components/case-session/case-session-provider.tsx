@@ -15,9 +15,10 @@ import { loadVarennesCase } from "@/lib/case-engine/load-case";
 import { restoreCaseState, serializeCaseState } from "@/lib/case-engine/persistence";
 import { reduceCase, type ReducerResult } from "@/lib/case-engine/reducer";
 import { createInitialCaseState } from "@/lib/case-engine/state";
+import { migrateLegacyStorageValue } from "@/lib/browser-storage/rebrand-migration";
 import type { CaseState } from "@/schemas/case-state";
 
-const STORAGE_KEY = "history-unbroken:varennes:state";
+const STORAGE_KEY = "unchanged:varennes:state";
 const casePackage = loadVarennesCase();
 
 type CaseCommandInput = CaseCommand extends infer Command
@@ -62,7 +63,7 @@ export function CaseSessionProvider({
       if (cancelled) return;
       const restored = restoreCaseState(
         casePackage,
-        window.localStorage.getItem(STORAGE_KEY) ?? "",
+        migrateLegacyStorageValue(window.localStorage, STORAGE_KEY) ?? "",
       );
       stateRef.current = restored.state;
       setState(restored.state);

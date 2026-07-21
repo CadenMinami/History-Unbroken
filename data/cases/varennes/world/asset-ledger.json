@@ -36,7 +36,7 @@
       "countsAsHistoricalEvidence": false,
       "originKind": "repository_authored_procedural",
       "origin": {
-        "creator": "History Unbroken project",
+        "creator": "Unchanged project",
         "rightsHolder": "Caden Minami",
         "sourcePaths": [
           "components/world/scene-runtime.tsx",
@@ -113,7 +113,7 @@
       "countsAsHistoricalEvidence": false,
       "originKind": "repository_authored_procedural",
       "origin": {
-        "creator": "History Unbroken project",
+        "creator": "Unchanged project",
         "rightsHolder": "Caden Minami",
         "sourcePaths": [
           "components/world/interactions/interactable.tsx",
@@ -174,7 +174,7 @@
       "countsAsHistoricalEvidence": false,
       "originKind": "repository_authored_procedural",
       "origin": {
-        "creator": "History Unbroken project",
+        "creator": "Unchanged project",
         "rightsHolder": "Caden Minami",
         "sourcePaths": [
       "components/world/ambient/ambient-residents.tsx",
@@ -245,7 +245,7 @@
       "countsAsHistoricalEvidence": false,
       "originKind": "repository_authored_procedural",
       "origin": {
-        "creator": "History Unbroken project",
+        "creator": "Unchanged project",
         "rightsHolder": "Caden Minami",
         "sourcePaths": ["lib/audio/ambient-soundscape.ts"]
       },
@@ -294,7 +294,7 @@
       "countsAsHistoricalEvidence": false,
       "originKind": "repository_authored_procedural",
       "origin": {
-        "creator": "History Unbroken project",
+        "creator": "Unchanged project",
         "rightsHolder": "Caden Minami",
         "sourcePaths": [
           "components/world/repair/pursuit-runtime.tsx",
@@ -366,7 +366,7 @@
       "license": {
         "spdxId": "CC0-1.0",
         "proofUrl": "https://polyhaven.com/license",
-        "localProof": { "path": "docs/licenses/world/poly-haven-cc0-record.md", "sha256": "50b10d1d5c2e5e06b8a7047c0eaf7679e483993da797f38e3df6697746d3caa5" },
+        "localProof": { "path": "docs/licenses/world/poly-haven-cc0-record.md", "sha256": "272c7c1c846573f1dc8bcb346d72c24c1010081a05cc56dd88caadc83cfb2a19" },
         "commercialUseAllowed": true,
         "modificationAllowed": true,
         "redistributionAllowed": true,
@@ -440,7 +440,7 @@
       "license": {
         "spdxId": "CC0-1.0",
         "proofUrl": "https://polyhaven.com/license",
-        "localProof": { "path": "docs/licenses/world/poly-haven-cc0-record.md", "sha256": "50b10d1d5c2e5e06b8a7047c0eaf7679e483993da797f38e3df6697746d3caa5" },
+        "localProof": { "path": "docs/licenses/world/poly-haven-cc0-record.md", "sha256": "272c7c1c846573f1dc8bcb346d72c24c1010081a05cc56dd88caadc83cfb2a19" },
         "commercialUseAllowed": true,
         "modificationAllowed": true,
         "redistributionAllowed": true,
@@ -507,7 +507,7 @@
       "license": {
         "spdxId": "CC0-1.0",
         "proofUrl": "https://polyhaven.com/license",
-        "localProof": { "path": "docs/licenses/world/poly-haven-cc0-record.md", "sha256": "50b10d1d5c2e5e06b8a7047c0eaf7679e483993da797f38e3df6697746d3caa5" },
+        "localProof": { "path": "docs/licenses/world/poly-haven-cc0-record.md", "sha256": "272c7c1c846573f1dc8bcb346d72c24c1010081a05cc56dd88caadc83cfb2a19" },
         "commercialUseAllowed": true,
         "modificationAllowed": true,
         "redistributionAllowed": true,

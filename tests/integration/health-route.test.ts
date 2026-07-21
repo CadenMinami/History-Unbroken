@@ -14,7 +14,7 @@ describe("GET /api/health", () => {
     expect(response.headers.get("cache-control")).toBe("no-store");
     await expect(response.json()).resolves.toMatchObject({
       status: "ok",
-      application: "history-unbroken",
+      application: "unchanged",
       case: {
         id: "varennes",
         schemaVersion: "1.0.0",

@@ -148,13 +148,13 @@ test("questions Louis from E1 without changing case authority", async ({ page })
 
   await page.addInitScript(
     ({ caseState, spatialState }) => {
-      window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+      window.sessionStorage.setItem("unchanged:world-telemetry", "1");
       window.localStorage.setItem(
-        "history-unbroken:varennes:state",
+        "unchanged:varennes:state",
         JSON.stringify(caseState),
       );
       window.localStorage.setItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
         JSON.stringify(spatialState),
       );
     },
@@ -238,7 +238,7 @@ test("questions Louis from E1 without changing case authority", async ({ page })
 
   const persistedAfter = await page.evaluate(() =>
     JSON.parse(
-      window.localStorage.getItem("history-unbroken:varennes:state") ?? "null",
+      window.localStorage.getItem("unchanged:varennes:state") ?? "null",
     ),
   );
   expect(persistedAfter.state.revision).toBe(3);

@@ -11,7 +11,7 @@ import { installArchiveInvestigationState } from "../e2e/helpers/performance-pro
 import { alignCameraYaw } from "../e2e/helpers/world-traversal";
 
 const manifest = loadVarennesSceneManifest();
-const requestedZoneId = process.env.HISTORY_UNBROKEN_CAPTURE_ZONE;
+const requestedZoneId = process.env.UNCHANGED_CAPTURE_ZONE;
 const captureZones = requestedZoneId
   ? manifest.zones.filter((zone) => zone.zoneId === requestedZoneId)
   : manifest.zones;
@@ -235,7 +235,7 @@ for (const profile of PROFILES) {
         await page.evaluate(
           (serialized) =>
             window.localStorage.setItem(
-              "history-unbroken:varennes:spatial-session",
+              "unchanged:varennes:spatial-session",
               serialized,
             ),
           spatialSessionAt(nextZone.zoneId),

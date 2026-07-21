@@ -135,7 +135,7 @@ test("renders a nonblank grounded Varennes reconstruction inside the client-only
     }
   });
   await page.addInitScript(() => {
-    window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+    window.sessionStorage.setItem("unchanged:world-test-mode", "1");
   });
   await page.goto("/play/world");
 
@@ -282,7 +282,7 @@ test("keeps the portrait world visible without overlapping top controls", async 
       configurable: true,
       value: 4,
     });
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
   });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/play/world");
@@ -421,7 +421,7 @@ test("keeps the portrait world visible without overlapping top controls", async 
 test("opens the canonical E3 record from the nearby archive table", async ({ page }) => {
   await installUnsupportedPointerLock(page);
   await page.addInitScript(() => {
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
   });
   await page.goto("/play");
 
@@ -465,7 +465,7 @@ test("opens the canonical E3 record from the nearby archive table", async ({ pag
 
   const persisted = await page.evaluate(() =>
     JSON.parse(
-      window.localStorage.getItem("history-unbroken:varennes:state") ?? "null",
+      window.localStorage.getItem("unchanged:varennes:state") ?? "null",
     ),
   );
   expect(persisted.state.inspectedItemIds).toContain("E3");
@@ -527,7 +527,7 @@ test("discovers the route by walking and fast travels without changing case auth
 }) => {
   await installUnsupportedPointerLock(page);
   await page.addInitScript(() => {
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
   });
   await page.goto("/play/world");
   await expect(page.getByRole("status")).toContainText(/reconstruction ready/i);
@@ -537,7 +537,7 @@ test("discovers the route by walking and fast travels without changing case auth
 
   const caseRevisionBefore = await page.evaluate(() => {
     const saved = JSON.parse(
-      window.localStorage.getItem("history-unbroken:varennes:state") ?? "null",
+      window.localStorage.getItem("unchanged:varennes:state") ?? "null",
     ) as { state?: { revision?: number } } | null;
     return saved?.state?.revision ?? 0;
   });
@@ -582,7 +582,7 @@ test("discovers the route by walking and fast travels without changing case auth
   ).toContainText(/exploring/i);
   const caseRevisionAfter = await page.evaluate(() => {
     const saved = JSON.parse(
-      window.localStorage.getItem("history-unbroken:varennes:state") ?? "null",
+      window.localStorage.getItem("unchanged:varennes:state") ?? "null",
     ) as { state?: { revision?: number } } | null;
     return saved?.state?.revision ?? 0;
   });
@@ -665,7 +665,7 @@ test("hands a prevalidated persisted case from the world to the authoritative ca
 
   await page.addInitScript((state) => {
     window.localStorage.setItem(
-      "history-unbroken:varennes:state",
+      "unchanged:varennes:state",
       JSON.stringify(state),
     );
   }, savedState);

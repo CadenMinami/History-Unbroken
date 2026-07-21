@@ -64,7 +64,7 @@ test("identifies the deployed case without a provider call", async ({ request })
   expect(response.headers()["x-content-type-options"]).toBe("nosniff");
   await expect(response.json()).resolves.toMatchObject({
     status: "ok",
-    application: "history-unbroken",
+    application: "unchanged",
     case: { id: "varennes" },
   });
 });

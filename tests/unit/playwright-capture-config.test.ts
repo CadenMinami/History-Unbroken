@@ -20,7 +20,7 @@ describe("capture Playwright web server environment", () => {
   });
 
   it("serializes four blanks without inherited provider sentinels", async () => {
-    vi.stubEnv("HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE", "1");
+    vi.stubEnv("UNCHANGED_LIVE_OPENAI_SMOKE", "1");
     for (const [variableName, sentinel] of Object.entries(
       PROVIDER_ENVIRONMENT_SENTINELS,
     )) {
@@ -49,5 +49,18 @@ describe("capture Playwright web server environment", () => {
     );
 
     expect(captureConfig.preserveOutput).toBe("always");
+  });
+
+  it("reuses an explicitly selected local capture server", async () => {
+    vi.stubEnv("UNCHANGED_CAPTURE_REUSE_SERVER", "1");
+    vi.resetModules();
+
+    const { default: captureConfig } = await import(
+      "../../playwright.capture.config"
+    );
+
+    expect(captureConfig.webServer).toMatchObject({
+      reuseExistingServer: true,
+    });
   });
 });

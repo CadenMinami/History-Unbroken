@@ -16,15 +16,15 @@ type LanternKey = Readonly<{
 }>;
 
 export type WorldLightingConfig = Readonly<{
-  backgroundColor: "#2a3540";
-  fogColor: "#35434d";
+  backgroundColor: "#3b3542";
+  fogColor: "#584e57";
   fogNear: number;
   fogFar: number;
   environment: Readonly<{
-    fillColor: "#8ba0b4";
+    fillColor: "#8d87a8";
     fillIntensity: number;
-    groundColor: "#2e2c27";
-    keyColor: "#b8cae1";
+    groundColor: "#332c25";
+    keyColor: "#f2b880";
     keyIntensity: number;
     hdriFile: string | null;
     hdriBackgroundIntensity: number;
@@ -70,22 +70,24 @@ export function selectWorldLightingConfig(
         ? BALANCED_LANTERN_POSITIONS
         : [];
 
+  // A warm low sun key against a cool lavender fill matches the licensed dusk
+  // sky instead of fighting it with a steel-blue grade.
   return {
-    backgroundColor: "#2a3540",
-    fogColor: "#35434d",
+    backgroundColor: "#3b3542",
+    fogColor: "#584e57",
     fogNear: profile.fog.near,
     fogFar: profile.fog.far,
     environment: {
-      fillColor: "#8ba0b4",
-      fillIntensity: enhanced ? 0.95 : 1.55,
-      groundColor: "#2e2c27",
-      keyColor: "#b8cae1",
-      keyIntensity: enhanced ? 1.45 : 2.15,
+      fillColor: "#8d87a8",
+      fillIntensity: enhanced ? 0.62 : 1.7,
+      groundColor: "#332c25",
+      keyColor: "#f2b880",
+      keyIntensity: enhanced ? 1.55 : 2.35,
       hdriFile: enhanced
         ? "/world/hdris/qwantani-dusk-2-puresky/qwantani_dusk_2_puresky_1k.hdr"
         : null,
-      hdriBackgroundIntensity: enhanced ? 0.16 : 0,
-      hdriEnvironmentIntensity: enhanced ? 0.38 : 0,
+      hdriBackgroundIntensity: enhanced ? 0.27 : 0,
+      hdriEnvironmentIntensity: enhanced ? 0.52 : 0,
       shadowsEnabled: enhanced && profile.shadows.enabled,
       shadowMapSize: profile.shadows.mapSize,
     },
@@ -114,7 +116,7 @@ function EnvironmentLighting({
         color={config.environment.fillColor}
         groundColor={config.environment.groundColor}
         intensity={config.environment.fillIntensity}
-        name="world-cool-fill"
+        name="world-dusk-fill"
       />
     </>
   );
@@ -128,8 +130,8 @@ function ClassroomLighting({ config }: { config: WorldLightingConfig }) {
         castShadow={false}
         color={config.environment.keyColor}
         intensity={config.environment.keyIntensity}
-        name="world-cool-key"
-        position={[18, 26, 12]}
+        name="world-dusk-key"
+        position={[46, 15, 12]}
       />
     </>
   );
@@ -142,7 +144,7 @@ function EnhancedLighting({ config }: { config: WorldLightingConfig }) {
       {config.environment.hdriFile ? (
         <Environment
           background
-          backgroundBlurriness={0.08}
+          backgroundBlurriness={0.22}
           backgroundIntensity={config.environment.hdriBackgroundIntensity}
           environmentIntensity={config.environment.hdriEnvironmentIntensity}
           files={config.environment.hdriFile}
@@ -152,8 +154,8 @@ function EnhancedLighting({ config }: { config: WorldLightingConfig }) {
         castShadow={config.environment.shadowsEnabled}
         color={config.environment.keyColor}
         intensity={config.environment.keyIntensity}
-        name="world-cool-key"
-        position={[18, 26, 12]}
+        name="world-dusk-key"
+        position={[46, 15, 12]}
         shadow-bias={-0.0004}
         shadow-camera-bottom={-20}
         shadow-camera-far={90}
@@ -176,10 +178,10 @@ function EnhancedLighting({ config }: { config: WorldLightingConfig }) {
       ))}
       {config.contactShadows ? (
         <ContactShadows
-          blur={2.5}
+          blur={2.1}
           far={36}
           frames={1}
-          opacity={0.27}
+          opacity={0.44}
           position={[36, 0.035, 0]}
           resolution={Math.min(config.environment.shadowMapSize, 1024)}
           scale={100}

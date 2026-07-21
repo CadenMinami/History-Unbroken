@@ -18,7 +18,7 @@ export function FractureOpening({ casePackage, onConfirm }: FractureOpeningProps
   return (
     <main className={styles.fracture}>
       <header className={styles.masthead}>
-        <span className={styles.wordmark}>History Unbroken</span>
+        <span className={styles.wordmark}>Unchanged</span>
         <span className={styles.caseCode}>20-21 JUNE 1791 / TRACE LOST</span>
       </header>
 

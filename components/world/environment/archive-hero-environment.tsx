@@ -120,6 +120,7 @@ export function ArchiveHeroEnvironment({
           name="recessed-opening"
           position={[x, 1.85, index === 0 ? -5.85 : 6.05]}
           rotation={[0, index === 0 ? 0 : Math.PI, 0]}
+          userData={{ cameraOcclusion: true }}
         >
           <mesh position={[0, 0, -0.08]}>
             <boxGeometry args={[1.65, 2.4, 0.22]} />
@@ -138,7 +139,11 @@ export function ArchiveHeroEnvironment({
         </group>
       ))}
 
-      <group name="layered-signage" position={[-7.5, 0, -3.65]}>
+      <group
+        name="layered-signage"
+        position={[-7.5, 0, -3.65]}
+        userData={{ cameraOcclusion: true }}
+      >
         <mesh castShadow={castShadow} position={[0, 1.12, 0]}>
           <boxGeometry args={[0.13, 2.24, 0.13]} />
           <meshStandardMaterial color="#3c342b" roughness={0.96} />

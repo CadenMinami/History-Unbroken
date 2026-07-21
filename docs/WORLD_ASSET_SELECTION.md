@@ -150,7 +150,7 @@ The accepted PBR plus barrel and crate source graphs total **13,581,434 local by
 
 ## Technical Spike Record
 
-All inspection binaries were placed under temporary `/tmp/history-unbroken-asset-spike*` directories, outside tracked runtime paths. They were not copied into `public`, imported, ledgered, or committed.
+All inspection binaries were placed under temporary `/tmp/unchanged-asset-spike*` directories, outside tracked runtime paths. They were not copied into `public`, imported, ledgered, or committed.
 
 The runtime asset ledger and local license records are the maintained source of truth for shipped files, provenance, hashes, and usage. Development-only acquisition and browser-validation notes are retained outside the public repository.
 

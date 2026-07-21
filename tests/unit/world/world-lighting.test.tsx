@@ -61,20 +61,21 @@ describe("physically coherent world lighting", () => {
     expect(runtimeSource).toMatch(/<WorldLighting profile=\{graphicsProfile\} \/>/);
   });
 
-  it("uses cool environment fill and profile-owned shadow-map budgets", () => {
+  it("uses a warm dusk key with cool fill and profile-owned shadow-map budgets", () => {
     const high = selectWorldLightingConfig(GRAPHICS_PROFILES.high);
     const balanced = selectWorldLightingConfig(GRAPHICS_PROFILES.balanced);
     const classroom = selectWorldLightingConfig(GRAPHICS_PROFILES.classroom);
 
     expect(high.environment).toMatchObject({
-      fillColor: "#8ba0b4",
-      fillIntensity: 0.95,
-      keyColor: "#b8cae1",
-      keyIntensity: 1.45,
-      hdriBackgroundIntensity: 0.16,
-      hdriEnvironmentIntensity: 0.38,
+      fillColor: "#8d87a8",
+      fillIntensity: 0.62,
+      keyColor: "#f2b880",
+      keyIntensity: 1.55,
+      hdriBackgroundIntensity: 0.27,
+      hdriEnvironmentIntensity: 0.52,
       shadowMapSize: 2048,
     });
+    expect(high.fogColor).toBe("#584e57");
     expect(balanced.environment.shadowMapSize).toBe(1024);
     expect(classroom.environment.shadowMapSize).toBe(0);
   });

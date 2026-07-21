@@ -132,7 +132,7 @@ Fiction, dramatization, class packets, and unresolved material are rejected by t
 
 This local session is not tamper-resistant. The deterministic debrief and teacher-facing local summary must be labeled as formative artifacts, not secure grade records. Authentication, roster-linked assignments, cross-device state, and authoritative grading would require a server-side event store and are explicit post-MVP work.
 
-Teacher alignment and accessibility/reporting data use a second local envelope at `history-unbroken:varennes:learning-session`, separate from `history-unbroken:varennes:state`. The versioned learning session contains case/catalog compatibility metadata, support preferences, an optional teacher-approved alignment profile, and at most 256 typed observable event records. It contains no raw packet, student identity, model transcript, repair authority, or copied `CaseState`. A case-content mismatch invalidates the learning session without changing case-engine rules.
+Teacher alignment and accessibility/reporting data use a second local envelope at `unchanged:varennes:learning-session`, separate from `unchanged:varennes:state`. The versioned learning session contains case/catalog compatibility metadata, support preferences, an optional teacher-approved alignment profile, and at most 256 typed observable event records. It contains no raw packet, student identity, model transcript, repair authority, or copied `CaseState`. A case-content mismatch invalidates the learning session without changing case-engine rules.
 
 The server remains authoritative for OpenAI calls, course-file processing, secret handling, and model-output validation. Model output never dispatches case commands directly.
 
@@ -225,7 +225,7 @@ Accepted overlays and route transitions use a release-before-commit handshake. `
 
 Ecctrl 2.0 consumes the active React Three Fiber camera as its native horizontal movement basis. The controller sends raw W/S/A/D flags with `useCustomForward={false}`; no world-space pre-rotation or second locomotion transform is applied. Camera pitch is projected out by Ecctrl, preserving horizontal speed and diagonal normalization. Standard motion damps follow-camera movement and collision recovery, while reduced motion uses immediate camera updates.
 
-Camera settings are progression-neutral browser preferences stored in the strict versioned envelope `history-unbroken:world-camera-preferences` version `1.0.0`. The envelope owns bounded sensitivity, invert-Y, and `pointerLockIntroduced`; the onboarding flag is persisted only after acknowledged capture. It is separate from case and spatial-session authority.
+Camera settings are progression-neutral browser preferences stored in the strict versioned envelope `unchanged:world-camera-preferences` version `1.0.0`. The envelope owns bounded sensitivity, invert-Y, and `pointerLockIntroduced`; the onboarding flag is persisted only after acknowledged capture. It is separate from case and spatial-session authority.
 
 Automated camera, collision, fallback, focus, performance, provenance, and fixed-position historical-integrity coverage does not close external release gates. Physical verification on the specified Chromebook class and human historical-expert review remain required before calling the spatial route classroom-ready; schematic world placement must not be represented as verified historical geography.
 

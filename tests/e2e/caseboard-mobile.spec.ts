@@ -35,7 +35,7 @@ const caseBriefState = {
 test("caseboard uses a task flow without overflowing a 320px viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.addInitScript((savedState) => {
-    window.localStorage.setItem("history-unbroken:varennes:state", JSON.stringify(savedState));
+    window.localStorage.setItem("unchanged:varennes:state", JSON.stringify(savedState));
   }, caseBriefState);
 
   await page.goto("/play/caseboard");

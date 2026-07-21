@@ -27,7 +27,7 @@ const EXPECTED_NO_PROVIDER_ENVIRONMENT = {
   SPEECH_AUTHORIZATION_SECRET: "",
 } as const;
 const PROVIDER_ENVIRONMENT_PROBE =
-  process.env.HISTORY_UNBROKEN_PROVIDER_ENVIRONMENT_PROBE === "1";
+  process.env.UNCHANGED_PROVIDER_ENVIRONMENT_PROBE === "1";
 
 function stubProviderEnvironment(): void {
   for (const [variableName, sentinel] of Object.entries(
@@ -59,7 +59,7 @@ describe("ordinary Vitest provider isolation", () => {
           env: {
             ...process.env,
             ...PROVIDER_ENVIRONMENT_SENTINELS,
-            HISTORY_UNBROKEN_PROVIDER_ENVIRONMENT_PROBE: "1",
+            UNCHANGED_PROVIDER_ENVIRONMENT_PROBE: "1",
           },
           timeout: 30_000,
         },
@@ -90,7 +90,7 @@ describe("Playwright web server environment", () => {
   });
 
   it("strips inherited provider settings even when the live smoke flag is set", () => {
-    vi.stubEnv("HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE", "1");
+    vi.stubEnv("UNCHANGED_LIVE_OPENAI_SMOKE", "1");
     stubProviderEnvironment();
 
     const resolved = resolvePlaywrightWebServerEnv();
@@ -117,14 +117,14 @@ describe("Playwright web server environment", () => {
 describe("Playwright web server port", () => {
   it("uses an explicit isolated port for concurrent test workers", () => {
     expect(
-      resolvePlaywrightPort({ HISTORY_UNBROKEN_E2E_PORT: "3201" }),
+      resolvePlaywrightPort({ UNCHANGED_E2E_PORT: "3201" }),
     ).toBe(3201);
   });
 
   it.each([undefined, "", "not-a-port", "0", "70000"])(
     "falls back to 3100 for invalid value %s",
     (value) => {
-      expect(resolvePlaywrightPort({ HISTORY_UNBROKEN_E2E_PORT: value })).toBe(
+      expect(resolvePlaywrightPort({ UNCHANGED_E2E_PORT: value })).toBe(
         3100,
       );
     },

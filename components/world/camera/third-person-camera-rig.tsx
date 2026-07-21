@@ -6,7 +6,7 @@ import type { Ball as RapierBall, Rotation } from "@dimforge/rapier3d-compat";
 import type { EcctrlHandle } from "ecctrl";
 import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
-import { Vector3 } from "three";
+import { type Object3D, Vector3 } from "three";
 
 import {
   CAMERA_CONFIG,
@@ -14,6 +14,7 @@ import {
   clampCameraPitch,
   clampCameraSensitivity,
 } from "@/lib/world/camera-config";
+import { resolveFacadeCameraDistance } from "@/lib/world/camera-facade-occlusion";
 import type { CameraPreferences } from "@/lib/world/camera-preferences";
 
 import type {
@@ -291,6 +292,7 @@ export function ThirdPersonCameraRig({
 }: ThirdPersonCameraRigProps) {
   const { rapier, world } = useRapier();
   const invalidate = useThree((state) => state.invalidate);
+  const scene = useThree((state) => state.scene);
   const orbitStateRef = useRef<ThirdPersonCameraState | null>(null);
   const playerPositionRef = useRef(new Vector3());
   const requestedTargetRef = useRef(new Vector3());
@@ -320,6 +322,7 @@ export function ThirdPersonCameraRig({
   const collisionRecoveryActiveRef = useRef(false);
   const initializedRef = useRef(false);
   const telemetrySampleIdRef = useRef(0);
+  const facadeGroupsRef = useRef<Object3D[]>([]);
 
   if (collisionProbeRef.current === null) {
     collisionProbeRef.current = new rapier.Ball(
@@ -374,6 +377,14 @@ export function ThirdPersonCameraRig({
       requestedPositionRef.current,
     );
 
+    const facadeGroups = facadeGroupsRef.current;
+    facadeGroups.length = 0;
+    scene?.traverse((candidate) => {
+      if (candidate.userData.cameraOcclusion === true) {
+        facadeGroups.push(candidate);
+      }
+    });
+
     let resolvedDistance = nextOrbit.distance;
     if (resolveCollisionDistance) {
       copyPoint(
@@ -427,6 +438,22 @@ export function ThirdPersonCameraRig({
           collisionHit?.time_of_impact ?? nextOrbit.distance,
         );
       }
+    }
+
+    if (facadeGroups.length > 0) {
+      resolvedDistance = constrainResolvedDistance(
+        nextOrbit.distance,
+        Math.min(
+          resolvedDistance,
+          resolveFacadeCameraDistance({
+            facades: facadeGroups,
+            minimumDistance: CAMERA_CONFIG.collision.minDistance,
+            requestedDistance: nextOrbit.distance,
+            requestedPosition: requestedPositionRef.current,
+            target: requestedTargetRef.current,
+          }),
+        ),
+      );
     }
 
     const recoveryDeltaSeconds =

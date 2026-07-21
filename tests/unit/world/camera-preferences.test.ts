@@ -29,7 +29,7 @@ function serializePreferences(
 describe("camera preference parsing", () => {
   it("exports immutable authored defaults", () => {
     expect(CAMERA_PREFERENCES_STORAGE_KEY).toBe(
-      "history-unbroken:world-camera-preferences",
+      "unchanged:world-camera-preferences",
     );
     expect(CAMERA_PREFERENCES_VERSION).toBe("1.0.0");
     expect(DEFAULT_CAMERA_PREFERENCES).toEqual({
@@ -123,6 +123,26 @@ describe("camera preference parsing", () => {
 });
 
 describe("camera preference storage", () => {
+  it("migrates legacy camera preferences into the Unchanged namespace", () => {
+    const legacyKey = `${["history", "unbroken"].join("-")}:world-camera-preferences`;
+    const values = new Map<string, string>([
+      [legacyKey, serializePreferences()],
+    ]);
+    const storage = {
+      getItem(key: string): string | null {
+        return values.get(key) ?? null;
+      },
+      setItem(key: string, value: string): void {
+        values.set(key, value);
+      },
+    };
+
+    expect(loadCameraPreferences(storage)).toEqual(VALID_PREFERENCES);
+    expect(values.get(CAMERA_PREFERENCES_STORAGE_KEY)).toBe(
+      serializePreferences(),
+    );
+  });
+
   it("loads from the camera preference key", () => {
     const getItem = vi.fn(() => serializePreferences());
 
@@ -228,8 +248,8 @@ describe("camera preference storage", () => {
 
   it("does not change case or spatial-session storage", () => {
     const values = new Map<string, string>([
-      ["history-unbroken:varennes:learning-session", "case-state"],
-      ["history-unbroken:varennes:spatial-session", "spatial-state"],
+      ["unchanged:varennes:learning-session", "case-state"],
+      ["unchanged:varennes:spatial-session", "spatial-state"],
     ]);
     const storage = {
       setItem(key: string, value: string): void {
@@ -239,10 +259,10 @@ describe("camera preference storage", () => {
 
     saveCameraPreferences(VALID_PREFERENCES, storage);
 
-    expect(values.get("history-unbroken:varennes:learning-session")).toBe(
+    expect(values.get("unchanged:varennes:learning-session")).toBe(
       "case-state",
     );
-    expect(values.get("history-unbroken:varennes:spatial-session")).toBe(
+    expect(values.get("unchanged:varennes:spatial-session")).toBe(
       "spatial-state",
     );
     expect(values.get(CAMERA_PREFERENCES_STORAGE_KEY)).toBe(

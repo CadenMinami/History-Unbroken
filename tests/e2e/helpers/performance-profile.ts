@@ -139,27 +139,27 @@ export async function installArchiveInvestigationState(
       value: setup.hardwareConcurrency,
     });
     window.localStorage.setItem(
-      "history-unbroken:varennes:state",
+      "unchanged:varennes:state",
       JSON.stringify(savedState),
     );
-    window.sessionStorage.setItem("history-unbroken:world-telemetry", "1");
+    window.sessionStorage.setItem("unchanged:world-telemetry", "1");
     window.sessionStorage.setItem(
-      "history-unbroken:world-performance-telemetry",
+      "unchanged:world-performance-telemetry",
       "1",
     );
     if (
       setup.spatialSession &&
       !window.localStorage.getItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
       )
     ) {
       window.localStorage.setItem(
-        "history-unbroken:varennes:spatial-session",
+        "unchanged:varennes:spatial-session",
         setup.spatialSession,
       );
     }
     if (setup.testMode) {
-      window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+      window.sessionStorage.setItem("unchanged:world-test-mode", "1");
     }
   }, {
     savedState: investigationState,
@@ -234,11 +234,11 @@ export async function resetWorldRenderSamples(page: Page): Promise<number> {
   return page.evaluate(() => {
     const telemetry = (
       window as Window & {
-        __historyUnbrokenWorldPerformance?: {
+        __unchangedWorldPerformance?: {
           samples: WorldRenderSample[];
         };
       }
-    ).__historyUnbrokenWorldPerformance;
+    ).__unchangedWorldPerformance;
     if (!telemetry) throw new Error("World render telemetry is unavailable.");
     telemetry.samples.length = 0;
     return performance.now();
@@ -253,11 +253,11 @@ export async function readWorldRenderWindow(
   const samples = await page.evaluate(() => {
     const telemetry = (
       window as Window & {
-        __historyUnbrokenWorldPerformance?: {
+        __unchangedWorldPerformance?: {
           samples: WorldRenderSample[];
         };
       }
-    ).__historyUnbrokenWorldPerformance;
+    ).__unchangedWorldPerformance;
     if (!telemetry) throw new Error("World render telemetry is unavailable.");
     return telemetry.samples;
   });

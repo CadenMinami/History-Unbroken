@@ -136,7 +136,7 @@ describe("source-safe final-zone visual contract", () => {
     expect(
       cobblestone.map((opening) => attributeText(opening, sourceFile, "size")),
     ).toEqual(["{[176, DISTRICT_GROUND_PRESENTATION.roadWidth]}"]);
-    expect(DISTRICT_GROUND_PRESENTATION.roadWidth).toBe(8.4);
+    expect(DISTRICT_GROUND_PRESENTATION.roadWidth).toBe(10.4);
     expect(
       cobblestoneFallbacks.map((opening) =>
         attributeText(opening, sourceFile, "position"),

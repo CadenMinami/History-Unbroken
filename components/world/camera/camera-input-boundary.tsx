@@ -183,6 +183,11 @@ export const CameraInputBoundary = forwardRef<
   const activeCaptureAttemptRef = useRef<CaptureAttempt | null>(null);
   const attemptedCanvasesRef = useRef(new WeakSet<HTMLCanvasElement>());
   const invalidatedCanvasesRef = useRef(new WeakSet<HTMLCanvasElement>());
+  const fallbackPointerIdRef = useRef<number | null>(null);
+  const fallbackPointerPositionRef = useRef<{
+    x: number;
+    y: number;
+  } | null>(null);
   const mountedRef = useRef(false);
   const pendingReleasesRef = useRef(new Map<number, PendingRelease>());
 
@@ -278,6 +283,8 @@ export const CameraInputBoundary = forwardRef<
       releasePending: false,
       captureDenied: false,
     });
+    fallbackPointerIdRef.current = null;
+    fallbackPointerPositionRef.current = null;
 
     for (const [requestId, pending] of pendingReleases) {
       pending.resolve(
@@ -378,6 +385,7 @@ export const CameraInputBoundary = forwardRef<
       if (
         !committedCaptureEligibleRef.current ||
         !supportsPointerLock(canvas) ||
+        store.channel.getSnapshot().captureDenied ||
         document.pointerLockElement === canvas ||
         activeCaptureAttemptRef.current !== null
       ) {
@@ -404,23 +412,61 @@ export const CameraInputBoundary = forwardRef<
       }
     };
     const endFallbackDrag = () => {
+      const pointerId = fallbackPointerIdRef.current;
+      if (
+        pointerId !== null &&
+        typeof canvas.hasPointerCapture === "function" &&
+        canvas.hasPointerCapture(pointerId)
+      ) {
+        canvas.releasePointerCapture(pointerId);
+      }
+      fallbackPointerIdRef.current = null;
+      fallbackPointerPositionRef.current = null;
       store.updateSnapshot({ fallbackDragActive: false });
     };
     const handlePointerDown = (event: PointerEvent) => {
+      const snapshot = store.channel.getSnapshot();
       if (
-        event.button !== 2 ||
         !committedCaptureEligibleRef.current ||
-        document.pointerLockElement === canvas
+        document.pointerLockElement === canvas ||
+        (event.button !== 2 &&
+          snapshot.pointerLockSupported &&
+          !snapshot.captureDenied)
       ) {
         return;
       }
       lifecycleInputNeutralized = false;
       store.clearLookDelta();
+      fallbackPointerIdRef.current = event.pointerId;
+      fallbackPointerPositionRef.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+      if (typeof canvas.setPointerCapture === "function") {
+        try {
+          canvas.setPointerCapture(event.pointerId);
+        } catch {
+          // Browsers may reject capture in embedded contexts; coordinate deltas remain usable.
+        }
+      }
       store.updateSnapshot({ fallbackDragActive: true });
     };
     const handlePointerMove = (event: PointerEvent) => {
       if (!store.channel.getSnapshot().fallbackDragActive) return;
-      store.addLookDelta(event.movementX, event.movementY);
+      const previous = fallbackPointerPositionRef.current;
+      const clientDeltaX = previous ? event.clientX - previous.x : 0;
+      const clientDeltaY = previous ? event.clientY - previous.y : 0;
+      const movementX = Number.isFinite(event.movementX) && event.movementX !== 0
+        ? event.movementX
+        : clientDeltaX;
+      const movementY = Number.isFinite(event.movementY) && event.movementY !== 0
+        ? event.movementY
+        : clientDeltaY;
+      fallbackPointerPositionRef.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+      store.addLookDelta(movementX, movementY);
     };
     const handleContextMenu = (event: MouseEvent) => {
       if (store.channel.getSnapshot().fallbackDragActive) {

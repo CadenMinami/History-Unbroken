@@ -2,11 +2,11 @@
 
 ## 1. One-Sentence Pitch
 
-**History Unbroken: The Road That Should Have Closed** is a teacher-aligned historical mystery in which students interrogate source-bound AI characters, compare conflicting evidence, construct a multicausal explanation of the Flight to Varennes, and repair one altered link without reducing the French Revolution to a single cause.
+**Unchanged: The Road That Should Have Closed** is a teacher-aligned historical mystery in which students interrogate source-bound AI characters, compare conflicting evidence, construct a multicausal explanation of the Flight to Varennes, and repair one altered link without reducing the French Revolution to a single cause.
 
 ## 2. Product Positioning
 
-History Unbroken is not:
+Unchanged is not:
 
 - a generic AI tutor
 - a trivia game

@@ -134,13 +134,22 @@ export function InvestigationWorkspace() {
     completedComparisons.has(item.id),
   ).length;
   const synthesisReady = isInvestigationComplete(casePackage, state);
+  const nextFinding = casePackage.comparisonFindings.find(
+    (finding) => !completedComparisons.has(finding.id),
+  );
+  const nextRecordId = nextFinding?.requiredItemIds.find((itemId) => !inspected.has(itemId));
+  const nextRecord = nextRecordId
+    ? [...casePackage.anomalies, ...casePackage.branchObservations, ...casePackage.evidence].find(
+        (item) => item.id === nextRecordId,
+      )
+    : null;
 
   return (
     <main className={styles.workspace}>
       <header className={styles.masthead}>
         <div>
           <Link className={styles.wordmark} href="/">
-            History Unbroken
+            Unchanged
           </Link>
           <span className={styles.caseCode}>CASE 01 / INVESTIGATION</span>
         </div>
@@ -157,18 +166,33 @@ export function InvestigationWorkspace() {
       <section className={styles.routeBand} aria-labelledby="investigation-heading">
         <div>
           <p className={styles.eyebrow}>Act II / Open investigation</p>
-          <h1 id="investigation-heading">Find the broken link.</h1>
+          <h1 id="investigation-heading">Find the false route message.</h1>
           <p>
-            Test three competing anomalies against what the fractured branch records and what
-            reviewed historical sources can support.
+            Start with the highlighted record. Inspect evidence, record each finding, then build
+            your explanation on the caseboard.
           </p>
         </div>
-        <div className={styles.routeDiagram} aria-label="Route handoff under review">
-          <span>DEPARTURE</span>
-          <i />
-          <span>ROUTE HANDOFF</span>
-          <i className={styles.brokenRoute} />
-          <span>VARENNES</span>
+        <div className={styles.nextAction} aria-live="polite">
+          <span className={styles.nextActionLabel}>Your next move</span>
+          {nextRecord ? (
+            <>
+              <strong>Inspect {nextRecord.title}</strong>
+              <button onClick={() => inspect(nextRecord.id)} type="button">
+                Inspect record
+                <ArrowRight aria-hidden="true" />
+              </button>
+            </>
+          ) : nextFinding ? (
+            <>
+              <strong>Record the {nextFinding.label.toLowerCase()}.</strong>
+              <span>Use Case progress below.</span>
+            </>
+          ) : (
+            <>
+              <strong>All findings are ready.</strong>
+              <span>Open the causal caseboard below.</span>
+            </>
+          )}
         </div>
       </section>
 
@@ -180,7 +204,7 @@ export function InvestigationWorkspace() {
             <span>01</span>
             <div>
               <p className={styles.eyebrow}>Source stations</p>
-              <h2 id="stations-heading">Question the record</h2>
+              <h2 id="stations-heading">Ask a witness</h2>
             </div>
           </div>
 
@@ -191,10 +215,7 @@ export function InvestigationWorkspace() {
             <div>
               <p className={styles.fictionLabel}>Dramatized branch station</p>
               <h3>Jean-Baptiste Drouet</h3>
-              <p>
-                The altered station may discuss only FO1: suspicion, departure on the announced
-                Verdun road, and the missing route correction.
-              </p>
+              <p>Ask where he believed the carriage was going and what he actually observed.</p>
             </div>
           </article>
 
@@ -205,10 +226,7 @@ export function InvestigationWorkspace() {
             <div>
               <p className={styles.reconstructionLabel}>Historical reconstruction station</p>
               <h3>Varennes civic record</h3>
-              <p>
-                The E5 dossier reconstructs the collective alarm, obstruction, inspection, and
-                guard. It is not a verbatim witness transcript.
-              </p>
+              <p>Check how a warning could become collective action at Varennes.</p>
             </div>
           </article>
 
@@ -216,10 +234,7 @@ export function InvestigationWorkspace() {
 
           <div className={styles.protocolNote}>
             <CircleAlert aria-hidden="true" />
-            <p>
-              Character stations provide bounded claims. They do not become historical evidence
-              unless a reviewed record independently supports them.
-            </p>
+            <p>Use characters for leads. Use historical records to prove your case.</p>
           </div>
         </aside>
 
@@ -228,7 +243,7 @@ export function InvestigationWorkspace() {
             <span>02</span>
             <div>
               <p className={styles.eyebrow}>Archive desk</p>
-              <h2 id="records-heading">Inspect and compare</h2>
+              <h2 id="records-heading">Evidence</h2>
             </div>
           </div>
 
@@ -236,9 +251,9 @@ export function InvestigationWorkspace() {
             <div className={styles.groupHeading}>
               <div>
                 <FileQuestion aria-hidden="true" />
-                <h3 id="anomaly-heading">Competing anomalies</h3>
+                <h3 id="anomaly-heading">Possible false messages</h3>
               </div>
-              <span>Equal weight until tested</span>
+              <span>Start here</span>
             </div>
             <div className={styles.recordGrid}>
               {casePackage.anomalies.map((anomaly) => {
@@ -286,13 +301,13 @@ export function InvestigationWorkspace() {
             <div className={styles.groupHeading}>
               <div>
                 <FileClock aria-hidden="true" />
-                <h3 id="branch-heading">Fractured branch observations</h3>
+                <h3 id="branch-heading">What changed in this branch</h3>
               </div>
               <span>Fictional observations</span>
             </div>
             <p className={styles.boundaryNotice}>
-              These observations describe only the fictional branch. They never count as
-              historical evidence and cannot be pinned to the final case brief.
+              These clues show the fictional changed timeline. They never count as historical
+              evidence, so do not use them as proof in your final case.
             </p>
             <div className={styles.branchList}>
               {casePackage.branchObservations.map((observation) => (
@@ -322,7 +337,7 @@ export function InvestigationWorkspace() {
             <div className={styles.groupHeading}>
               <div>
                 <FileCheck2 aria-hidden="true" />
-                <h3 id="evidence-heading">Reviewed evidence file</h3>
+                <h3 id="evidence-heading">Reviewed records</h3>
               </div>
               <span>Six countable records</span>
             </div>
@@ -407,7 +422,7 @@ export function InvestigationWorkspace() {
             <span>03</span>
             <div>
               <p className={styles.eyebrow}>Case notebook</p>
-              <h2 id="notebook-heading">Earn the finding</h2>
+              <h2 id="notebook-heading">Case progress</h2>
             </div>
           </div>
 

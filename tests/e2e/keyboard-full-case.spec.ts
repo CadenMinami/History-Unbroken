@@ -230,7 +230,7 @@ test("a novice can complete the deterministic case from home to debrief using on
   await expect(page.getByText("3", { exact: true }).first()).toBeVisible();
 
   const finalState = await page.evaluate(() =>
-    JSON.parse(window.localStorage.getItem("history-unbroken:varennes:state") ?? "null"),
+    JSON.parse(window.localStorage.getItem("unchanged:varennes:state") ?? "null"),
   );
   expect(finalState.state.phase).toBe("debrief");
   expect(finalState.state.repairCompleted).toBe(true);

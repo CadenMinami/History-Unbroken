@@ -89,7 +89,7 @@ deployments, so redeploy after updating a secret.
 The dedicated live smoke is opt-in, makes paid OpenAI requests, and has not yet been run in this repository session. Set `OPENAI_API_KEY` in your local shell or secret manager, then run:
 
 ```bash
-HISTORY_UNBROKEN_LIVE_OPENAI_SMOKE=1 OPENAI_API_KEY="$OPENAI_API_KEY" npm run test:live:openai
+UNCHANGED_LIVE_OPENAI_SMOKE=1 OPENAI_API_KEY="$OPENAI_API_KEY" npm run test:live:openai
 ```
 
 Do not paste credentials into chat, commit them, or store them in repository files. The isolated launcher validates the opt-in and key without printing them, builds with provider credentials, model settings, and speech secrets explicitly blanked so Next.js cannot reload them from local environment files, then starts the test runtime with the live key, pinned `gpt-5.6` and `gpt-4o-mini-tts` models, and a fresh ephemeral speech-ticket secret.
@@ -126,7 +126,7 @@ After Vercel creates an immutable HTTPS deployment URL, run the credential-free
 fallback regression against that exact URL:
 
 ```bash
-HISTORY_UNBROKEN_DEPLOYED_URL="https://your-deployment.vercel.app" npm run test:deployed
+UNCHANGED_DEPLOYED_URL="https://your-deployment.vercel.app" npm run test:deployed
 ```
 
 This runner never starts a local server and blocks any `/api/ai/*` request. It
@@ -151,7 +151,7 @@ The spatial world is a schematic, non-evidentiary reconstruction. Visual assets 
 
 The repository contains one complete local case covering the Flight to Varennes. Spatial and non-spatial routes, no-key completion, teacher alignment, accessibility preferences, voice controls, printable reporting, and automated checks are implemented.
 
-The latest local verification baseline includes 111 Vitest files with 910 tests, 53 ordinary production Playwright flows, reproducible submission captures, and the constrained Classroom performance proxy. Those automated results do not replace physical-device, screen-reader, live-provider, deployed, or classroom-user verification.
+The latest local verification baseline includes 113 Vitest files with 929 tests, 53 ordinary production Playwright flows, reproducible submission captures, and the constrained Classroom performance proxy. Those automated results do not replace physical-device, screen-reader, live-provider, deployed, or classroom-user verification.
 
 Before a production classroom release, the project still needs:
 

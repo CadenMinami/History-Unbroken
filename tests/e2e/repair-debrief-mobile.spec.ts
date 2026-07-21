@@ -58,7 +58,7 @@ async function expectNoOverflow(page: import("@playwright/test").Page) {
 test("repair and debrief complete at a 320px viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.addInitScript((savedState) => {
-    window.localStorage.setItem("history-unbroken:varennes:state", JSON.stringify(savedState));
+    window.localStorage.setItem("unchanged:varennes:state", JSON.stringify(savedState));
   }, repairState);
 
   await page.goto("/play/repair");

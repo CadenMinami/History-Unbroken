@@ -19,7 +19,14 @@ export function ClassroomPeriodFigure({
   scale = 1,
 }: PeriodFigureProps) {
   return (
-    <group name="classroom-period-figure" scale={scale}>
+    <group
+      name="classroom-period-figure"
+      scale={scale}
+      userData={{
+        cameraVisibilityTarget: true,
+        cameraVisibilityTargetHeight: 0.96,
+      }}
+    >
       <mesh position={[0, 0.37, 0]}>
         <boxGeometry args={[0.36, 0.74, 0.28]} />
         <meshStandardMaterial color={palette.breeches} roughness={0.94} />

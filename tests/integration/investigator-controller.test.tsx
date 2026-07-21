@@ -8,6 +8,7 @@ import type { EcctrlHandle, MovementInput } from "ecctrl";
 
 const controllerHarness = vi.hoisted(() => ({
   body: {
+    isValid: vi.fn(() => true),
     linvel: vi.fn(() => ({ x: 3, y: 7, z: -2 })),
     setLinvel: vi.fn(),
     translation: vi.fn(() => ({ x: 4, y: 1, z: -6 })),
@@ -133,6 +134,9 @@ afterEach(() => {
 });
 
 beforeEach(() => {
+  controllerHarness.body.isValid.mockReset();
+  controllerHarness.body.isValid.mockReturnValue(true);
+  controllerHarness.body.linvel.mockReset();
   controllerHarness.body.linvel.mockReturnValue({ x: 3, y: 7, z: -2 });
   controllerHarness.body.setLinvel.mockReset();
   controllerHarness.body.translation.mockReturnValue({ x: 4, y: 1, z: -6 });
@@ -204,6 +208,17 @@ describe("InvestigatorController Ecctrl contract", () => {
       { x: 0, y: 7, z: 0 },
       true,
     );
+  });
+
+  it("does not call into a Rapier body after the physics world releases it", () => {
+    const { rerenderController } = renderController();
+    controllerHarness.body.isValid.mockImplementation(() => {
+      throw new Error("null pointer passed to rust");
+    });
+
+    expect(() => rerenderController({ enabled: false })).not.toThrow();
+    expect(controllerHarness.body.linvel).not.toHaveBeenCalled();
+    expect(controllerHarness.body.setLinvel).not.toHaveBeenCalled();
   });
 
   it("does not resume a movement key held across a reset", () => {

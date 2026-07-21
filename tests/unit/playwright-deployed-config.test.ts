@@ -9,16 +9,16 @@ describe("deployed regression configuration", () => {
   it("accepts a normalized HTTPS deployment URL without a local web server", () => {
     expect(
       resolveDeployedBaseUrl({
-        HISTORY_UNBROKEN_DEPLOYED_URL: "https://history-unbroken.vercel.app/",
+        UNCHANGED_DEPLOYED_URL: "https://unchanged.vercel.app/",
       }),
-    ).toBe("https://history-unbroken.vercel.app");
+    ).toBe("https://unchanged.vercel.app");
 
     expect(
       resolveDeployedRegressionConfiguration({
-        HISTORY_UNBROKEN_DEPLOYED_URL: "https://history-unbroken.vercel.app/",
+        UNCHANGED_DEPLOYED_URL: "https://unchanged.vercel.app/",
       }),
     ).toMatchObject({
-      use: { baseURL: "https://history-unbroken.vercel.app" },
+      use: { baseURL: "https://unchanged.vercel.app" },
       webServer: undefined,
       globalSetup: "./tests/deployed/validate-deployed-target.ts",
       testDir: "./tests/deployed",
@@ -30,14 +30,14 @@ describe("deployed regression configuration", () => {
     undefined,
     "",
     "not-a-url",
-    "http://history-unbroken.vercel.app",
+    "http://unchanged.vercel.app",
     "http://localhost:3000",
-    "https://history-unbroken.vercel.app/with-a-path",
-    "https://history-unbroken.vercel.app/?preview=1",
-    "https://history-unbroken.vercel.app/#fragment",
+    "https://unchanged.vercel.app/with-a-path",
+    "https://unchanged.vercel.app/?preview=1",
+    "https://unchanged.vercel.app/#fragment",
   ])("rejects an unsafe or ambiguous deployed URL: %s", (value) => {
     expect(() =>
-      resolveDeployedBaseUrl({ HISTORY_UNBROKEN_DEPLOYED_URL: value }),
-    ).toThrow(/HISTORY_UNBROKEN_DEPLOYED_URL/);
+      resolveDeployedBaseUrl({ UNCHANGED_DEPLOYED_URL: value }),
+    ).toThrow(/UNCHANGED_DEPLOYED_URL/);
   });
 });

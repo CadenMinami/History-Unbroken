@@ -39,7 +39,7 @@ export function LearningSummary() {
 
   return (
     <main className={styles.workspace}>
-      <header className={styles.masthead}><Link href="/">History Unbroken</Link><span>CASE 01 / LEARNING SUMMARY</span></header>
+      <header className={styles.masthead}><Link href="/">Unchanged</Link><span>CASE 01 / LEARNING SUMMARY</span></header>
       <section className={styles.hero}>
         <ShieldCheck aria-hidden="true" />
         <p className={styles.eyebrow}>Deterministic completion</p>

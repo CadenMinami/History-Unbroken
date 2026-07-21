@@ -46,13 +46,17 @@ describe("camera configuration", () => {
     expect(CAMERA_CONFIG.zoom.distancePerWheelPixel).toBeGreaterThan(0);
   });
 
-  it("authors damping, shoulder composition, and collision tuning", () => {
+  it("authors a readable over-the-shoulder composition and collision tuning", () => {
     expect(CAMERA_CONFIG.damping.standardSeconds).toBeGreaterThan(0);
     expect(CAMERA_CONFIG.damping.reducedMotionSeconds).toBeGreaterThanOrEqual(0);
     expect(CAMERA_CONFIG.damping.reducedMotionSeconds).toBeLessThan(
       CAMERA_CONFIG.damping.standardSeconds,
     );
-    expect(CAMERA_CONFIG.target.height).toBeGreaterThan(0);
+    expect(CAMERA_CONFIG.distance.default).toBeLessThanOrEqual(4.25);
+    expect(
+      (CAMERA_CONFIG as { fov?: { default: number } }).fov?.default,
+    ).toBeLessThanOrEqual(46);
+    expect(CAMERA_CONFIG.target.height).toBeLessThanOrEqual(0.5);
     expect(CAMERA_CONFIG.target.shoulderOffset).not.toBe(0);
     expect(CAMERA_CONFIG.target.lookAhead).toBeGreaterThanOrEqual(0);
     expect(CAMERA_CONFIG.collision.probeRadius).toBeGreaterThan(0);

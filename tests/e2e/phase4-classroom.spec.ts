@@ -1,8 +1,8 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const CASE_STATE_STORAGE_KEY = "history-unbroken:varennes:state";
+const CASE_STATE_STORAGE_KEY = "unchanged:varennes:state";
 const LEARNING_SESSION_STORAGE_KEY =
-  "history-unbroken:varennes:learning-session";
+  "unchanged:varennes:learning-session";
 const COURSE_PACKET_TEXT =
   "Compare sources and explain why route information and local action worked together.";
 
@@ -206,7 +206,7 @@ test("world HUD controls and top links fit without overlap at 320 by 700", async
   const viewport = { width: 320, height: 700 };
   await page.setViewportSize(viewport);
   await page.addInitScript(() => {
-    window.sessionStorage.setItem("history-unbroken:world-test-mode", "1");
+    window.sessionStorage.setItem("unchanged:world-test-mode", "1");
   });
   await page.goto("/play/world");
 
@@ -219,7 +219,7 @@ test("world HUD controls and top links fit without overlap at 320 by 700", async
     name: /reconstruction route/i,
   });
   const home = page.getByRole("link", {
-    name: "History Unbroken",
+    name: "Unchanged",
     exact: true,
   });
   const nonSpatial = page.getByRole("link", {

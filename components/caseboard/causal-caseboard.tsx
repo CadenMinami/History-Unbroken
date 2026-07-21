@@ -79,7 +79,7 @@ export function CausalCaseboard({
     <Root className={styles.workspace}>
       <header className={styles.masthead}>
         <div>
-          <Link className={styles.wordmark} href="/">History Unbroken</Link>
+          <Link className={styles.wordmark} href="/">Unchanged</Link>
           <span>CASE 01 / CASEBOARD</span>
         </div>
         <Link href={returnHref}>{embedded ? "Return to reconstruction" : "Return to archive"}</Link>

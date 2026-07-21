@@ -100,7 +100,7 @@ export function TimelineRepair() {
   return (
     <main className={styles.workspace}>
       <header className={styles.masthead}>
-        <Link href="/">History Unbroken</Link>
+        <Link href="/">Unchanged</Link>
         <span>CASE 01 / TIMELINE REPAIR</span>
         <label><input checked={reducedMotion} onChange={(event) => {
           if (courseAlignment) {
