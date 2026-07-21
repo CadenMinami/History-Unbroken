@@ -2,11 +2,11 @@
 
 **A source-grounded historical mystery game about the Flight to Varennes.**
 
-History Unbroken puts students inside a fractured version of June 1791. They investigate reviewed sources, question historically bounded characters, build a multicausal argument, and repair one fictional break in the recognition-to-detention chain.
+Unchanged puts students inside a fractured version of June 1791. They investigate reviewed sources, question historically bounded characters, build a multicausal argument, and repair one fictional break in the recognition-to-detention chain.
 
 The case is designed for Grade 10 World History, takes 10-15 minutes, and does not require prior knowledge of the Flight to Varennes.
 
-![History Unbroken spatial investigation](docs/assets/screenshots/00-grounded-world.png)
+![Unchanged spatial investigation](docs/assets/screenshots/00-grounded-world.png)
 
 ## What Students Do
 
