@@ -26,6 +26,16 @@ With an OpenAI API key, GPT-5.6 selects constrained response units for character
 
 The complete case remains playable without an API key through clearly labeled authored fallbacks.
 
+## Codex And GPT-5.6
+
+### Codex
+
+Codex was used throughout planning and implementation to pressure-test the game concept, define the historical-integrity and AI-authority boundaries, build the deterministic case engine and spatial investigation, write model contracts and fallbacks, and expand the automated test coverage. Product and historical decisions remain documented in the [build log](docs/BUILD_LOG.md).
+
+### GPT-5.6
+
+GPT-5.6 makes the experience responsive without becoming the historical authority. It selects from authored, source-bounded character response units; interprets Case Brief reasoning for formative feedback; and maps teacher-approved terminology to the fixed case concepts. Every result is schema-validated and server-authorized. The model cannot create facts, change evidence, unlock repairs, or determine whether the student wins.
+
 ## Quick Start
 
 Requirements:
